@@ -1,0 +1,1695 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>案例库 - 屿拓移门定制服务</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="hide-nav.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #FFDF00;
+            --accent-color: #FFDF00;
+            --primary-dark: #eab308;
+            --text-light: #f5f5f5;
+            --bg-dark: #111111;
+            --bg-darker: #000000;
+            --bg-light: #1a1a1a;
+            --text-color: #f5f5f5;
+            --transition: all 0.3s ease;
+        }
+        
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+        }
+        
+        .btn-primary {
+            background-color: var(--accent-color);
+            color: #000;
+            transition: var(--transition);
+            border: 2px solid var(--accent-color);
+            font-weight: bold;
+        }
+        
+        .btn-primary:hover {
+            background-color: transparent;
+            color: var(--accent-color);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            color: var(--accent-color);
+            border: 2px solid var(--accent-color);
+            transition: var(--transition);
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--accent-color);
+            color: #000;
+        }
+        
+        .card-hover {
+            transition: all 0.4s ease;
+            cursor: pointer;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .case-overlay {
+            opacity: 0;
+            transition: all 0.3s ease;
+            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0) 100%);
+        }
+        
+        .card-hover:hover .case-overlay {
+            opacity: 1;
+        }
+        
+        .spotlight {
+            position: relative;
+        }
+        
+        .spotlight::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(ellipse at center, rgba(255,255,255,0.1) 0%, rgba(0,0,0,0) 70%);
+            pointer-events: none;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: opacity 0.3s, transform 0.3s;
+        }
+        
+        .spotlight:hover::before {
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        /* 导航栏样式 */
+        .navbar {
+            background-color: rgba(0, 0, 0, 0.9);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            width: 100%;
+            padding: 0;
+            height: 70px;
+        }
+
+        .logo img {
+            height: 1.8rem;
+            transition: var(--transition);
+        }
+
+        .nav-link {
+            position: relative;
+            transition: var(--transition);
+            font-size: 1rem;
+            padding: 0;
+            margin: 0 1rem;
+            color: var(--text-color);
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform: translateY(-3px); /* 向上移动3个像素 */
+        }
+
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--accent-color);
+            transition: var(--transition);
+        }
+
+        .nav-link:hover:after {
+            width: 100%;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--accent-color);
+        }
+
+        .nav-link.active:after {
+            width: 100%;
+        }
+        
+        .carousel-container {
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .carousel {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+        
+        .tag {
+            background-color: var(--primary);
+            color: var(--bg-darker);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        .star-rating {
+            color: var(--primary);
+        }
+        
+        .customer-type {
+            background-color: var(--bg-light);
+            color: var(--text-light);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        .filter-pill {
+            background-color: var(--bg-light);
+            color: var(--text-light);
+            border-radius: 20px;
+            padding: 5px 15px;
+            margin: 0 5px 5px 0;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .filter-pill:hover, .filter-pill.active {
+            background-color: var(--primary);
+            color: var(--bg-darker);
+        }
+        
+        .compare-slider {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            overflow: hidden;
+        }
+        
+        .compare-slider .before,
+        .compare-slider .after {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+        }
+        
+        .compare-slider .after {
+            width: 50%;
+            border-right: 2px solid var(--primary);
+        }
+        
+        .compare-slider .slider-handle {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 40px;
+            height: 40px;
+            background-color: var(--primary);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            cursor: ew-resize;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--bg-darker);
+            font-size: 1.2rem;
+            z-index: 10;
+        }
+        
+        .timeline {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 2px;
+            background-color: var(--primary);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -1px;
+        }
+        
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            width: 50%;
+        }
+        
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: var(--primary);
+            border-radius: 50%;
+            top: 15px;
+            z-index: 1;
+        }
+        
+        .timeline-left {
+            left: 0;
+        }
+        
+        .timeline-right {
+            left: 50%;
+        }
+        
+        .timeline-left::after {
+            right: -10px;
+        }
+        
+        .timeline-right::after {
+            left: -10px;
+        }
+        
+        .timeline-content {
+            padding: 20px;
+            background-color: var(--bg-light);
+            border-radius: 6px;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background-color: var(--bg-light);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress-bar-fill {
+            height: 100%;
+            background-color: var(--primary);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+        
+        /* Navigation styles */
+        .nav-link {
+            position: relative;
+            transition: var(--transition);
+            font-size: 1rem;
+            padding: 0;
+            margin: 0 1rem;
+            color: var(--text-color);
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform: translateY(-2px); /* 向上移动3个像素 */
+        }
+        
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--accent-color);
+            transition: var(--transition);
+        }
+        
+        .nav-link:hover:after {
+            width: 100%;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            color: var(--accent-color);
+        }
+        
+        .nav-link.active:after {
+            width: 100%;
+            height: 2px;
+        }
+        
+        /* Floating button */
+        .floating-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background-color: var(--primary);
+            color: var(--bg-darker);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            cursor: pointer;
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+        
+        .floating-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.6);
+        }
+        
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.9);
+            z-index: 1000;
+            overflow: auto;
+        }
+        
+        .modal-content {
+            background-color: var(--bg-light);
+            margin: 5% auto;
+            padding: 20px;
+            border-radius: 8px;
+            width: 80%;
+            max-width: 900px;
+            position: relative;
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            color: var(--text-light);
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .close-btn:hover {
+            color: var(--primary);
+        }
+        
+        /* Tabs styles */
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* Animation classes */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        
+        .slide-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .timeline::after {
+                left: 31px;
+            }
+            
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+            
+            .timeline-left::after, .timeline-right::after {
+                left: 15px;
+            }
+            
+            .timeline-right {
+                left: 0;
+            }
+        }
+        
+        /* 移动端菜单 */
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 80%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            transition: var(--transition);
+            z-index: 200;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .mobile-menu.active {
+            right: 0;
+        }
+        
+        .mobile-menu .nav-link {
+            margin: 15px 0;
+            font-size: 1.2rem;
+            height: auto;
+        }
+        
+        /* 按钮悬停效果 */
+        .btn-hover {
+            transition: all 0.3s ease;
+        }
+
+        /* 在线客服图标 */
+        .chat-icon {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background-color: var(--accent-color);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 99;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            animation: bounce 2s infinite;
+        }
+
+        .chat-icon:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 20px rgba(255, 223, 0, 0.5);
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-10px);}
+            60% {transform: translateY(-5px);}
+        }
+        
+        /* 黄色底部区域 */
+        .footer-yellow {
+            background-color: var(--accent-color);
+            color: #000;
+        }
+
+        /* 导航链接容器调整 */
+        .hidden.md\:flex.items-center.h-full {
+            height: 70px;
+            display: flex;
+            align-items: center;
+        }
+
+        .hidden.md\:flex.items-center.h-full a {
+            height: 100%;
+        }
+
+        .page-header {
+            background-image: linear-gradient(to right, rgba(10, 10, 10, 0.9), rgba(10, 10, 10, 0.7)), url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 页面加载动画 -->
+    <div class="loader">
+        <div class="loader-logo"></div>
+    </div>
+
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="container mx-auto px-4 md:px-8 flex justify-between items-center h-full">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="LOGO.svg" alt="屿拓移门" class="h-7">
+                </a>
+            </div>
+            
+            <!-- 桌面导航 -->
+            <div class="hidden md:flex items-center h-full">
+                <a href="index.html" class="nav-link font-medium text-base">首页</a>
+                <a href="chanpin.html" class="nav-link font-medium text-base">产品中心</a>
+                <a href="anli.html" class="nav-link font-medium active text-base">案例库</a>
+                <a href="guanyuwomen.html" class="nav-link font-medium text-base">关于我们</a>
+                <a href="lianxiwomen.html" class="nav-link font-medium text-base">联系我们</a>
+            </div>
+            
+            <!-- 联系和菜单按钮 -->
+            <div class="flex items-center space-x-4">
+                <button id="menuToggle" class="md:hidden text-white focus:outline-none">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- 移动端菜单 -->
+    <div id="mobileMenu" class="mobile-menu">
+        <button id="closeMenu" class="absolute top-5 right-5 text-white">
+            <i class="fas fa-times text-2xl"></i>
+        </button>
+        <a href="index.html" class="nav-link font-medium">首页</a>
+        <a href="chanpin.html" class="nav-link font-medium">产品中心</a>
+        <a href="anli.html" class="nav-link font-medium active">案例库</a>
+        <a href="guanyuwomen.html" class="nav-link font-medium">关于我们</a>
+        <a href="lianxiwomen.html" class="nav-link font-medium">联系我们</a>
+    </div>
+    
+    <!-- 案例库 Hero 区域 -->
+    <div class="page-header py-16" style="margin-top: 70px;">
+        <div class="container mx-auto px-4">
+            <div class="text-center animate-fade-in">
+                <h1 class="text-4xl md:text-5xl font-bold mb-4">精选案例展示</h1>
+                <p class="text-xl text-gray-400 max-w-2xl mx-auto">探索屿拓移门在各类场景下的完美应用，感受专业定制带来的空间价值提升</p>
+                <div class="mt-8">
+                    <a href="#filter-section" class="btn-primary px-6 py-3 rounded-full text-sm font-medium inline-block mr-4">查看案例</a>
+                    <a href="chanpin.html" class="btn-outline px-6 py-3 rounded-full text-sm font-medium inline-block">浏览产品</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 筛选系统 -->
+    <section id="filter-section" class="py-10 bg-black">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
+                <h2 class="text-2xl font-bold mb-4 md:mb-0">
+                    <i class="fas fa-filter text-yellow-300 mr-2"></i> 案例筛选
+                </h2>
+                <div class="flex items-center">
+                    <div class="relative">
+                        <input type="text" placeholder="搜索案例..." class="bg-gray-800 text-white rounded-md px-4 py-2 pl-10 focus:outline-none focus:ring-2 focus:ring-yellow-300">
+                        <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                    </div>
+                    <div class="ml-4">
+                        <select class="bg-gray-800 text-white rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-300">
+                            <option value="newest">最新项目</option>
+                            <option value="popular">热门项目</option>
+                            <option value="budget-high">投资规模 (高-低)</option>
+                            <option value="budget-low">投资规模 (低-高)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 筛选条件 -->
+            <div class="mb-8">
+                <div class="mb-4">
+                    <h3 class="text-lg font-medium mb-2">区域：</h3>
+                    <div class="flex flex-wrap">
+                        <div class="filter-pill active">全部</div>
+                        <div class="filter-pill">黄浦区</div>
+                        <div class="filter-pill">徐汇区</div>
+                        <div class="filter-pill">长宁区</div>
+                        <div class="filter-pill">静安区</div>
+                        <div class="filter-pill">普陀区</div>
+                        <div class="filter-pill">虹口区</div>
+                        <div class="filter-pill">杨浦区</div>
+                        <div class="filter-pill">闵行区</div>
+                        <div class="filter-pill">宝山区</div>
+                        <div class="filter-pill">嘉定区</div>
+                        <div class="filter-pill">浦东新区</div>
+                        <div class="filter-pill">金山区</div>
+                        <div class="filter-pill">松江区</div>
+                        <div class="filter-pill">青浦区</div>
+                        <div class="filter-pill">奉贤区</div>
+                        <div class="filter-pill">崇明区</div>
+                    </div>
+                </div>
+                
+                <div class="mb-4">
+                    <h3 class="text-lg font-medium mb-2">应用场景：</h3>
+                    <div class="flex flex-wrap">
+                        <div class="filter-pill active">全部</div>
+                        <div class="filter-pill">客厅</div>
+                        <div class="filter-pill">餐厅</div>
+                        <div class="filter-pill">卧室</div>
+                        <div class="filter-pill">厨房</div>
+                        <div class="filter-pill">卫生间</div>
+                        <div class="filter-pill">阳台</div>
+                        <div class="filter-pill">储物间</div>
+                        <div class="filter-pill">隔断</div>
+                    </div>
+                </div>
+                
+                <div class="mb-4">
+                    <h3 class="text-lg font-medium mb-2">使用产品：</h3>
+                    <div class="flex flex-wrap">
+                        <div class="filter-pill active">全部</div>
+                        <div class="filter-pill">开门系列</div>
+                        <div class="filter-pill">移门系列</div>
+                        <div class="filter-pill">折叠门系列</div>
+                        <div class="filter-pill">口袋门</div>
+                        <div class="filter-pill">幽灵门</div>
+                        <div class="filter-pill">PD门</div>
+                        <div class="filter-pill">中轴门</div>
+                        <div class="filter-pill">偏轴门</div>
+                        <div class="filter-pill">定制系列</div>
+                    </div>
+                </div>
+                
+                <div class="flex flex-wrap items-center mt-4">
+                    <span class="mr-2 text-gray-400">已选条件：</span>
+                    <div class="bg-yellow-300 text-black px-3 py-1 rounded-full text-sm font-medium flex items-center mr-2">
+                        上海 <i class="fas fa-times ml-2 cursor-pointer"></i>
+                    </div>
+                    <div class="bg-yellow-300 text-black px-3 py-1 rounded-full text-sm font-medium flex items-center mr-2">
+                        住宅项目 <i class="fas fa-times ml-2 cursor-pointer"></i>
+                    </div>
+                    <button class="text-sm text-yellow-300 underline ml-2">清除所有</button>
+                </div>
+            </div>
+            
+            <!-- 案例展示 -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- 案例 1 -->
+                <div class="card-hover rounded-lg overflow-hidden bg-gray-900 spotlight">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80" alt="上海现代公寓" class="w-full h-64 object-cover">
+                        <div class="absolute top-3 right-3 flex">
+                            <span class="tag mr-2">精品案例</span>
+                        </div>
+                        <div class="absolute bottom-0 left-0 right-0 p-4 case-overlay flex flex-col justify-end">
+                            <div class="mb-2 flex items-center">
+                                <i class="fas fa-map-marker-alt text-yellow-300 mr-2"></i>
+                                <span class="text-sm">上海 · 浦东新区</span>
+                            </div>
+                            <div class="mb-2 flex items-center">
+                                <i class="fas fa-calendar-alt text-yellow-300 mr-2"></i>
+                                <span class="text-sm">2025年完成</span>
+                            </div>
+                            <div class="flex">
+                                <button class="mr-2 bg-black bg-opacity-50 text-white text-sm px-3 py-1 rounded-full flex items-center">
+                                    <i class="fas fa-eye mr-1"></i> 详情
+                                </button>
+                                <button class="bg-yellow-300 text-black text-sm px-3 py-1 rounded-full flex items-center view-video" data-video="video-1">
+                                    <i class="fas fa-play mr-1"></i> 视频
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="text-xl font-bold mb-2">上海现代公寓</h3>
+                        <p class="text-gray-300 text-sm mb-3">移门系列在现代简约风格公寓中的完美应用，打造通透明亮的室内空间</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-gray-400">移门系列 · 完美系统16x40吊轨款</span>
+                            <button class="text-yellow-300 hover:underline text-sm flex items-center">
+                                查看详情 <i class="fas fa-arrow-right ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 案例 2 -->
+                <div class="card-hover rounded-lg overflow-hidden bg-gray-900 spotlight">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1513694203232-719a280e022f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=869&q=80" alt="北京豪华别墅" class="w-full h-64 object-cover">
+                        <div class="absolute top-3 right-3 flex">
+                            <span class="tag mr-2">获奖项目</span>
+                        </div>
+                        <div class="absolute bottom-0 left-0 right-0 p-4 case-overlay flex flex-col justify-end">
+                            <div class="mb-2 flex items-center">
+                                <i class="fas fa-map-marker-alt text-yellow-300 mr-2"></i>
+                                <span class="text-sm">上海 · 静安区</span>
+                            </div>
+                            <div class="mb-2 flex items-center">
+                                <i class="fas fa-calendar-alt text-yellow-300 mr-2"></i>
+                                <span class="text-sm">2025年完成</span>
+                            </div>
+                            <div class="flex">
+                                <button class="mr-2 bg-black bg-opacity-50 text-white text-sm px-3 py-1 rounded-full flex items-center">
+                                    <i class="fas fa-eye mr-1"></i> 详情
+                                </button>
+                                <button class="bg-yellow-300 text-black text-sm px-3 py-1 rounded-full flex items-center view-video" data-video="video-2">
+                                    <i class="fas fa-play mr-1"></i> 视频
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="text-xl font-bold mb-2">上海豪华别墅</h3>
+                        <p class="text-gray-300 text-sm mb-3">定制系列折叠门为豪华别墅带来奢华与实用兼备的室内外连接方案</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-gray-400">定制系列 · 折叠门1845</span>
+                            <button class="text-yellow-300 hover:underline text-sm flex items-center">
+                                查看详情 <i class="fas fa-arrow-right ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 案例 3 -->
+                <div class="card-hover rounded-lg overflow-hidden bg-gray-900 spotlight">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=869&q=80" alt="广州办公空间" class="w-full h-64 object-cover">
+                        <div class="absolute top-3 right-3 flex">
+                            <span class="tag mr-2">商业项目</span>
+                        </div>
+                        <div class="absolute bottom-0 left-0 right-0 p-4 case-overlay flex flex-col justify-end">
+                            <div class="mb-2 flex items-center">
+                                <i class="fas fa-map-marker-alt text-yellow-300 mr-2"></i>
+                                <span class="text-sm">上海 · 闵行区</span>
+                            </div>
+                            <div class="mb-2 flex items-center">
+                                <i class="fas fa-calendar-alt text-yellow-300 mr-2"></i>
+                                <span class="text-sm">2025年完成</span>
+                            </div>
+                            <div class="flex">
+                                <button class="mr-2 bg-black bg-opacity-50 text-white text-sm px-3 py-1 rounded-full flex items-center">
+                                    <i class="fas fa-eye mr-1"></i> 详情
+                                </button>
+                                <button class="bg-yellow-300 text-black text-sm px-3 py-1 rounded-full flex items-center view-video" data-video="video-3">
+                                    <i class="fas fa-play mr-1"></i> 视频
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="text-xl font-bold mb-2">徐汇区办公空间</h3>
+                        <p class="text-gray-300 text-sm mb-3">开门系列为现代办公空间提供灵活分区，满足不同场景需求</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-gray-400">开门系列 · 外平内开双玻款</span>
+                            <button class="text-yellow-300 hover:underline text-sm flex items-center">
+                                查看详情 <i class="fas fa-arrow-right ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 案例 4 -->
+                <div class="card-hover rounded-lg overflow-hidden bg-gray-900 spotlight">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80" alt="深圳精品公寓" class="w-full h-64 object-cover">
+                        <div class="absolute top-3 right-3 flex">
+                            <span class="tag mr-2">精品案例</span>
+                        </div>
+                        <div class="absolute bottom-0 left-0 right-0 p-4 case-overlay flex flex-col justify-end">
+                            <div class="mb-2 flex items-center">
+                                <i class="fas fa-map-marker-alt text-yellow-300 mr-2"></i>
+                                <span class="text-sm">上海 · 普陀区</span>
+                            </div>
+                            <div class="mb-2 flex items-center">
+                                <i class="fas fa-calendar-alt text-yellow-300 mr-2"></i>
+                                <span class="text-sm">2025年完成</span>
+                            </div>
+                            <div class="flex">
+                                <button class="mr-2 bg-black bg-opacity-50 text-white text-sm px-3 py-1 rounded-full flex items-center">
+                                    <i class="fas fa-eye mr-1"></i> 详情
+                                </button>
+                                <button class="bg-yellow-300 text-black text-sm px-3 py-1 rounded-full flex items-center view-video" data-video="video-4">
+                                    <i class="fas fa-play mr-1"></i> 视频
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="text-xl font-bold mb-2">宝山公寓</h3>
+                        <p class="text-gray-300 text-sm mb-3">极窄边框地轨移门系列为小户型精品公寓优化空间布局</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-gray-400">移门系列 · 16X35地轨款</span>
+                            <button class="text-yellow-300 hover:underline text-sm flex items-center">
+                                查看详情 <i class="fas fa-arrow-right ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 案例 5 -->
+                <div class="card-hover rounded-lg overflow-hidden bg-gray-900 spotlight">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1527359443443-84a48aec73d2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80" alt="成都高档酒店" class="w-full h-64 object-cover">
+                        <div class="absolute top-3 right-3 flex">
+                            <span class="tag mr-2">商业项目</span>
+                        </div>
+                        <div class="absolute bottom-0 left-0 right-0 p-4 case-overlay flex flex-col justify-end">
+                            <div class="mb-2 flex items-center">
+                                <i class="fas fa-map-marker-alt text-yellow-300 mr-2"></i>
+                                <span class="text-sm">上海 · 长宁区</span>
+                            </div>
+                            <div class="mb-2 flex items-center">
+                                <i class="fas fa-calendar-alt text-yellow-300 mr-2"></i>
+                                <span class="text-sm">2025年完成</span>
+                            </div>
+                            <div class="flex">
+                                <button class="mr-2 bg-black bg-opacity-50 text-white text-sm px-3 py-1 rounded-full flex items-center">
+                                    <i class="fas fa-eye mr-1"></i> 详情
+                                </button>
+                                <button class="bg-yellow-300 text-black text-sm px-3 py-1 rounded-full flex items-center view-video" data-video="video-5">
+                                    <i class="fas fa-play mr-1"></i> 视频
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="text-xl font-bold mb-2">上海高档酒店</h3>
+                        <p class="text-gray-300 text-sm mb-3">定制系列口袋门在高档酒店套房中的运用，提升空间利用率与私密性</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-gray-400">定制系列 · 口袋门</span>
+                            <button class="text-yellow-300 hover:underline text-sm flex items-center">
+                                查看详情 <i class="fas fa-arrow-right ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 案例 6 -->
+                <div class="card-hover rounded-lg overflow-hidden bg-gray-900 spotlight">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=958&q=80" alt="杭州艺术展厅" class="w-full h-64 object-cover">
+                        <div class="absolute top-3 right-3 flex">
+                            <span class="tag mr-2">获奖项目</span>
+                        </div>
+                        <div class="absolute bottom-0 left-0 right-0 p-4 case-overlay flex flex-col justify-end">
+                            <div class="mb-2 flex items-center">
+                                <i class="fas fa-map-marker-alt text-yellow-300 mr-2"></i>
+                                <span class="text-sm">上海 · 嘉定区</span>
+                            </div>
+                            <div class="mb-2 flex items-center">
+                                <i class="fas fa-calendar-alt text-yellow-300 mr-2"></i>
+                                <span class="text-sm">2025年完成</span>
+                            </div>
+                            <div class="flex">
+                                <button class="mr-2 bg-black bg-opacity-50 text-white text-sm px-3 py-1 rounded-full flex items-center">
+                                    <i class="fas fa-eye mr-1"></i> 详情
+                                </button>
+                                <button class="bg-yellow-300 text-black text-sm px-3 py-1 rounded-full flex items-center view-video" data-video="video-6">
+                                    <i class="fas fa-play mr-1"></i> 视频
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="text-xl font-bold mb-2">徐汇区艺术展厅</h3>
+                        <p class="text-gray-300 text-sm mb-3">定制折叠门系列在艺术展厅中的创新应用，打造可变空间</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-gray-400">定制系列 · 折叠门1845</span>
+                            <button class="text-yellow-300 hover:underline text-sm flex items-center">
+                                查看详情 <i class="fas fa-arrow-right ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 分页 -->
+            <div class="mt-12 flex justify-center">
+                <div class="flex items-center">
+                    <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full border border-gray-700 text-gray-400 hover:border-yellow-300 hover:text-yellow-300 mr-2">
+                        <i class="fas fa-chevron-left"></i>
+                    </a>
+                    <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-yellow-300 text-black font-medium mr-2">1</a>
+                    <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full border border-gray-700 text-gray-400 hover:border-yellow-300 hover:text-yellow-300 mr-2">2</a>
+                    <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full border border-gray-700 text-gray-400 hover:border-yellow-300 hover:text-yellow-300 mr-2">3</a>
+                    <span class="mx-2 text-gray-500">...</span>
+                    <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full border border-gray-700 text-gray-400 hover:border-yellow-300 hover:text-yellow-300 mr-2">8</a>
+                    <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full border border-gray-700 text-gray-400 hover:border-yellow-300 hover:text-yellow-300">
+                        <i class="fas fa-chevron-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 案例详情 -->
+    <section class="py-16 bg-gray-900" id="case-detail">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row">
+                <div class="md:w-8/12 md:pr-8">
+                    <div class="mb-8">
+                        <h2 class="text-3xl font-bold mb-4">上海现代公寓</h2>
+                        <div class="flex flex-wrap items-center mb-4">
+                            <span class="tag mr-3">精品案例</span>
+                            <span class="flex items-center text-sm text-gray-300 mr-3">
+                                <i class="fas fa-map-marker-alt text-yellow-300 mr-2"></i> 上海 · 浦东新区
+                            </span>
+                            <span class="flex items-center text-sm text-gray-300 mr-3">
+                                <i class="fas fa-calendar-alt text-yellow-300 mr-2"></i> 2025年完成
+                            </span>
+                            <span class="flex items-center text-sm text-gray-300">
+                                <i class="fas fa-ruler-combined text-yellow-300 mr-2"></i> 180㎡
+                            </span>
+                        </div>
+                        <div class="flex space-x-4 mb-6">
+                            <button class="flex items-center text-sm text-yellow-300 hover:underline">
+                                <i class="far fa-heart mr-1"></i> 收藏项目
+                            </button>
+                            <button class="flex items-center text-sm text-yellow-300 hover:underline">
+                                <i class="fas fa-share-alt mr-1"></i> 分享项目
+                            </button>
+                            <button class="flex items-center text-sm text-yellow-300 hover:underline">
+                                <i class="fas fa-calendar-check mr-1"></i> 预约参观
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- 图片展示 -->
+                    <div class="mb-10">
+                        <div class="relative bg-black rounded-lg overflow-hidden mb-4">
+                            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80" alt="上海现代公寓" class="w-full h-96 object-cover">
+                            <button class="absolute top-4 right-4 bg-black bg-opacity-50 hover:bg-opacity-70 w-10 h-10 rounded-full flex items-center justify-center text-white">
+                                <i class="fas fa-expand"></i>
+                            </button>
+                        </div>
+                        <div class="grid grid-cols-4 gap-4">
+                            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80" alt="案例图片" class="w-full h-24 object-cover rounded-lg cursor-pointer border-2 border-yellow-300">
+                            <img src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80" alt="案例图片" class="w-full h-24 object-cover rounded-lg cursor-pointer">
+                            <img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80" alt="案例图片" class="w-full h-24 object-cover rounded-lg cursor-pointer">
+                            <div class="relative">
+                                <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=853&q=80" alt="案例图片" class="w-full h-24 object-cover rounded-lg cursor-pointer">
+                                <div class="absolute inset-0 bg-black bg-opacity-70 flex items-center justify-center rounded-lg">
+                                    <span class="text-white font-medium">+5 张</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 项目前后对比 -->
+                    <div class="mb-10">
+                        <h3 class="text-xl font-bold mb-4 flex items-center">
+                            <i class="fas fa-exchange-alt text-yellow-300 mr-2"></i> 项目前后对比
+                        </h3>
+                        <div class="compare-slider rounded-lg overflow-hidden">
+                            <div class="before" style="background-image: url('https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80');"></div>
+                            <div class="after" style="background-image: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80');"></div>
+                            <div class="slider-handle">
+                                <i class="fas fa-arrows-alt-h"></i>
+                            </div>
+                        </div>
+                        <div class="flex justify-between text-sm text-gray-400 mt-2">
+                            <span>改造前</span>
+                            <span>改造后</span>
+                        </div>
+                    </div>
+                    
+                    <!-- 项目描述 -->
+                    <div class="mb-10">
+                        <h3 class="text-xl font-bold mb-4">项目描述</h3>
+                        <p class="text-gray-300 leading-relaxed mb-4">
+                            本项目位于上海浦东新区的高档住宅区，业主希望通过移门系统的应用，将原本封闭的空间重新规划，打造通透明亮的现代居住环境。我们为该项目选择了屿拓移门系列中的完美系统16x40吊轨款，其极简的外观设计与整体空间风格完美融合。
+                        </p>
+                        <p class="text-gray-300 leading-relaxed mb-4">
+                            项目中的主要挑战是在不影响结构的情况下，最大化提升空间的利用率和灵活性。我们通过精确测量和定制化设计，完美解决了这一难题。移门系统的吊轨设计不仅创造了视觉上的轻盈感，还大大节省了地面空间，提升了使用体验。
+                        </p>
+                    </div>
+                    
+                    <!-- 项目挑战与解决方案 -->
+                    <div class="mb-10">
+                        <h3 class="text-xl font-bold mb-4 flex items-center">
+                            <i class="fas fa-puzzle-piece text-yellow-300 mr-2"></i> 项目挑战与解决方案
+                        </h3>
+                        <div class="bg-black bg-opacity-50 rounded-lg p-6">
+                            <div class="mb-6">
+                                <h4 class="text-lg font-medium mb-2 text-yellow-300">挑战一：空间限制</h4>
+                                <p class="text-gray-300">客户公寓空间有限，传统门窗占用了大量空间，影响整体布局。</p>
+                                <div class="mt-2">
+                                    <h5 class="text-white font-medium mb-1">解决方案：</h5>
+                                    <p class="text-gray-300">采用16x40吊轨移门系统，零地轨设计，有效节省空间，同时提供无障碍通行。</p>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-6">
+                                <h4 class="text-lg font-medium mb-2 text-yellow-300">挑战二：隔音需求</h4>
+                                <p class="text-gray-300">客户要求在保持空间开放性的同时，确保必要时的隔音效果。</p>
+                                <div class="mt-2">
+                                    <h5 class="text-white font-medium mb-1">解决方案：</h5>
+                                    <p class="text-gray-300">选用双层钢化玻璃设计，配合特殊密封条，确保关闭时提供优异隔音效果，开启时实现空间的完全连通。</p>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h4 class="text-lg font-medium mb-2 text-yellow-300">挑战三：美观与耐用性平衡</h4>
+                                <p class="text-gray-300">高频使用区域，需要兼顾美观设计和长期耐用性。</p>
+                                <div class="mt-2">
+                                    <h5 class="text-white font-medium mb-1">解决方案：</h5>
+                                    <p class="text-gray-300">采用高品质铝合金材质，特殊表面处理工艺，确保长期使用不变形、不褪色，同时保持极简现代的设计风格。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 设计师评论 -->
+                    <div class="mb-10">
+                        <h3 class="text-xl font-bold mb-4 flex items-center">
+                            <i class="fas fa-comment-alt text-yellow-300 mr-2"></i> 设计师评论
+                        </h3>
+                        <div class="flex items-start bg-black bg-opacity-50 rounded-lg p-6">
+                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="设计师头像" class="w-16 h-16 rounded-full mr-4">
+                            <div>
+                                <div class="flex items-center mb-2">
+                                    <h4 class="font-bold mr-2">陈建筑</h4>
+                                    <span class="text-sm text-gray-400">首席设计师</span>
+                                </div>
+                                <p class="text-gray-300 italic">
+                                    "这个项目最大的亮点在于如何利用移门系统重塑空间流动性。我们通过精心设计的移门布局，使得客户在不同场景下可以灵活调整空间构成。最令我满意的是，移门系统的极简设计语言与整体空间风格实现了完美融合，而不是简单的功能性添加。"
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 项目技术参数 -->
+                    <div class="mb-10">
+                        <h3 class="text-xl font-bold mb-4 flex items-center">
+                            <i class="fas fa-cogs text-yellow-300 mr-2"></i> 技术参数
+                        </h3>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left">
+                                <thead class="bg-gray-800 text-gray-200">
+                                    <tr>
+                                        <th class="px-4 py-3 rounded-tl-lg">参数</th>
+                                        <th class="px-4 py-3">规格</th>
+                                        <th class="px-4 py-3 rounded-tr-lg">备注</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-800">
+                                    <tr class="bg-black bg-opacity-50">
+                                        <td class="px-4 py-3">产品型号</td>
+                                        <td class="px-4 py-3">完美系统16x40</td>
+                                        <td class="px-4 py-3">吊轨款</td>
+                                    </tr>
+                                    <tr class="bg-black bg-opacity-30">
+                                        <td class="px-4 py-3">门扇尺寸</td>
+                                        <td class="px-4 py-3">1200mm × 2400mm</td>
+                                        <td class="px-4 py-3">定制尺寸</td>
+                                    </tr>
+                                    <tr class="bg-black bg-opacity-50">
+                                        <td class="px-4 py-3">玻璃类型</td>
+                                        <td class="px-4 py-3">8mm钢化玻璃</td>
+                                        <td class="px-4 py-3">双层结构</td>
+                                    </tr>
+                                    <tr class="bg-black bg-opacity-30">
+                                        <td class="px-4 py-3">框体材质</td>
+                                        <td class="px-4 py-3">高强度铝合金</td>
+                                        <td class="px-4 py-3">阳极氧化处理</td>
+                                    </tr>
+                                    <tr class="bg-black bg-opacity-50">
+                                        <td class="px-4 py-3">颜色</td>
+                                        <td class="px-4 py-3">月光灰</td>
+                                        <td class="px-4 py-3">哑光处理</td>
+                                    </tr>
+                                    <tr class="bg-black bg-opacity-30">
+                                        <td class="px-4 py-3">隔音性能</td>
+                                        <td class="px-4 py-3">35dB</td>
+                                        <td class="px-4 py-3">满足住宅标准</td>
+                                    </tr>
+                                    <tr class="bg-black bg-opacity-50 rounded-b-lg">
+                                        <td class="px-4 py-3 rounded-bl-lg">使用寿命</td>
+                                        <td class="px-4 py-3">10年以上</td>
+                                        <td class="px-4 py-3 rounded-br-lg">正常使用条件下</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <!-- 项目时间线 -->
+                    <div class="mb-10">
+                        <h3 class="text-xl font-bold mb-6 flex items-center">
+                            <i class="fas fa-history text-yellow-300 mr-2"></i> 项目时间线
+                        </h3>
+                        <div class="timeline mb-8">
+                            <div class="timeline-item timeline-left">
+                                <div class="timeline-content">
+                                    <h4 class="font-bold text-yellow-300 mb-1">需求确认</h4>
+                                    <p class="text-sm text-gray-300">2023年1月15日</p>
+                                    <p class="mt-2 text-gray-400">与客户确认空间需求与风格偏好，进行初步测量</p>
+                                </div>
+                            </div>
+                            <div class="timeline-item timeline-right">
+                                <div class="timeline-content">
+                                    <h4 class="font-bold text-yellow-300 mb-1">方案设计</h4>
+                                    <p class="text-sm text-gray-300">2023年1月25日</p>
+                                    <p class="mt-2 text-gray-400">完成初步设计方案，提供3D效果图与样品展示</p>
+                                </div>
+                            </div>
+                            <div class="timeline-item timeline-left">
+                                <div class="timeline-content">
+                                    <h4 class="font-bold text-yellow-300 mb-1">定制生产</h4>
+                                    <p class="text-sm text-gray-300">2023年2月10日</p>
+                                    <p class="mt-2 text-gray-400">客户确认方案，进入定制生产阶段</p>
+                                </div>
+                            </div>
+                            <div class="timeline-item timeline-right">
+                                <div class="timeline-content">
+                                    <h4 class="font-bold text-yellow-300 mb-1">安装实施</h4>
+                                    <p class="text-sm text-gray-300">2023年3月5日</p>
+                                    <p class="mt-2 text-gray-400">专业团队完成现场安装，调试确保运行顺畅</p>
+                                </div>
+                            </div>
+                            <div class="timeline-item timeline-left">
+                                <div class="timeline-content">
+                                    <h4 class="font-bold text-yellow-300 mb-1">项目验收</h4>
+                                    <p class="text-sm text-gray-300">2023年3月8日</p>
+                                    <p class="mt-2 text-gray-400">客户验收并表示满意，项目圆满完成</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 设计理念 -->
+                    <div class="mb-10">
+                        <h3 class="text-xl font-bold mb-4">设计理念与灵感来源</h3>
+                        <p class="text-gray-300 leading-relaxed mb-4">
+                            本项目的设计灵感来源于现代简约主义与功能性的完美结合。我们希望通过移门系统创造一种"流动的空间"概念，让居住者能够根据需要自由定义空间的功能和边界。
+                        </p>
+                        <p class="text-gray-300 leading-relaxed mb-4">
+                            我们选择的月光灰色调与客户公寓的整体色彩搭配形成和谐统一，同时提供了足够的中性背景，让家具和装饰品成为空间的点睛之笔。移门系统的轨道被巧妙地隐藏在天花板内，创造出极简而不失精致的视觉效果。
+                        </p>
+                        <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="bg-black bg-opacity-50 p-4 rounded-lg">
+                                <i class="fas fa-lightbulb text-yellow-300 text-2xl mb-2"></i>
+                                <h4 class="font-bold mb-2">灵活性</h4>
+                                <p class="text-sm text-gray-300">打造可变空间，满足多场景需求</p>
+                            </div>
+                            <div class="bg-black bg-opacity-50 p-4 rounded-lg">
+                                <i class="fas fa-expand-arrows-alt text-yellow-300 text-2xl mb-2"></i>
+                                <h4 class="font-bold mb-2">扩展感</h4>
+                                <p class="text-sm text-gray-300">视觉延伸，创造空间感知的扩展</p>
+                            </div>
+                            <div class="bg-black bg-opacity-50 p-4 rounded-lg">
+                                <i class="fas fa-feather-alt text-yellow-300 text-2xl mb-2"></i>
+                                <h4 class="font-bold mb-2">轻盈感</h4>
+                                <p class="text-sm text-gray-300">减少视觉阻隔，营造轻盈通透的氛围</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="md:w-4/12">
+                    <!-- 使用产品信息 -->
+                    <div class="bg-black rounded-lg p-6 mb-8">
+                        <h3 class="text-xl font-bold mb-4">使用产品</h3>
+                        <div class="flex items-center mb-4">
+                            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&q=80" alt="移门系列" class="w-20 h-20 object-cover rounded-md mr-4">
+                            <div>
+                                <h4 class="font-bold">完美系统16x40</h4>
+                                <p class="text-sm text-gray-400">移门系列 · 吊轨款</p>
+                                <a href="product-detail.html" class="text-yellow-300 text-sm flex items-center mt-1">
+                                    查看产品详情 <i class="fas fa-arrow-right ml-1"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <h4 class="font-medium mb-2">产品优势</h4>
+                            <ul class="space-y-2 text-sm text-gray-300">
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-yellow-300 mt-1 mr-2"></i>
+                                    <span>静音滑轨设计，开合顺畅无噪音</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-yellow-300 mt-1 mr-2"></i>
+                                    <span>吊轨结构，无地轨设计，地面平整无障碍</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-yellow-300 mt-1 mr-2"></i>
+                                    <span>双层8mm钢化玻璃，提供优异隔音效果</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-yellow-300 mt-1 mr-2"></i>
+                                    <span>高品质铝合金框架，坚固耐用不变形</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="mt-6">
+                            <a href="products.html" class="btn-primary w-full py-3 text-center rounded-md font-medium block">
+                                浏览同系列产品
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- 客户评价 -->
+                    <div class="bg-black rounded-lg p-6 mb-8">
+                        <h3 class="text-xl font-bold mb-4">客户评价</h3>
+                        <div class="mb-6">
+                            <div class="flex items-center mb-3">
+                                <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="客户头像" class="w-12 h-12 rounded-full mr-3">
+                                <div>
+                                    <h4 class="font-medium">张女士</h4>
+                                    <div class="flex items-center">
+                                        <div class="star-rating mr-2">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                        </div>
+                                        <span class="text-xs text-gray-400">2023-03-15</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-sm text-gray-300 mb-2">
+                                "屿拓的移门方案完全改变了我家的空间感，原本局促的公寓现在看起来宽敞明亮。安装团队专业高效，一天内就完成了全部工作，而且几乎没有灰尘。"
+                            </p>
+                            <span class="customer-type inline-block">家庭用户</span>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <div class="flex items-center mb-3">
+                                <img src="https://randomuser.me/api/portraits/men/66.jpg" alt="客户头像" class="w-12 h-12 rounded-full mr-3">
+                                <div>
+                                    <h4 class="font-medium">李先生</h4>
+                                    <div class="flex items-center">
+                                        <div class="star-rating mr-2">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star-half-alt"></i>
+                                        </div>
+                                        <span class="text-xs text-gray-400">2023-04-02</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-sm text-gray-300 mb-2">
+                                "使用半年后回来评价，移门系统依然运行顺畅，没有任何松动或噪音问题。隔音效果也确实不错，关上门后，客厅的声音几乎听不到。"
+                            </p>
+                            <span class="customer-type inline-block">家庭用户</span>
+                        </div>
+                        
+                        <div>
+                            <div class="flex items-center mb-3">
+                                <img src="https://randomuser.me/api/portraits/women/22.jpg" alt="客户头像" class="w-12 h-12 rounded-full mr-3">
+                                <div>
+                                    <h4 class="font-medium">王设计师</h4>
+                                    <div class="flex items-center">
+                                        <div class="star-rating mr-2">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                        </div>
+                                        <span class="text-xs text-gray-400">2023-03-28</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-sm text-gray-300 mb-2">
+                                "作为室内设计师，我对产品的细节和工艺要求很高。屿拓的移门系统无论是材质选择还是安装精度都令人满意，已经成为我推荐给客户的首选品牌。"
+                            </p>
+                            <span class="customer-type inline-block">商业客户</span>
+                        </div>
+                        
+                        <div class="mt-6">
+                            <a href="#" class="text-center text-yellow-300 hover:underline text-sm block">
+                                查看全部15条评价
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- 常见问题 -->
+                    <div class="bg-black rounded-lg p-6 mb-8">
+                        <h3 class="text-xl font-bold mb-4">常见问题</h3>
+                        
+                        <div class="mb-4">
+                            <button class="flex justify-between items-center w-full text-left font-medium">
+                                <span>吊轨系统适合所有户型吗？</span>
+                                <i class="fas fa-chevron-down text-yellow-300"></i>
+                            </button>
+                            <div class="mt-2 text-sm text-gray-300">
+                                吊轨系统需要顶部结构具有足够的承重能力，一般适合层高2.4米以上的空间。如果顶部结构不足，我们也提供地轨解决方案，同样美观实用。
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <button class="flex justify-between items-center w-full text-left font-medium">
+                                <span>安装周期需要多长时间？</span>
+                                <i class="fas fa-chevron-right text-yellow-300"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <button class="flex justify-between items-center w-full text-left font-medium">
+                                <span>移门系统的使用寿命是多久？</span>
+                                <i class="fas fa-chevron-right text-yellow-300"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <button class="flex justify-between items-center w-full text-left font-medium">
+                                <span>如何保养铝合金移门？</span>
+                                <i class="fas fa-chevron-right text-yellow-300"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="mt-4">
+                            <a href="resources.html" class="text-center text-yellow-300 hover:underline text-sm block">
+                                查看更多常见问题
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- 相关文章 -->
+                    <div class="bg-black rounded-lg p-6">
+                        <h3 class="text-xl font-bold mb-4">相关文章</h3>
+                        
+                        <a href="#" class="flex items-center mb-4 group">
+                            <div class="w-20 h-16 overflow-hidden rounded mr-3 flex-shrink-0">
+                                <img src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80" alt="文章配图" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-sm group-hover:text-yellow-300 transition-colors">移门系统如何提升小户型空间利用率</h4>
+                                <p class="text-xs text-gray-400 mt-1">2023-02-18</p>
+                            </div>
+                        </a>
+                        
+                        <a href="#" class="flex items-center mb-4 group">
+                            <div class="w-20 h-16 overflow-hidden rounded mr-3 flex-shrink-0">
+                                <img src="https://images.unsplash.com/photo-1600573472230-8d6dc1b75bd3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80" alt="文章配图" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-sm group-hover:text-yellow-300 transition-colors">2023年移门设计流行趋势解析</h4>
+                                <p class="text-xs text-gray-400 mt-1">2023-01-25</p>
+                            </div>
+                        </a>
+                        
+                        <a href="#" class="flex items-center group">
+                            <div class="w-20 h-16 overflow-hidden rounded mr-3 flex-shrink-0">
+                                <img src="https://images.unsplash.com/photo-1600566753051-f0b4ae836b9d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80" alt="文章配图" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-sm group-hover:text-yellow-300 transition-colors">如何选择适合你家的移门系统</h4>
+                                <p class="text-xs text-gray-400 mt-1">2023-03-05</p>
+                            </div>
+                        </a>
+                        
+                        <div class="mt-4">
+                            <a href="resources.html" class="text-center text-yellow-300 hover:underline text-sm block">
+                                浏览更多文章
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 类似项目推荐 -->
+    <section class="py-16 bg-black">
+        <div class="container mx-auto px-4">
+            <h2 class="text-2xl font-bold mb-8">类似项目推荐</h2>
+            
+            <div class="flex overflow-x-auto pb-4 -mx-4 px-4 space-x-6 no-scrollbar">
+                <div class="card-hover rounded-lg overflow-hidden bg-gray-900 flex-shrink-0" style="width: 320px;">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80" alt="上海现代公寓" class="w-full h-48 object-cover">
+                        <div class="absolute top-3 right-3">
+                            <span class="tag">精品案例</span>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="text-lg font-bold mb-1">上海普陀区华公寓</h3>
+                        <p class="text-gray-300 text-sm mb-3">移门系统打造的现代简约风格空间</p>
+                        <button class="text-yellow-300 hover:underline text-sm flex items-center">
+                            查看详情 <i class="fas fa-arrow-right ml-1"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="card-hover rounded-lg overflow-hidden bg-gray-900 flex-shrink-0" style="width: 320px;">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80" alt="深圳湾复式公寓" class="w-full h-48 object-cover">
+                        <div class="absolute top-3 right-3">
+                            <span class="tag">精品案例</span>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="text-lg font-bold mb-1">上海黄浦区复式公寓</h3>
+                        <p class="text-gray-300 text-sm mb-3">极简风格与移门系统的完美结合</p>
+                        <button class="text-yellow-300 hover:underline text-sm flex items-center">
+                            查看详情 <i class="fas fa-arrow-right ml-1"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="card-hover rounded-lg overflow-hidden bg-gray-900 flex-shrink-0" style="width: 320px;">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=853&q=80" alt="广州花城小区" class="w-full h-48 object-cover">
+                        <div class="absolute top-3 right-3">
+                            <span class="tag">精品案例</span>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="text-lg font-bold mb-1">上海松江小区</h3>
+                        <p class="text-gray-300 text-sm mb-3">开门系列在小户型中的灵活应用</p>
+                        <button class="text-yellow-300 hover:underline text-sm flex items-center">
+                            查看详情 <i class="fas fa-arrow-right ml-1"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="card-hover rounded-lg overflow-hidden bg-gray-900 flex-shrink-0" style="width: 320px;">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80" alt="上海徐汇公寓" class="w-full h-48 object-cover">
+                        <div class="absolute top-3 right-3">
+                            <span class="tag">精品案例</span>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="text-lg font-bold mb-1">上海徐汇区公寓</h3>
+                        <p class="text-gray-300 text-sm mb-3">移门与折叠门系统混合运用案例</p>
+                        <button class="text-yellow-300 hover:underline text-sm flex items-center">
+                            查看详情 <i class="fas fa-arrow-right ml-1"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 客户视频评价 -->
+    <section class="py-16 bg-gray-900">
+        <div class="container mx-auto px-4">
+            <h2 class="text-2xl font-bold mb-2">客户使用感受</h2>
+            <p class="text-gray-400 mb-8">来自真实客户的使用体验和评价</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-black rounded-lg overflow-hidden">
+                    <div class="relative pb-[56.25%]">
+                        <video controls playsinline webkit-playsinline class="absolute inset-0 w-full h-full object-cover" poster="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80">
+                            <source src="https://samplelib.com/lib/preview/mp4/sample-5s.mp4" type="video/mp4">
+                            您的浏览器不支持视频播放
+                        </video>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="text-lg font-bold mb-1">张女士 - 上海浦东新区客户</h3>
+                        <p class="text-gray-400 text-sm">分享了她对屿拓移门系统的使用体验和空间改造感受</p>
+                    </div>
+                </div>
+                
+                <div class="bg-black rounded-lg overflow-hidden">
+                    <div class="relative pb-[56.25%]">
+                        <video controls playsinline webkit-playsinline class="absolute inset-0 w-full h-full object-cover" poster="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=853&q=80">
+                            <source src="https://samplelib.com/lib/preview/mp4/sample-5s.mp4" type="video/mp4">
+                            您的浏览器不支持视频播放
+                        </video>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="text-lg font-bold mb-1">李先生 - 北京顺义区客户</h3>
+                        <p class="text-gray-400 text-sm">讲述屿拓移门系统为他的别墅带来的空间变化</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 黄色底部区域 -->
+    <footer class="footer-yellow py-16 px-4">
+        <div class="container mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- 左侧：为什么选择屿拓 -->
+                <div class="lg:col-span-2">
+                    <h3 class="text-2xl font-bold mb-6">为什么选择屿拓？</h3>
+                    <p class="mb-4">选择屿拓购买优质铝制移门，重新定义能效、安全性、豪华感和持久之美。</p>
+                    <div class="flex space-x-4 mt-6">
+                        <a href="#contact-form" class="bg-black text-white px-6 py-3 rounded-md transition-all duration-300 hover:bg-gray-800">
+                            获取报价
+                        </a>
+                        <a href="chanpin.html" class="border-2 border-black px-6 py-3 rounded-md transition-all duration-300 hover:bg-black hover:text-white">
+                            探索产品
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- 右侧：导航和联系信息 -->
+                <div>
+                    <h4 class="font-bold text-lg mb-4">导航</h4>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="hover:underline">首页</a></li>
+                        <li><a href="chanpin.html" class="hover:underline">产品中心</a></li>
+                        <li><a href="anli.html" class="hover:underline">案例库</a></li>
+                        <li><a href="guanyuwomen.html" class="hover:underline">关于我们</a></li>
+                        <li><a href="lianxiwomen.html" class="hover:underline">联系我们</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-lg mb-4">联系信息</h4>
+                    <ul class="space-y-2">
+                        <li class="flex items-center">
+                            <i class="fas fa-phone-alt mr-2"></i> 
+                            <a href="tel:4008123123">400-812-3123</a>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-envelope mr-2"></i>
+                            <a href="mailto:info@kaluozodi.com">info@kaluozodi.com</a>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-map-marker-alt mr-2"></i>
+                            上海市浦东新区张江高科技园区
+                        </li>
+                    </ul>
+                    
+                    <h4 class="font-bold text-lg mt-6 mb-4">营业时间</h4>
+                    <ul class="space-y-1">
+                        <li>周一至周五: 9:00 - 18:00</li>
+                        <li>周六: 10:00 - 16:00</li>
+                        <li>周日: 仅限预约</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-black pt-8 mt-12">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <p>© 2023 屿拓移门. 保留所有权利</p>
+                    
+                    <div class="flex space-x-4 mt-4 md:mt-0">
+                        <a href="#" class="w-10 h-10 rounded-full bg-black flex items-center justify-center text-white hover:bg-gray-800 transition-colors">
+                            <i class="fab fa-weixin"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-black flex items-center justify-center text-white hover:bg-gray-800 transition-colors">
+                            <i class="fab fa-weibo"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-black flex items-center justify-center text-white hover:bg-gray-800 transition-colors">
+                            <i class="fab fa-qq"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-black flex items-center justify-center text-white hover:bg-gray-800 transition-colors">
+                            <i class="fab fa-tiktok"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 在线客服 -->
+    <div class="chat-icon" id="chatIcon">
+        <i class="fas fa-comments text-black text-2xl"></i>
+    </div>
+    
+    <!-- 视频预览模态框 -->
+    <div class="modal" id="video-modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2 class="text-xl font-bold mb-4" id="video-title">案例视频预览</h2>
+            <div class="relative pb-[56.25%]">
+                <video controls playsinline webkit-playsinline id="modal-video" class="absolute inset-0 w-full h-full object-cover">
+                    <source src="" type="video/mp4">
+                    您的浏览器不支持视频播放
+                </video>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 图片画廊模态框 -->
+    <div class="modal" id="gallery-modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <div class="relative">
+                <img src="" alt="案例大图" id="gallery-image" class="w-full">
+                <div class="absolute top-1/2 left-4 transform -translate-y-1/2">
+                    <button class="w-10 h-10 rounded-full bg-black bg-opacity-50 flex items-center justify-center text-white hover:bg-opacity-70">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                </div>
+                <div class="absolute top-1/2 right-4 transform -translate-y-1/2">
+                    <button class="w-10 h-10 rounded-full bg-black bg-opacity-50 flex items-center justify-center text-white hover:bg-opacity-70">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="mt-4 text-center text-gray-400 text-sm">
+                图片 <span id="current-image">1</span> / <span id="total-images">8</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 通用脚本 -->
+    <script>
+        // 页面加载动画
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                const loader = document.querySelector('.loader');
+                if (loader) {
+                    loader.classList.add('hidden');
+                }
+            }, 1000);
+        });
+        
+        // 移动端菜单
+        const menuToggle = document.getElementById('menuToggle');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const closeMenu = document.getElementById('closeMenu');
+        
+        if (menuToggle && mobileMenu) {
+            menuToggle.addEventListener('click', function() {
+                mobileMenu.classList.add('active');
+            });
+        }
+        
+        if (closeMenu && mobileMenu) {
+            closeMenu.addEventListener('click', function() {
+                mobileMenu.classList.remove('active');
+            });
+        }
+        
+        // 客服图标
+        const chatIcon = document.getElementById('chatIcon');
+        if (chatIcon) {
+            chatIcon.addEventListener('click', function() {
+                alert('在线客服系统正在开发中，请通过电话或邮件联系我们！');
+            });
+        }
+    </script>
+</body>
+</html>

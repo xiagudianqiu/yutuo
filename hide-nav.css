@@ -1,0 +1,98 @@
+/* 隐藏重复导航栏的CSS */
+/* 这个选择器针对图片中红框所示的导航栏 */
+nav:not(.navbar) {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  height: 0 !important;
+  overflow: hidden !important;
+}
+
+div[style*="border:1px solid blue"],
+div[style*="border: 1px solid blue"],
+div[style*="border:1px solid #0000ff"],
+div[style*="border: 1px solid #0000ff"],
+div.blue-border,
+div.nav-duplicate {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  height: 0 !important;
+  overflow: hidden !important;
+}
+
+/* 页面顶部带有移门展示标签的导航 */
+div:has(a[href*="门展示"]),
+ul:has(li:has(a[href*="门展示"])),
+nav:has(a[href*="门展示"]),
+.top-nav:has(a[href*="门展示"]) {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+/* 特定样式的导航栏 - 基于图片匹配 */
+.nav-container,
+.secondary-nav,
+#secondaryNav,
+#duplicateNav,
+#topNav:not(.navbar),
+nav.bg-black,
+div:has(> nav) > nav {
+  display: none !important;
+}
+
+/* 隐藏所有带有框线且包含导航链接的容器 */
+div[style*="border"]:has(a[href="shouye.html"]:has(~ a[href="chanpin.html"])),
+div[style*="border"]:has(a[href="index.html"]:has(~ a[href="chanpin.html"])) {
+  display: none !important;
+}
+
+/* 通配符选择器 - 最后手段 */
+[class*="nav"]:not(.navbar):not(.nav-link):has(a[href="shouye.html"]:has(~ a[href="chanpin.html"])),
+[class*="nav"]:not(.navbar):not(.nav-link):has(a[href="index.html"]:has(~ a[href="chanpin.html"])),
+div:has(> ul > li > a[href="shouye.html"]),
+div:has(> ul > li > a[href="index.html"]),
+li > a[href="shouye.html"]:not(.nav-link),
+li > a[href="index.html"]:not(.nav-link) {
+  display: none !important;
+}
+
+/* 确保仅保留一个导航栏 */
+nav.navbar ~ nav,
+body > nav:not(.navbar) {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  overflow: hidden !important;
+  max-height: 0 !important;
+  position: absolute !important;
+  pointer-events: none !important;
+}
+
+/* 专门针对可能出现在顶部的重复导航 */
+header:not(.main-header),
+div.header:not(.main-header),
+div.top-bar:has(a[href]),
+div.top-nav:has(a[href]),
+div.navigation:not(.navbar),
+body > div:first-of-type:has(a[href="index.html"]),
+body > div:first-of-type:has(a[href="shouye.html"]) {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  overflow: hidden !important;
+}
+
+/* 针对特定位置的导航条，用于图片中红框标注的导航栏 */
+body > div:nth-of-type(1):has(a[href="index.html"]),
+body > div:nth-of-type(1):has(a[href="shouye.html"]),
+body > div:nth-of-type(2):has(a[href="index.html"]),
+body > div:nth-of-type(2):has(a[href="shouye.html"]) {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+} 

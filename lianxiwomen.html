@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>联系我们 - 卡洛佐帝移门定制服务</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="hide-nav.css">
+    <style>
+        :root {
+            --primary-color: #FFDF00;
+            --accent-color: #FFDF00;
+            --dark-bg: #121212;
+            --darker-bg: #0a0a0a;
+            --light-text: #f8f8f8;
+            --gray-text: #a0a0a0;
+            --text-color: #fff;
+            --transition: all 0.3s ease;
+        }
+        
+        body {
+            background-color: var(--dark-bg);
+            color: var(--light-text);
+            font-family: 'Arial', sans-serif;
+        }
+        
+        /* 导航栏样式 */
+        .navbar {
+            background-color: rgba(0, 0, 0, 0.9);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            width: 100%;
+            padding: 0;
+            height: 70px;
+        }
+
+        .logo img {
+            height: 1.8rem;
+            transition: var(--transition);
+        }
+
+        .nav-link {
+            position: relative;
+            transition: var(--transition);
+            font-size: 1rem;
+            padding: 0;
+            margin: 0 1rem;
+            color: var(--text-color);
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--accent-color);
+            transition: var(--transition);
+        }
+
+        .nav-link:hover:after {
+            width: 100%;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--accent-color);
+        }
+
+        .nav-link.active:after {
+            width: 100%;
+        }
+        
+        /* 移动端菜单 */
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 80%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            transition: var(--transition);
+            z-index: 200;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .mobile-menu.active {
+            right: 0;
+        }
+        
+        .mobile-menu .nav-link {
+            margin: 15px 0;
+            font-size: 1.2rem;
+            height: auto;
+        }
+        
+        .contact-section {
+            background-color: var(--darker-bg);
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-color);
+            transition: var(--transition);
+        }
+        
+        .contact-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .contact-icon {
+            color: var(--primary-color);
+            background-color: rgba(255, 204, 0, 0.1);
+            border-radius: 50%;
+            padding: 15px;
+        }
+        
+        .highlight {
+            color: var(--primary-color);
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: var(--darker-bg);
+            transition: var(--transition);
+            border: 2px solid var(--primary-color);
+        }
+        
+        .btn-primary:hover {
+            background-color: transparent;
+            color: var(--primary-color);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+            transition: var(--transition);
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--primary-color);
+            color: var(--darker-bg);
+        }
+        
+        .form-input {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--light-text);
+            transition: var(--transition);
+        }
+        
+        .form-input:focus {
+            border-color: var(--primary-color);
+            background-color: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 0 2px rgba(255, 204, 0, 0.2);
+        }
+        
+        .file-upload {
+            border: 2px dashed rgba(255, 204, 0, 0.5);
+            transition: var(--transition);
+        }
+        
+        .file-upload:hover {
+            border-color: var(--primary-color);
+            background-color: rgba(255, 204, 0, 0.05);
+        }
+        
+        .footer {
+            background-color: var(--darker-bg);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .social-icon {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--light-text);
+            transition: var(--transition);
+        }
+        
+        .social-icon:hover {
+            background-color: var(--primary-color);
+            color: var(--darker-bg);
+            transform: translateY(-3px);
+        }
+        
+        .showroom-card {
+            background-color: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+        
+        .showroom-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+        
+        .map-container {
+            position: relative;
+            height: 400px;
+            overflow: hidden;
+            border-radius: 8px;
+            filter: grayscale(80%);
+            transition: var(--transition);
+        }
+        
+        .map-container:hover {
+            filter: grayscale(20%);
+        }
+        
+        .chat-widget {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+            transition: var(--transition);
+        }
+        
+        .chat-widget:hover {
+            transform: scale(1.1);
+        }
+        
+        .accordion {
+            background-color: rgba(255, 255, 255, 0.03);
+            border-radius: 4px;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+        
+        .accordion:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+        
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        
+        .accordion-content.active {
+            max-height: 500px;
+        }
+        
+        .animate-fade-in {
+            animation: fadeIn 0.8s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .page-header {
+            background-image: linear-gradient(to right, rgba(10, 10, 10, 0.9), rgba(10, 10, 10, 0.7)), url('https://images.unsplash.com/photo-1518481612222-198b7456cf1a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* 导航链接容器调整 */
+        .hidden.md\:flex.items-center.h-full {
+            height: 70px;
+            display: flex;
+            align-items: center;
+        }
+
+        .hidden.md\:flex.items-center.h-full a {
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="container mx-auto px-4 md:px-8 flex justify-between items-center h-full">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="LOGO.svg" alt="卡洛佐帝移门" class="h-7">
+                </a>
+            </div>
+            
+            <!-- 桌面导航 -->
+            <div class="hidden md:flex items-center h-full">
+                <a href="index.html" class="nav-link font-medium text-base">首页</a>
+                <a href="chanpin.html" class="nav-link font-medium text-base">产品中心</a>
+                <a href="anli.html" class="nav-link font-medium text-base">案例库</a>
+                <a href="guanyuwomen.html" class="nav-link font-medium text-base">关于我们</a>
+                <a href="lianxiwomen.html" class="nav-link font-medium active text-base">联系我们</a>
+            </div>
+            
+            <!-- 联系和菜单按钮 -->
+            <div class="flex items-center space-x-4">
+                <button id="menuToggle" class="md:hidden text-white focus:outline-none">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- 移动端菜单 -->
+    <div id="mobileMenu" class="mobile-menu">
+        <button id="closeMenu" class="absolute top-5 right-5 text-white">
+            <i class="fas fa-times text-2xl"></i>
+        </button>
+        <a href="index.html" class="nav-link font-medium">首页</a>
+        <a href="chanpin.html" class="nav-link font-medium">产品中心</a>
+        <a href="anli.html" class="nav-link font-medium">案例库</a>
+        <a href="guanyuwomen.html" class="nav-link font-medium">关于我们</a>
+        <a href="lianxiwomen.html" class="nav-link font-medium active">联系我们</a>
+    </div>
+
+    <!-- 页面头部 -->
+    <div class="page-header py-16" style="margin-top: 70px;">
+        <div class="container mx-auto px-4">
+            <div class="text-center animate-fade-in">
+                <h1 class="text-4xl md:text-5xl font-bold mb-4">联系我们</h1>
+                <p class="text-xl text-gray-400 max-w-2xl mx-auto">我们期待听到您的声音。无论您有任何问题、意见或合作意向，请随时与我们联系。</p>
+                <div class="mt-8">
+                    <a href="#contact-form" class="btn-primary px-6 py-3 rounded-full text-sm font-medium inline-block mr-4">立即咨询</a>
+                    <a href="chanpin.html" class="btn-outline px-6 py-3 rounded-full text-sm font-medium inline-block">浏览产品</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 联系信息部分 -->
+    <section class="py-16 bg-black">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-wrap -mx-4">
+                <!-- 联系方式 -->
+                <div class="w-full md:w-1/2 px-4 mb-12 md:mb-0">
+                    <h2 class="text-3xl font-bold mb-8 border-l-4 border-yellow-400 pl-4">联系方式</h2>
+                    
+                    <div class="grid grid-cols-1 gap-6">
+                        <div class="contact-section p-6 flex items-start">
+                            <div class="contact-icon mr-6">
+                                <i class="fas fa-map-marker-alt text-2xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-semibold mb-2">公司地址</h3>
+                                <p class="text-gray-400 mb-1">上海市闵行区莘庄工业区春东路508号</p>
+                                <p class="text-gray-400">邮编: 201108</p>
+                                <a href="https://maps.baidu.com/search/上海市闵行区莘庄工业区春东路508号" target="_blank" class="text-yellow-400 inline-flex items-center mt-3 hover:underline">
+                                    <span>查看地图</span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-section p-6 flex items-start">
+                            <div class="contact-icon mr-6">
+                                <i class="fas fa-phone-alt text-2xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-semibold mb-2">电话咨询</h3>
+                                <p class="text-gray-400 mb-1">销售咨询: <a href="tel:021-66889900" class="highlight hover:underline">021-66889900</a></p>
+                                <p class="text-gray-400 mb-1">客户服务: <a href="tel:021-66889901" class="highlight hover:underline">021-66889901</a></p>
+                                <p class="text-gray-400">紧急维修: <a href="tel:400-800-8888" class="highlight hover:underline">400-800-8888</a></p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-section p-6 flex items-start">
+                            <div class="contact-icon mr-6">
+                                <i class="fas fa-envelope text-2xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-semibold mb-2">电子邮件</h3>
+                                <p class="text-gray-400 mb-1">销售咨询: <a href="mailto:sales@yutuo.com" class="highlight hover:underline">sales@yutuo.com</a></p>
+                                <p class="text-gray-400 mb-1">客户服务: <a href="mailto:service@yutuo.com" class="highlight hover:underline">service@yutuo.com</a></p>
+                                <p class="text-gray-400">人才招聘: <a href="mailto:hr@yutuo.com" class="highlight hover:underline">hr@yutuo.com</a></p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-section p-6 flex items-start">
+                            <div class="contact-icon mr-6">
+                                <i class="fas fa-clock text-2xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-semibold mb-2">营业时间</h3>
+                                <p class="text-gray-400 mb-1">周一至周五: 09:00 - 18:00</p>
+                                <p class="text-gray-400 mb-1">周六: 10:00 - 17:00</p>
+                                <p class="text-gray-400">周日及节假日: 休息</p>
+                                <div class="mt-3 px-3 py-1 bg-green-800 text-green-400 rounded-full inline-flex items-center">
+                                    <span class="w-2 h-2 bg-green-400 rounded-full mr-2"></span>
+                                    <span class="text-sm">当前营业中</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 联系表单 -->
+                <div class="w-full md:w-1/2 px-4" id="contact-form">
+                    <h2 class="text-3xl font-bold mb-8 border-l-4 border-yellow-400 pl-4">在线咨询</h2>
+                    
+                    <form action="#" method="POST" class="space-y-6" id="contactForm">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="name" class="block text-sm font-medium text-gray-400 mb-2">您的姓名 <span class="text-red-500">*</span></label>
+                                <input type="text" id="name" name="name" class="form-input w-full px-4 py-3 rounded-lg" required>
+                            </div>
+                            <div>
+                                <label for="phone" class="block text-sm font-medium text-gray-400 mb-2">联系电话 <span class="text-red-500">*</span></label>
+                                <input type="tel" id="phone" name="phone" class="form-input w-full px-4 py-3 rounded-lg" required>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-400 mb-2">电子邮箱</label>
+                            <input type="email" id="email" name="email" class="form-input w-full px-4 py-3 rounded-lg">
+                        </div>
+                        
+                        <div>
+                            <label for="inquiry_type" class="block text-sm font-medium text-gray-400 mb-2">咨询类型 <span class="text-red-500">*</span></label>
+                            <select id="inquiry_type" name="inquiry_type" class="form-input w-full px-4 py-3 rounded-lg bg-opacity-10 bg-white" required>
+                                <option value="">请选择咨询类型</option>
+                                <option value="product">产品咨询</option>
+                                <option value="customization">定制服务</option>
+                                <option value="quotation">价格咨询</option>
+                                <option value="after_sale">售后服务</option>
+                                <option value="complaint">投诉建议</option>
+                                <option value="other">其他</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label for="message" class="block text-sm font-medium text-gray-400 mb-2">咨询内容 <span class="text-red-500">*</span></label>
+                            <textarea id="message" name="message" rows="5" class="form-input w-full px-4 py-3 rounded-lg" required></textarea>
+                        </div>
+                        
+                        <div class="file-upload p-4 rounded-lg">
+                            <label class="block text-sm font-medium text-gray-400 mb-2">附件上传</label>
+                            <div class="flex items-center justify-center border-2 border-dashed border-gray-600 rounded-lg py-8 px-4">
+                                <div class="text-center">
+                                    <i class="fas fa-cloud-upload-alt text-yellow-400 text-3xl mb-2"></i>
+                                    <p class="text-sm text-gray-400">拖放文件至此处或</p>
+                                    <button type="button" class="mt-2 text-yellow-400 underline">浏览文件</button>
+                                    <p class="text-xs text-gray-500 mt-2">支持 JPG、PNG、PDF 格式，单个文件不超过 10MB</p>
+                                    <input type="file" class="hidden" id="file-upload">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <input type="checkbox" id="privacy" name="privacy" class="mt-1" required>
+                            <label for="privacy" class="ml-2 text-sm text-gray-400">
+                                我已阅读并同意 <a href="#" class="text-yellow-400 hover:underline">隐私政策</a> 和 <a href="#" class="text-yellow-400 hover:underline">服务条款</a>
+                            </label>
+                        </div>
+                        
+                        <div>
+                            <button type="submit" class="btn-primary w-full px-6 py-4 rounded-lg text-lg font-medium">
+                                提交咨询
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 上海地区地图 -->
+    <section class="py-16 bg-black">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold mb-8 border-l-4 border-yellow-400 pl-4">我们的位置</h2>
+            
+            <div class="mb-8">
+                <p class="text-gray-400 max-w-3xl">屿拓移门定制服务位于上海市闵行区莘庄工业区，拥有200平米的专业展厅和200平米的现代化生产工厂，为上海地区客户提供一站式移门定制解决方案。</p>
+            </div>
+            
+            <div class="map-container">
+                <iframe src="https://map.baidu.com/search/上海市闵行区莘庄工业区春东路508号/@13523300.81,3638011.97,15z?querytype=s&da_src=shareurl&wd=上海市闵行区莘庄工业区春东路508号&c=257&src=0&pn=0&sug=0&l=13&b=(13513723.785,3631824.125;13537531.285,3645143.125)&from=webmap&biz_forward={%22scaler%22:2,%22styles%22:%22pl%22}&device_ratio=2" width="100%" height="100%" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+            </div>
+            
+            <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="showroom-card">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-4 flex items-center">
+                            <i class="fas fa-store text-yellow-400 mr-3"></i>
+                            上海展厅
+                        </h3>
+                        <p class="text-gray-400 mb-4">我们的展厅占地200平米，展示了各系列移门产品及定制方案，欢迎前来参观体验。</p>
+                        <ul class="space-y-2 text-gray-400">
+                            <li class="flex items-start">
+                                <i class="fas fa-map-marker-alt text-yellow-400 mt-1 mr-3"></i>
+                                <span>上海市闵行区莘庄工业区春东路508号</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-subway text-yellow-400 mt-1 mr-3"></i>
+                                <span>地铁5号线春申路站，2号出口步行10分钟</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-bus text-yellow-400 mt-1 mr-3"></i>
+                                <span>公交线路：莘庄工业区站（122路、189路）</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="showroom-card">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-4 flex items-center">
+                            <i class="fas fa-industry text-yellow-400 mr-3"></i>
+                            生产工厂
+                        </h3>
+                        <p class="text-gray-400 mb-4">我们的工厂占地200平米，配备先进的生产设备和专业技术团队，确保产品品质。</p>
+                        <ul class="space-y-2 text-gray-400">
+                            <li class="flex items-start">
+                                <i class="fas fa-map-marker-alt text-yellow-400 mt-1 mr-3"></i>
+                                <span>上海市闵行区莘庄工业区春东路508号</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-tools text-yellow-400 mt-1 mr-3"></i>
+                                <span>专业生产移门、开门等各类门窗产品</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-calendar-check text-yellow-400 mt-1 mr-3"></i>
+                                <span>可预约参观，请提前24小时联系客服</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 服务区域 -->
+    <section class="py-16 bg-black">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold mb-8 border-l-4 border-yellow-400 pl-4">服务区域</h2>
+            
+            <div class="mb-8">
+                <p class="text-gray-400 max-w-3xl">屿拓移门定制服务专注于为上海地区客户提供高品质的移门定制服务，我们的服务覆盖上海市所有区域。</p>
+            </div>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
+                <div class="p-4 bg-gray-900 rounded-lg text-center">
+                    <h4 class="font-medium">黄浦区</h4>
+                </div>
+                <div class="p-4 bg-gray-900 rounded-lg text-center">
+                    <h4 class="font-medium">徐汇区</h4>
+                </div>
+                <div class="p-4 bg-gray-900 rounded-lg text-center">
+                    <h4 class="font-medium">长宁区</h4>
+                </div>
+                <div class="p-4 bg-gray-900 rounded-lg text-center">
+                    <h4 class="font-medium">静安区</h4>
+                </div>
+                <div class="p-4 bg-gray-900 rounded-lg text-center">
+                    <h4 class="font-medium">普陀区</h4>
+                </div>
+                <div class="p-4 bg-gray-900 rounded-lg text-center">
+                    <h4 class="font-medium">虹口区</h4>
+                </div>
+                <div class="p-4 bg-gray-900 rounded-lg text-center">
+                    <h4 class="font-medium">杨浦区</h4>
+                </div>
+                <div class="p-4 bg-gray-900 rounded-lg text-center">
+                    <h4 class="font-medium">闵行区</h4>
+                </div>
+                <div class="p-4 bg-gray-900 rounded-lg text-center">
+                    <h4 class="font-medium">宝山区</h4>
+                </div>
+                <div class="p-4 bg-gray-900 rounded-lg text-center">
+                    <h4 class="font-medium">嘉定区</h4>
+                </div>
+                <div class="p-4 bg-gray-900 rounded-lg text-center">
+                    <h4 class="font-medium">浦东新区</h4>
+                </div>
+                <div class="p-4 bg-gray-900 rounded-lg text-center">
+                    <h4 class="font-medium">金山区</h4>
+                </div>
+                <div class="p-4 bg-gray-900 rounded-lg text-center">
+                    <h4 class="font-medium">松江区</h4>
+                </div>
+                <div class="p-4 bg-gray-900 rounded-lg text-center">
+                    <h4 class="font-medium">青浦区</h4>
+                </div>
+                <div class="p-4 bg-gray-900 rounded-lg text-center">
+                    <h4 class="font-medium">奉贤区</h4>
+                </div>
+                <div class="p-4 bg-gray-900 rounded-lg text-center">
+                    <h4 class="font-medium">崇明区</h4>
+                </div>
+            </div>
+            
+            <div class="mt-8 p-6 border border-yellow-400 rounded-lg bg-gradient-to-r from-yellow-900 to-gray-900 bg-opacity-10">
+                <h3 class="text-xl font-semibold mb-4">上海地区专属服务</h3>
+                <p class="text-gray-400 mb-4">作为上海本地的移门定制服务提供商，我们深入了解上海市场需求，能够为客户提供更快速、更便捷的本地化服务：</p>
+                <ul class="space-y-3 text-gray-400">
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle text-yellow-400 mt-1 mr-3"></i>
+                        <span>上海地区免费上门测量和咨询服务</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle text-yellow-400 mt-1 mr-3"></i>
+                        <span>专业安装团队，确保安装质量</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle text-yellow-400 mt-1 mr-3"></i>
+                        <span>上海地区48小时快速响应售后服务</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle text-yellow-400 mt-1 mr-3"></i>
+                        <span>根据上海地区气候和环境特点定制产品</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- 常见问题 -->
+    <section class="py-16 bg-black">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold mb-8 border-l-4 border-yellow-400 pl-4">常见问题</h2>
+            
+            <div class="max-w-3xl">
+                <div class="accordion mb-4">
+                    <div class="p-4 flex justify-between items-center cursor-pointer accordion-header">
+                        <h3 class="text-lg font-medium">您的产品价格区间是多少？</h3>
+                        <i class="fas fa-chevron-down text-yellow-400 transition-transform duration-300"></i>
+                    </div>
+                    <div class="accordion-content px-4 pb-4">
+                        <p class="text-gray-400">我们的移门产品价格根据尺寸、材质和定制要求而不同，一般在1500-8000元之间。我们提供免费上门测量和报价服务，欢迎联系咨询详细价格。</p>
+                    </div>
+                </div>
+                
+                <div class="accordion mb-4">
+                    <div class="p-4 flex justify-between items-center cursor-pointer accordion-header">
+                        <h3 class="text-lg font-medium">从下单到安装完成需要多长时间？</h3>
+                        <i class="fas fa-chevron-down text-yellow-400 transition-transform duration-300"></i>
+                    </div>
+                    <div class="accordion-content px-4 pb-4">
+                        <p class="text-gray-400">标准尺寸产品通常7-10个工作日可完成安装，定制产品则需要15-20个工作日。特殊定制项目可能需要更长时间，我们会在下单时给您明确的时间安排。</p>
+                    </div>
+                </div>
+                
+                <div class="accordion mb-4">
+                    <div class="p-4 flex justify-between items-center cursor-pointer accordion-header">
+                        <h3 class="text-lg font-medium">你们的产品有哪些保修政策？</h3>
+                        <i class="fas fa-chevron-down text-yellow-400 transition-transform duration-300"></i>
+                    </div>
+                    <div class="accordion-content px-4 pb-4">
+                        <p class="text-gray-400">我们的产品提供5年质保服务，覆盖门框结构、滑轨系统等核心部件。五金配件保修2年，玻璃部件保修1年。保修期内因产品质量问题导致的维修免费。</p>
+                    </div>
+                </div>
+                
+                <div class="accordion mb-4">
+                    <div class="p-4 flex justify-between items-center cursor-pointer accordion-header">
+                        <h3 class="text-lg font-medium">可以参观您的展厅吗？</h3>
+                        <i class="fas fa-chevron-down text-yellow-400 transition-transform duration-300"></i>
+                    </div>
+                    <div class="accordion-content px-4 pb-4">
+                        <p class="text-gray-400">是的，我们的展厅位于上海市闵行区莘庄工业区春东路508号，营业时间为周一至周五09:00-18:00，周六10:00-17:00。建议提前预约，以便我们安排专业顾问为您详细介绍产品。</p>
+                    </div>
+                </div>
+                
+                <div class="accordion mb-4">
+                    <div class="p-4 flex justify-between items-center cursor-pointer accordion-header">
+                        <h3 class="text-lg font-medium">提供上门测量服务吗？</h3>
+                        <i class="fas fa-chevron-down text-yellow-400 transition-transform duration-300"></i>
+                    </div>
+                    <div class="accordion-content px-4 pb-4">
+                        <p class="text-gray-400">是的，我们为上海地区客户提供免费上门测量服务。请提前24小时预约，我们的专业测量师会按约定时间上门，确保获取精确的尺寸数据，为您提供最合适的定制方案。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 底部区域 -->
+    <footer class="footer py-12">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-wrap -mx-4">
+                <div class="w-full md:w-1/4 px-4 mb-8 md:mb-0">
+                    <div class="mb-6">
+                        <a href="index.html" class="flex items-center space-x-2">
+                            <div class="text-3xl font-bold text-white">
+                                <!-- 卡洛佐帝 LOGO -->
+                                <img src="LOGO.svg" alt="卡洛佐帝移门" class="h-10">
+                            </div>
+                        </a>
+                    </div>
+                    <p class="text-gray-400 mb-6">屿拓移门定制服务，专注于为上海地区客户提供高品质的移门定制解决方案。</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="social-icon w-10 h-10 rounded-full flex items-center justify-center">
+                            <i class="fab fa-weixin"></i>
+                        </a>
+                        <a href="#" class="social-icon w-10 h-10 rounded-full flex items-center justify-center">
+                            <i class="fab fa-weibo"></i>
+                        </a>
+                        <a href="#" class="social-icon w-10 h-10 rounded-full flex items-center justify-center">
+                            <i class="fab fa-qq"></i>
+                        </a>
+                        <a href="#" class="social-icon w-10 h-10 rounded-full flex items-center justify-center">
+                            <i class="fab fa-tiktok"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="w-full md:w-1/4 px-4 mb-8 md:mb-0">
+                    <h3 class="text-lg font-semibold mb-6">快速链接</h3>
+                    <ul class="space-y-3">
+                        <li><a href="index.html" class="text-gray-400 hover:text-yellow-400 transition-colors">首页</a></li>
+                        <li><a href="chanpin.html" class="text-gray-400 hover:text-yellow-400 transition-colors">产品中心</a></li>
+                        <li><a href="anli.html" class="text-gray-400 hover:text-yellow-400 transition-colors">案例库</a></li>
+                        <li><a href="guanyuwomen.html" class="text-gray-400 hover:text-yellow-400 transition-colors">关于我们</a></li>
+                        <li><a href="lianxiwomen.html" class="text-gray-400 hover:text-yellow-400 transition-colors">联系我们</a></li>
+                    </ul>
+                </div>
+                
+                <div class="w-full md:w-1/4 px-4 mb-8 md:mb-0">
+                    <h3 class="text-lg font-semibold mb-6">产品系列</h3>
+                    <ul class="space-y-3">
+                        <li><a href="chanpin.html" class="text-gray-400 hover:text-yellow-400 transition-colors">开门系列</a></li>
+                        <li><a href="chanpin.html" class="text-gray-400 hover:text-yellow-400 transition-colors">移门系列</a></li>
+                        <li><a href="chanpin.html" class="text-gray-400 hover:text-yellow-400 transition-colors">定制系列</a></li>
+                        <li><a href="chanpin.html" class="text-gray-400 hover:text-yellow-400 transition-colors">配件与五金</a></li>
+                        <li><a href="chanpin.html" class="text-gray-400 hover:text-yellow-400 transition-colors">新品推荐</a></li>
+                    </ul>
+                </div>
+                
+                <div class="w-full md:w-1/4 px-4">
+                    <h3 class="text-lg font-semibold mb-6">联系信息</h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt text-yellow-400 mt-1 mr-3"></i>
+                            <span class="text-gray-400">上海市闵行区莘庄工业区春东路508号</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-phone-alt text-yellow-400 mt-1 mr-3"></i>
+                            <span class="text-gray-400">021-66889900</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-envelope text-yellow-400 mt-1 mr-3"></i>
+                            <span class="text-gray-400">info@yutuo.com</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-clock text-yellow-400 mt-1 mr-3"></i>
+                            <span class="text-gray-400">周一至周五: 09:00 - 18:00</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="pt-8 mt-8 border-t border-gray-800 text-center">
+                <p class="text-gray-500 text-sm">&copy; 2023 屿拓移门定制服务. 版权所有.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 在线客服 -->
+    <div class="chat-widget">
+        <button class="bg-yellow-400 text-black w-16 h-16 rounded-full flex items-center justify-center shadow-lg hover:bg-yellow-500 transition-colors">
+            <i class="fas fa-comments text-2xl"></i>
+        </button>
+    </div>
+
+    <!-- 弹出表单确认 -->
+    <div id="form-success" class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 hidden">
+        <div class="bg-gray-900 p-8 rounded-lg max-w-md w-full">
+            <div class="text-center">
+                <div class="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i class="fas fa-check text-2xl"></i>
+                </div>
+                <h3 class="text-2xl font-bold mb-4">提交成功</h3>
+                <p class="text-gray-400 mb-6">感谢您的咨询！我们的客服团队将在1个工作日内与您联系。</p>
+                <button id="close-success" class="btn-primary px-6 py-3 rounded-lg">关闭</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 菜单切换
+            const menuToggle = document.getElementById('menuToggle');
+            const mobileMenu = document.getElementById('mobileMenu');
+            const closeMenu = document.getElementById('closeMenu');
+            
+            if(menuToggle && mobileMenu) {
+                menuToggle.addEventListener('click', function() {
+                    mobileMenu.classList.add('active');
+                });
+            }
+            
+            if(closeMenu && mobileMenu) {
+                closeMenu.addEventListener('click', function() {
+                    mobileMenu.classList.remove('active');
+                });
+            }
+            
+            // 常见问题折叠面板
+            document.querySelectorAll('.accordion-header').forEach(header => {
+                header.addEventListener('click', function() {
+                    const content = this.nextElementSibling;
+                    const icon = this.querySelector('i');
+                    
+                    content.classList.toggle('active');
+                    icon.classList.toggle('rotate-180');
+                    
+                    document.querySelectorAll('.accordion-content').forEach(item => {
+                        if (item !== content) {
+                            item.classList.remove('active');
+                        }
+                    });
+                    
+                    document.querySelectorAll('.accordion-header i').forEach(i => {
+                        if (i !== icon) {
+                            i.classList.remove('rotate-180');
+                        }
+                    });
+                });
+            });
+            
+            // 联系表单提交
+            document.getElementById('contactForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // 模拟表单提交
+                setTimeout(() => {
+                    document.getElementById('form-success').classList.remove('hidden');
+                    this.reset();
+                }, 1000);
+            });
+            
+            // 关闭成功提示
+            document.getElementById('close-success').addEventListener('click', function() {
+                document.getElementById('form-success').classList.add('hidden');
+            });
+            
+            // 页面滚动动画
+            window.addEventListener('scroll', function() {
+                const elements = document.querySelectorAll('.contact-section, .showroom-card');
+                
+                elements.forEach(el => {
+                    const position = el.getBoundingClientRect();
+                    
+                    // 元素进入视口时添加动画
+                    if (position.top < window.innerHeight && position.bottom >= 0) {
+                        el.classList.add('animate-fade-in');
+                    }
+                });
+            });
+            
+            // 文件上传
+            document.querySelector('.file-upload button').addEventListener('click', function() {
+                document.getElementById('file-upload').click();
+            });
+            
+            document.getElementById('file-upload').addEventListener('change', function() {
+                if (this.files.length > 0) {
+                    const fileName = this.files[0].name;
+                    this.previousElementSibling.textContent = `已选择: ${fileName}`;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
