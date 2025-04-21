@@ -345,6 +345,18 @@
             font-size: 1.2rem;
             height: auto;
         }
+
+        /* 添加响应式图片相关CSS */
+        .responsive-img {
+            max-width: 100%;
+            height: auto;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .responsive-img.loaded {
+            opacity: 1;
+        }
     </style>
 </head>
 <body>
@@ -398,7 +410,7 @@
             <div class="swiper-wrapper">
                 <div class="swiper-slide relative">
                     <div class="absolute inset-0 bg-gradient-to-r from-black via-transparent to-transparent opacity-40 z-10"></div>
-                    <img src="lunbo/fuguA.png" alt="复古铝合金移门" class="w-full h-full object-cover">
+                    <img src="lunbo/fuguA.png" alt="复古铝合金移门" class="w-full h-full object-cover responsive-img" loading="eager">
                     <div class="absolute inset-0 bg-black bg-opacity-20 flex items-center z-20">
                         <div class="container mx-auto px-4 md:px-12">
                             <div class="hero-text max-w-2xl">
@@ -418,7 +430,7 @@
                 </div>
                 <div class="swiper-slide relative">
                     <div class="absolute inset-0 bg-gradient-to-r from-black via-transparent to-transparent opacity-40 z-10"></div>
-                    <img src="lunbo/PDA.png" alt="PD系列铝合金移门" class="w-full h-full object-cover">
+                    <img src="lunbo/PDA.png" alt="PD系列铝合金移门" class="w-full h-full object-cover responsive-img" loading="lazy">
                     <div class="absolute inset-0 bg-black bg-opacity-20 flex items-center z-20">
                         <div class="container mx-auto px-4 md:px-12">
                             <div class="hero-text max-w-2xl">
@@ -438,7 +450,7 @@
                 </div>
                 <div class="swiper-slide relative">
                     <div class="absolute inset-0 bg-gradient-to-r from-black via-transparent to-transparent opacity-40 z-10"></div>
-                    <img src="lunbo/zhedieA.png" alt="折叠系列铝合金移门" class="w-full h-full object-cover">
+                    <img src="lunbo/zhedieA.png" alt="折叠系列铝合金移门" class="w-full h-full object-cover responsive-img" loading="lazy">
                     <div class="absolute inset-0 bg-black bg-opacity-20 flex items-center z-20">
                         <div class="container mx-auto px-4 md:px-12">
                             <div class="hero-text max-w-2xl">
@@ -458,7 +470,7 @@
                 </div>
                 <div class="swiper-slide relative">
                     <div class="absolute inset-0 bg-gradient-to-r from-black via-transparent to-transparent opacity-40 z-10"></div>
-                    <img src="lunbo/zhonmgzhouA.png" alt="中轴系列铝合金移门" class="w-full h-full object-cover">
+                    <img src="lunbo/zhonmgzhouA.png" alt="中轴系列铝合金移门" class="w-full h-full object-cover responsive-img" loading="lazy">
                     <div class="absolute inset-0 bg-black bg-opacity-20 flex items-center z-20">
                         <div class="container mx-auto px-4 md:px-12">
                             <div class="hero-text max-w-2xl">
@@ -495,7 +507,7 @@
                 <!-- 开门系列 -->
                 <div class="product-card group">
                     <div class="product-image" style="height: 350px;">
-                        <img src="lunbo/chanpinB/kaimenxilieB.JPG" alt="开门系列" class="w-full h-full object-contain">
+                        <img src="lunbo/chanpinB/kaimenxilieB.JPG" alt="开门系列" class="w-full h-full object-contain responsive-img" loading="lazy">
                         <div class="spotlight"></div>
                     </div>
                     <div class="p-6">
@@ -515,7 +527,7 @@
                 <!-- 移门系列 -->
                 <div class="product-card group">
                     <div class="product-image" style="height: 350px;">
-                        <img src="lunbo/chanpinB/kaimenB.png" alt="移门系列" class="w-full h-full object-contain">
+                        <img src="lunbo/chanpinB/kaimenB.png" alt="移门系列" class="w-full h-full object-contain responsive-img" loading="lazy">
                         <div class="spotlight"></div>
                     </div>
                     <div class="p-6">
@@ -535,7 +547,7 @@
                 <!-- 定制系列 -->
                 <div class="product-card group">
                     <div class="product-image" style="height: 350px;">
-                        <img src="lunbo/chanpinB/dingzhiB.png" alt="定制系列" class="w-full h-full object-contain">
+                        <img src="lunbo/chanpinB/dingzhiB.png" alt="定制系列" class="w-full h-full object-contain responsive-img" loading="lazy">
                         <div class="spotlight"></div>
                     </div>
                     <div class="p-6">
@@ -571,7 +583,7 @@
                 <!-- 家居场景 -->
                 <div class="product-card group">
                     <div class="product-image">
-                        <img src="lunbo/yingyong/jiajuC.jpg" alt="家居空间" class="w-full h-full object-cover">
+                        <img src="lunbo/yingyong/jiajuC.jpg" alt="家居空间" class="w-full h-full object-cover responsive-img" loading="lazy">
                         <div class="spotlight"></div>
                     </div>
                     <div class="p-6">
@@ -586,7 +598,7 @@
                 <!-- 商业场景 -->
                 <div class="product-card group">
                     <div class="product-image">
-                        <img src="lunbo/yingyong/shangyeC.jpg" alt="商业空间" class="w-full h-full object-cover">
+                        <img src="lunbo/yingyong/shangyeC.jpg" alt="商业空间" class="w-full h-full object-cover responsive-img" loading="lazy">
                         <div class="spotlight"></div>
                     </div>
                     <div class="p-6">
@@ -601,7 +613,7 @@
                 <!-- 特殊空间 -->
                 <div class="product-card group">
                     <div class="product-image">
-                        <img src="lunbo/yingyong/teishuC.jpg" alt="特殊空间" class="w-full h-full object-cover">
+                        <img src="lunbo/yingyong/teishuC.jpg" alt="特殊空间" class="w-full h-full object-cover responsive-img" loading="lazy">
                         <div class="spotlight"></div>
                     </div>
                     <div class="p-6">
@@ -1078,10 +1090,14 @@
                     setTimeout(() => {
                         activateSlideAnimation(this.slides[this.activeIndex]);
                     }, 500);
+                    // 预加载下一张图片
+                    preloadNextSlideImage(this);
                 },
                 slideChangeTransitionStart: function() {
                     // 幻灯片切换开始时，重置所有幻灯片的动画
                     resetSlidesAnimation();
+                    // 预加载下一张图片
+                    preloadNextSlideImage(this);
                 },
                 slideChangeTransitionEnd: function() {
                     // 幻灯片切换结束时，激活当前幻灯片的动画
@@ -1325,6 +1341,38 @@
             
             console.log('增强版导航栏监控系统已启动');
         })();
+
+        // 添加图片加载完成后的处理
+        document.addEventListener('DOMContentLoaded', function() {
+            // 图片懒加载处理
+            const lazyImages = document.querySelectorAll('.responsive-img');
+            lazyImages.forEach(img => {
+                // 对已经加载的图片处理
+                if(img.complete) {
+                    img.classList.add('loaded');
+                } else {
+                    // 对尚未加载的图片添加事件监听
+                    img.addEventListener('load', function() {
+                        this.classList.add('loaded');
+                    });
+                }
+            });
+            
+            // 预加载下一张轮播图片
+            const preloadNextSlideImage = (swiper) => {
+                if(swiper && swiper.slides) {
+                    const currentIndex = swiper.activeIndex;
+                    const nextIndex = (currentIndex + 1) % swiper.slides.length;
+                    const nextSlide = swiper.slides[nextIndex];
+                    if(nextSlide) {
+                        const nextImg = nextSlide.querySelector('img');
+                        if(nextImg && nextImg.hasAttribute('loading')) {
+                            nextImg.setAttribute('loading', 'eager');
+                        }
+                    }
+                }
+            };
+        });
     </script>
 </body>
 </html> 
