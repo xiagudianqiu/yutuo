@@ -178,19 +178,38 @@
             background: var(--accent-color);
         }
 
+        /* 增强轮播导航按钮的可见性 */
         .swiper-button-next,
         .swiper-button-prev {
             color: var(--accent-color);
+            background-color: rgba(0, 0, 0, 0.5);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            opacity: 0.7;
+            transition: all 0.3s ease;
+        }
+        
+        .swiper-button-next:hover,
+        .swiper-button-prev:hover {
+            opacity: 1;
+            background-color: rgba(0, 0, 0, 0.8);
+            transform: scale(1.1);
+        }
+        
+        .swiper-button-next:after,
+        .swiper-button-prev:after {
+            font-size: 18px;
+            font-weight: bold;
         }
         
         /* 增强轮播动画效果 */
         .bannerSwiper .swiper-slide {
-            opacity: 0;
-            transition: opacity 1.5s ease;
+            opacity: 1 !important; /* 强制所有幻灯片可见 */
         }
         
         .bannerSwiper .swiper-slide-active {
-            opacity: 1;
+            z-index: 10; /* 确保当前幻灯片在最上层 */
         }
         
         .bannerSwiper .swiper-slide img {
@@ -357,6 +376,41 @@
         .responsive-img.loaded {
             opacity: 1;
         }
+        
+        /* 确保轮播图片正确显示 */
+        .swiper-slide img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 1 !important; /* 强制显示图片 */
+        }
+        
+        /* 确保产品图片和应用场景图片显示 */
+        .product-image img {
+            opacity: 1 !important; /* 强制显示图片 */
+            display: block;
+            max-width: 100%;
+            height: auto;
+        }
+        
+        /* 修复轮播图文案的显示问题 */
+        .hero-text h1, 
+        .hero-text p, 
+        .hero-text div {
+            opacity: 1 !important; /* 强制显示文案 */
+            transform: translateY(0) !important; /* 移除变换，确保文字正常位置显示 */
+        }
+        
+        .slide-in {
+            opacity: 1 !important;
+            transform: translateY(0) !important;
+        }
+        
+        .slide-in.active {
+            opacity: 1 !important;
+            transform: translateY(0) !important;
+        }
     </style>
 </head>
 <body>
@@ -410,7 +464,7 @@
             <div class="swiper-wrapper">
                 <div class="swiper-slide relative">
                     <div class="absolute inset-0 bg-gradient-to-r from-black via-transparent to-transparent opacity-40 z-10"></div>
-                    <img src="lunbo/fuguA.png" alt="复古铝合金移门" class="w-full h-full object-cover responsive-img" loading="eager">
+                    <img src="lunbo/fuguA.png" alt="复古铝合金移门" class="w-full h-full object-cover" style="opacity:1">
                     <div class="absolute inset-0 bg-black bg-opacity-20 flex items-center z-20">
                         <div class="container mx-auto px-4 md:px-12">
                             <div class="hero-text max-w-2xl">
@@ -430,7 +484,7 @@
                 </div>
                 <div class="swiper-slide relative">
                     <div class="absolute inset-0 bg-gradient-to-r from-black via-transparent to-transparent opacity-40 z-10"></div>
-                    <img src="lunbo/PDA.png" alt="PD系列铝合金移门" class="w-full h-full object-cover responsive-img" loading="lazy">
+                    <img src="lunbo/PDA.png" alt="PD系列铝合金移门" class="w-full h-full object-cover" style="opacity:1">
                     <div class="absolute inset-0 bg-black bg-opacity-20 flex items-center z-20">
                         <div class="container mx-auto px-4 md:px-12">
                             <div class="hero-text max-w-2xl">
@@ -450,7 +504,7 @@
                 </div>
                 <div class="swiper-slide relative">
                     <div class="absolute inset-0 bg-gradient-to-r from-black via-transparent to-transparent opacity-40 z-10"></div>
-                    <img src="lunbo/zhedieA.png" alt="折叠系列铝合金移门" class="w-full h-full object-cover responsive-img" loading="lazy">
+                    <img src="lunbo/zhedieA.png" alt="折叠系列铝合金移门" class="w-full h-full object-cover" style="opacity:1">
                     <div class="absolute inset-0 bg-black bg-opacity-20 flex items-center z-20">
                         <div class="container mx-auto px-4 md:px-12">
                             <div class="hero-text max-w-2xl">
@@ -470,7 +524,7 @@
                 </div>
                 <div class="swiper-slide relative">
                     <div class="absolute inset-0 bg-gradient-to-r from-black via-transparent to-transparent opacity-40 z-10"></div>
-                    <img src="lunbo/zhonmgzhouA.png" alt="中轴系列铝合金移门" class="w-full h-full object-cover responsive-img" loading="lazy">
+                    <img src="lunbo/zhonmgzhouA.png" alt="中轴系列铝合金移门" class="w-full h-full object-cover" style="opacity:1">
                     <div class="absolute inset-0 bg-black bg-opacity-20 flex items-center z-20">
                         <div class="container mx-auto px-4 md:px-12">
                             <div class="hero-text max-w-2xl">
@@ -1052,6 +1106,22 @@
     
     <!-- 自定义脚本 -->
     <script>
+        // 定义预加载轮播图片函数 - 移到外部确保可以全局访问
+        function preloadNextSlideImage(swiper) {
+            if(swiper && swiper.slides) {
+                const currentIndex = swiper.activeIndex;
+                const nextIndex = (currentIndex + 1) % swiper.slides.length;
+                const nextSlide = swiper.slides[nextIndex];
+                if(nextSlide) {
+                    const nextImg = nextSlide.querySelector('img');
+                    if(nextImg) {
+                        // 确保下一张图片立即加载
+                        nextImg.removeAttribute('loading');
+                    }
+                }
+            }
+        }
+        
         // 移动端菜单
         document.getElementById('menuToggle').addEventListener('click', function() {
             document.getElementById('mobileMenu').classList.add('active');
@@ -1066,11 +1136,8 @@
             slidesPerView: 1,
             spaceBetween: 0,
             loop: true,
-            speed: 1200, // 过渡速度调整为更缓慢的1200ms
-            effect: "fade", // 使用淡入淡出效果，更加平滑
-            fadeEffect: {
-                crossFade: true // 开启交叉淡入淡出
-            },
+            speed: 800, // 速度调整为更快的800ms以加快切换
+            effect: "slide", // 改回默认slide效果，避免fade效果可能的渲染问题
             autoplay: {
                 delay: 5000,
                 disableOnInteraction: false,
@@ -1078,7 +1145,7 @@
             pagination: {
                 el: '.bannerSwiper .swiper-pagination',
                 clickable: true,
-                dynamicBullets: true, // 动态分页器效果
+                dynamicBullets: true,
             },
             navigation: {
                 nextEl: '.bannerSwiper .swiper-button-next',
@@ -1086,21 +1153,19 @@
             },
             on: {
                 init: function() {
-                    // 初始化时激活第一个幻灯片的动画
+                    console.log('轮播图初始化成功');
                     setTimeout(() => {
                         activateSlideAnimation(this.slides[this.activeIndex]);
                     }, 500);
-                    // 预加载下一张图片
                     preloadNextSlideImage(this);
                 },
                 slideChangeTransitionStart: function() {
-                    // 幻灯片切换开始时，重置所有幻灯片的动画
+                    console.log('幻灯片开始切换');
                     resetSlidesAnimation();
-                    // 预加载下一张图片
                     preloadNextSlideImage(this);
                 },
                 slideChangeTransitionEnd: function() {
-                    // 幻灯片切换结束时，激活当前幻灯片的动画
+                    console.log('幻灯片切换完成');
                     activateSlideAnimation(this.slides[this.activeIndex]);
                 }
             },
@@ -1111,10 +1176,11 @@
             if (!slide) return;
             const elements = slide.querySelectorAll('.slide-in');
             elements.forEach((el, index) => {
-                // 根据索引添加延迟
-                setTimeout(() => {
-                    el.classList.add('active');
-                }, index * 200);
+                // 添加active类并移除转换
+                el.classList.add('active');
+                // 确保文字显示
+                el.style.opacity = '1';
+                el.style.transform = 'translateY(0)';
             });
         }
         
@@ -1122,7 +1188,9 @@
         function resetSlidesAnimation() {
             const elements = document.querySelectorAll('.bannerSwiper .slide-in');
             elements.forEach(el => {
-                el.classList.remove('active');
+                // 不完全重置，保留可见性
+                el.style.opacity = '1';
+                el.style.transform = 'translateY(0)';
             });
         }
         
@@ -1344,6 +1412,7 @@
 
         // 添加图片加载完成后的处理
         document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM加载完成，处理图片加载');
             // 图片懒加载处理
             const lazyImages = document.querySelectorAll('.responsive-img');
             lazyImages.forEach(img => {
@@ -1358,20 +1427,51 @@
                 }
             });
             
-            // 预加载下一张轮播图片
-            const preloadNextSlideImage = (swiper) => {
-                if(swiper && swiper.slides) {
-                    const currentIndex = swiper.activeIndex;
-                    const nextIndex = (currentIndex + 1) % swiper.slides.length;
-                    const nextSlide = swiper.slides[nextIndex];
-                    if(nextSlide) {
-                        const nextImg = nextSlide.querySelector('img');
-                        if(nextImg && nextImg.hasAttribute('loading')) {
-                            nextImg.setAttribute('loading', 'eager');
-                        }
-                    }
+            // 移除此处的preloadNextSlideImage函数定义，因为已经在全局定义
+            
+            // 检查轮播图是否正确初始化
+            if (typeof bannerSwiper !== 'undefined') {
+                console.log('轮播图已初始化，更新轮播图');
+                bannerSwiper.update();
+                // 强制激活当前幻灯片
+                const activeSlide = document.querySelector('.bannerSwiper .swiper-slide-active');
+                if (activeSlide) {
+                    activateSlideAnimation(activeSlide);
+                    console.log('已激活当前幻灯片');
                 }
-            };
+            } else {
+                console.error('轮播图未初始化');
+            }
+        });
+        
+        // 确保所有图片正确加载
+        document.addEventListener('DOMContentLoaded', function() {
+            // 图片懒加载处理
+            const allImages = document.querySelectorAll('img');
+            allImages.forEach(img => {
+                // 对图片添加错误处理
+                img.onerror = function() {
+                    console.error('图片加载失败:', this.src);
+                    // 可以设置一个默认图片
+                    // this.src = 'default-image.jpg';
+                };
+                
+                // 强制加载所有图片
+                if(img.complete) {
+                    img.classList.add('loaded');
+                } else {
+                    img.addEventListener('load', function() {
+                        this.classList.add('loaded');
+                    });
+                }
+                
+                // 移除懒加载属性，确保立即加载
+                if(img.hasAttribute('loading')) {
+                    img.removeAttribute('loading');
+                }
+            });
+            
+            // ... existing code ...
         });
     </script>
 </body>
