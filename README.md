@@ -11,7 +11,7 @@
 - 在线咨询和报价功能
 
 ## 页面组成
-
+- **首页(index.html)**: 网站载入页面
 - **首页(shouye.html)**: 网站主页，展示公司核心产品和服务
 - **产品中心(chanpin.html)**: 详细展示各类移门产品，包括开门系列、移门系列和定制系列
 - **案例库(anli.html)**: 展示公司成功案例，按场景分类
@@ -28,7 +28,7 @@
 
 ## 预览
 
-访问[屿拓移门定制服务官网](https://xiagudianqiu.github.io/yutuo/shouye.html)体验完整功能。
+访问[屿拓移门定制服务官网](https://xiagudianqiu.github.io/yutuo/index.html)体验完整功能。
 
 ## 开发与部署
 
@@ -36,7 +36,7 @@
 
 ## 联系方式
 
-- 网站: [屿拓移门定制服务](https://xiagudianqiu.github.io/yutuo/shouye.html)
+- 网站: [屿拓移门定制服务](https://xiagudianqiu.github.io/index/shouye.html)
 - 电话: 021-66889900
 - 邮箱: info@yutuo.com
 - 地址: 上海市闵行区莘庄工业区春东路508号 
