@@ -176,7 +176,7 @@
         <!-- 中心Logo -->
         <div class="logo-container">
             <div class="logo">
-                <img src="yutuo.gif" alt="屿拓移门" id="logoImage" onload="this.style.opacity=1;" onerror="this.src='LOGO.svg';this.style.opacity=1;">
+                <img src="yutuo.gif" alt="屿拓移门" id="logoImage" onload="this.style.opacity=1;">
             </div>
             <div class="loading-text">载入中...</div>
             <div class="loading-bar">
@@ -200,17 +200,6 @@
             const fallbackBg = document.querySelector('.fallback-bg');
             const logoContainer = document.querySelector('.logo-container');
             const logoImage = document.getElementById('logoImage');
-            
-            // 确保logo图片已加载或有替代方案
-            if (!logoImage.complete) {
-                // 如果图片尚未加载完成，给它一个合理的超时时间
-                setTimeout(() => {
-                    if (!logoImage.complete) {
-                        logoImage.src = 'LOGO.svg';
-                        logoImage.style.opacity = 1;
-                    }
-                }, 3000);
-            }
             
             // 显示logo容器
             setTimeout(() => {
