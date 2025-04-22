@@ -1111,6 +1111,95 @@
     
     <!-- 自定义脚本 -->
     <script>
+        // 设置网站根目录的绝对路径
+        const siteRoot = window.location.origin + window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
+        console.log('站点根目录:', siteRoot);
+        
+        // 在页面加载完成后对所有图片进行处理
+        window.addEventListener('load', function() {
+            console.log('页面完全加载，修复所有图片路径');
+            
+            // 立即处理所有图片
+            fixAllImages();
+            
+            // 每隔一段时间重新检查图片，以确保所有动态加载的图片也会被处理
+            setTimeout(fixAllImages, 500);
+            setTimeout(fixAllImages, 1500);
+        });
+        
+        // 修复所有图片路径的函数
+        function fixAllImages() {
+            // 处理所有图片
+            const allImages = document.querySelectorAll('img');
+            console.log('需要处理的图片总数:', allImages.length);
+            
+            allImages.forEach(img => {
+                // 跳过已经修复过的图片
+                if(img.hasAttribute('data-fixed')) {
+                    return;
+                }
+                
+                // 获取当前图片路径
+                const originalSrc = img.getAttribute('src');
+                console.log('处理图片:', originalSrc);
+                
+                // 如果是相对路径且不是http开头
+                if(originalSrc && !originalSrc.startsWith('http') && !originalSrc.startsWith('data:')) {
+                    // 移除开头的./
+                    let cleanPath = originalSrc.replace(/^\.\//g, '');
+                    
+                    // 构建绝对路径
+                    const absolutePath = siteRoot + cleanPath;
+                    console.log('修改为绝对路径:', absolutePath);
+                    
+                    // 设置新路径
+                    img.setAttribute('src', absolutePath);
+                    
+                    // 标记图片已修复
+                    img.setAttribute('data-fixed', 'true');
+                    
+                    // 强制加载
+                    img.setAttribute('loading', 'eager');
+                }
+                
+                // 为所有图片添加加载错误处理
+                if(!img.hasAttribute('data-error-handler')) {
+                    img.onerror = function() {
+                        // 记录错误
+                        console.error('图片加载失败:', this.src);
+                        
+                        // 如果图片有替代文本，则创建一个替代元素
+                        if(this.alt) {
+                            // 创建一个显示替代文本的div
+                            const placeholder = document.createElement('div');
+                            placeholder.textContent = this.alt;
+                            placeholder.style.width = '100%';
+                            placeholder.style.height = '100%';
+                            placeholder.style.display = 'flex';
+                            placeholder.style.alignItems = 'center';
+                            placeholder.style.justifyContent = 'center';
+                            placeholder.style.backgroundColor = '#333';
+                            placeholder.style.color = '#fff';
+                            placeholder.style.padding = '20px';
+                            placeholder.style.textAlign = 'center';
+                            
+                            // 替换图片
+                            if(this.parentNode) {
+                                this.parentNode.insertBefore(placeholder, this);
+                                this.style.display = 'none';
+                            }
+                        }
+                    };
+                    img.setAttribute('data-error-handler', 'true');
+                }
+                
+                // 移除懒加载属性
+                if(img.hasAttribute('loading')) {
+                    img.removeAttribute('loading');
+                }
+            });
+        }
+        
         // 定义预加载轮播图片函数 - 移到外部确保可以全局访问
         function preloadNextSlideImage(swiper) {
             if(swiper && swiper.slides) {
