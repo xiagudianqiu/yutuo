@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>屿拓 - 完美系统16x40移门 - 产品详情</title>
-    <!-- Tailwind CSS -->
+    <title>屿拓完美系统16x40移门 - 产品详情</title>
+    <meta name="description" content="屿拓完美系统16x40移门是一款极简风格的铝合金移门，采用16mm超窄边框，40mm轨道深度，提供多种玻璃选项和颜色定制">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="hide-nav.css">
@@ -14,6 +14,11 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/magnific-popup@1.1.0/dist/jquery.magnific-popup.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/magnific-popup@1.1.0/dist/magnific-popup.css" rel="stylesheet">
+    
+    <!-- 预加载关键图片 -->
+    <link rel="preload" href="lunbo/chanpinB/kaimenxilieB.jpg" as="image">
+    <link rel="preload" href="lunbo/chanpinB/kaimenB.jpg" as="image">
+    <link rel="preload" href="lunbo/chanpinB/dingzhiB.jpg" as="image">
     
     <style>
         /* 基础样式 */
@@ -31,6 +36,29 @@
             --accent-color: #FFDF00;
             --text-color: #fff;
             --transition: all 0.3s ease;
+        }
+        
+        /* 管理界面样式 */
+        .admin-bar {
+            box-shadow: 0 2px 10px rgba(255, 223, 0, 0.2);
+            position: sticky;
+            top: 70px;
+            z-index: 999;
+        }
+
+        .admin-form {
+            background: rgba(0,0,0,0.9);
+            padding: 2rem;
+            border: 2px solid var(--accent-color);
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+        }
+
+        .product-card:hover .admin-actions {
+            display: block !important;
         }
         
         /* 导航栏样式 */
@@ -670,6 +698,77 @@
         .hidden.md\:flex.items-center.h-full a {
             height: 100%;
         }
+
+        /* Admin UI Styles */
+        .admin-form {
+            background-color: #1a1a1a;
+            padding: 2rem;
+            border: 1px solid #333;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+        }
+
+        .admin-actions {
+            display: none;
+            transition: all 0.3s ease;
+        }
+
+        .related-product-card:hover .admin-actions {
+            display: flex;
+        }
+
+        .reservation-btn {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(234, 179, 8, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(234, 179, 8, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(234, 179, 8, 0); }
+        }
+
+        /* Mobile responsiveness for admin UI */
+        @media (max-width: 768px) {
+            #admin-bar .container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            #admin-bar .flex.space-x-3 {
+                margin-top: 0.5rem;
+                justify-content: flex-start;
+            }
+            
+            #admin-bar button {
+                margin-bottom: 0.5rem;
+            }
+        }
+
+        .product-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        
+        .quantity-selector {
+            display: none; /* 隐藏数量选择器，不再需要 */
+        }
+        
+        .quantity-btn {
+            display: none; /* 隐藏数量选择器按钮 */
+        }
+        
+        .quantity-input {
+            display: none; /* 隐藏数量选择器输入框 */
+        }
+        
+        /* 使用场景展示 */
+        .usage-scenarios {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
     </style>
 </head>
 <body>
@@ -694,6 +793,9 @@
                 <a href="anli.html" class="nav-link font-medium text-base">案例库</a>
                 <a href="guanyuwomen.html" class="nav-link font-medium text-base">关于我们</a>
                 <a href="lianxiwomen.html" class="nav-link font-medium text-base">联系我们</a>
+                <a href="admin.html" class="nav-link font-medium text-base" id="admin-entry">
+                    <i class="fas fa-lock"></i> 管理
+                </a>
             </div>
             
             <!-- 联系和菜单按钮 -->
@@ -715,10 +817,96 @@
         <a href="anli.html" class="nav-link font-medium">案例库</a>
         <a href="guanyuwomen.html" class="nav-link font-medium">关于我们</a>
         <a href="lianxiwomen.html" class="nav-link font-medium">联系我们</a>
+        <a href="admin.html" class="nav-link font-medium">
+            <i class="fas fa-lock"></i> 管理后台
+        </a>
+    </div>
+
+    <!-- 管理员控制栏 -->
+    <div id="admin-control-bar" class="fixed top-[70px] left-0 right-0 bg-black border-b border-yellow-400 py-3 z-50 shadow-lg" style="display: none;">
+        <div class="container mx-auto px-4 flex justify-between items-center">
+            <div class="flex items-center">
+                <span class="text-yellow-400 font-bold mr-3"><i class="fas fa-user-shield"></i> 管理员模式</span>
+                <span class="text-sm text-gray-400">您可以编辑和管理产品信息</span>
+            </div>
+            <div class="flex space-x-3">
+                <button id="add-product-btn" class="bg-yellow-500 hover:bg-yellow-600 text-black px-3 py-1 rounded-md flex items-center text-sm">
+                    <i class="fas fa-plus mr-1"></i> 添加产品
+                </button>
+                <button id="toggle-edit-mode" class="bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded-md flex items-center text-sm">
+                    <i class="fas fa-pen mr-1"></i> 编辑模式
+                </button>
+                <button id="admin-logout" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md flex items-center text-sm">
+                    <i class="fas fa-sign-out-alt mr-1"></i> 退出管理
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 产品预约悬浮按钮 -->
+    <div class="fixed bottom-6 right-6 z-50 flex flex-col items-end space-y-3">
+        <button id="reservation-btn" class="reservation-btn bg-yellow-500 hover:bg-yellow-600 text-black w-14 h-14 rounded-full flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110">
+            <i class="fas fa-calendar-check text-xl"></i>
+        </button>
+        <button id="chat-btn" class="bg-gray-800 hover:bg-gray-700 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110">
+            <i class="fas fa-comments text-xl"></i>
+        </button>
+    </div>
+
+    <!-- 预约表单弹窗 -->
+    <div id="reservation-modal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-100 hidden">
+        <div class="bg-gray-900 w-full max-w-md rounded-lg shadow-xl p-6 relative border border-yellow-500">
+            <button id="close-reservation" class="absolute top-3 right-3 text-gray-400 hover:text-white">
+                <i class="fas fa-times"></i>
+            </button>
+            <h3 class="text-xl font-bold mb-4 flex items-center text-yellow-400">
+                <i class="fas fa-calendar-check mr-2"></i> 在线预约体验
+            </h3>
+            <form id="reservation-form" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-400 mb-1">您的姓名</label>
+                    <input type="text" class="w-full bg-gray-800 border border-gray-700 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-400 mb-1">手机号码</label>
+                    <input type="tel" class="w-full bg-gray-800 border border-gray-700 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-400 mb-1">预约日期</label>
+                    <input type="date" class="w-full bg-gray-800 border border-gray-700 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-400 mb-1">预约时段</label>
+                    <select class="w-full bg-gray-800 border border-gray-700 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent" required>
+                        <option value="">请选择时段</option>
+                        <option value="morning">上午 (9:00-12:00)</option>
+                        <option value="afternoon">下午 (13:30-17:30)</option>
+                        <option value="evening">晚上 (18:00-20:00)</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-400 mb-1">留言备注</label>
+                    <textarea class="w-full bg-gray-800 border border-gray-700 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent h-20"></textarea>
+                </div>
+                <button type="submit" class="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-medium py-2 px-4 rounded-md transition-colors duration-300">
+                    提交预约
+                </button>
+            </form>
+        </div>
     </div>
 
     <!-- 主要内容 -->
     <main class="container mx-auto px-4 pt-32 pb-16" style="margin-top: 70px;">
+        <!-- 管理栏，默认隐藏 -->
+        <div class="admin-bar bg-dark p-3 mb-4 rounded" id="adminBar" style="display: none">
+            <button class="btn btn-sm btn-warning" id="add-product">
+                <i class="fas fa-plus"></i> 新增产品
+            </button>
+            <button class="btn btn-sm btn-info" id="bulk-edit">
+                <i class="fas fa-edit"></i> 批量编辑
+            </button>
+        </div>
+        
         <!-- 产品概览 -->
         <div class="flex flex-col lg:flex-row gap-8">
             <!-- 产品图片区域 -->
@@ -765,38 +953,198 @@
 
             <!-- 产品信息和定制选项 -->
             <div class="lg:w-5/12">
-                <h1 class="text-3xl font-bold mb-2">完美系统16x40移门</h1>
-                <div class="flex items-center mb-4">
-                    <div class="rating mr-2">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star-half-alt"></i>
+                <h1 class="text-3xl font-bold mb-2">产品信息和定制选项</h1>
+
+                <p class="text-gray-300 mb-6">小红书爆款、抖音精品推荐、最佳品质、极简工艺</p>
+                
+                <!-- 产品标签 -->
+                <div class="mb-6 bg-gray-900 p-6 rounded-lg">
+                    <h3 class="text-lg mb-3">产品标签</h3>
+                    <div class="flex items-center gap-2">
+                        <div class="flex-1 p-3 border border-gray-700 rounded-lg bg-gray-800 text-sm">
+                            <span id="selected-tag-text">完美系统</span>
+                            <span class="text-xs text-gray-400 ml-2">(当前选择)</span>
                     </div>
-                    <span class="text-gray-400">(42条评价)</span>
+                        <button id="choose-tag-btn" class="bg-theme-yellow text-black py-3 px-5 rounded hover:opacity-90 transition-opacity flex items-center justify-center">
+                            <i class="fas fa-tags mr-2"></i> 选择标签
+                        </button>
                 </div>
-                <p class="text-gray-300 mb-6">顶级品牌配置，吊轨设计更显高端大气。单玻吊轨结构简约现代，黑色与月光灰彰显品味。完美适配各种现代家居风格，提供高质量的隔断解决方案。</p>
+                </div>
                 
                 <div class="bg-gray-900 p-6 rounded-lg mb-6">
-                    <h2 class="text-xl font-bold mb-4 theme-yellow">产品配置选项</h2>
+                    <h2 class="text-xl font-bold mb-4 theme-yellow">产品配置</h2>
                     
-                    <!-- 尺寸选择 -->
-                    <div class="mb-4">
-                        <h3 class="text-lg mb-2">尺寸选择 <span class="text-xs text-gray-400">(宽 x 高)</span></h3>
-                        <div class="grid grid-cols-2 gap-2">
-                            <button class="py-2 px-4 border border-gray-700 rounded hover:border-yellow-400 transition-colors text-left">
-                                1100 x 2400 mm
+                    <!-- 款式选择 -->
+                    <div class="mb-6">
+                        <h3 class="text-lg mb-3">款式选择</h3>
+                        <div class="grid grid-cols-2 gap-3 md:grid-cols-4">
+                            <button class="w-full py-3 px-6 border border-gray-700 rounded hover:border-yellow-400 transition-colors text-center style-option flex items-center justify-center">
+                                开门
                             </button>
-                            <button class="py-2 px-4 border border-gray-700 rounded hover:border-yellow-400 transition-colors text-left relative">
-                                1200 x 2400 mm
-                                <span class="absolute top-0 right-0 bg-theme-yellow text-black text-xs px-1 rounded-bl">推荐</span>
+                            <button class="w-full py-3 px-6 border border-gray-700 rounded hover:border-yellow-400 transition-colors text-center style-option flex items-center justify-center">
+                                移门
                             </button>
-                            <button class="py-2 px-4 border border-gray-700 rounded hover:border-yellow-400 transition-colors text-left">
-                                1300 x 2400 mm
+                            <button class="w-full py-3 px-6 border border-gray-700 rounded hover:border-yellow-400 transition-colors text-center style-option flex items-center justify-center">
+                                幽灵门
                             </button>
-                            <button class="py-2 px-4 border border-gray-700 rounded hover:border-yellow-400 transition-colors text-left">
-                                定制尺寸
+                            <button class="w-full py-3 px-6 border border-gray-700 rounded hover:border-yellow-400 transition-colors text-center style-option flex items-center justify-center">
+                                PD门
+                            </button>
+                            <button class="w-full py-3 px-6 border border-gray-700 rounded hover:border-yellow-400 transition-colors text-center style-option flex items-center justify-center">
+                                折叠门
+                            </button>
+                            <button class="w-full py-3 px-6 border border-gray-700 rounded hover:border-yellow-400 transition-colors text-center style-option flex items-center justify-center">
+                                中轴门
+                            </button>
+                            <button class="w-full py-3 px-6 border border-gray-700 rounded hover:border-yellow-400 transition-colors text-center style-option flex items-center justify-center">
+                                偏轴门
+                            </button>
+                            <button class="w-full py-3 px-6 border border-gray-700 rounded hover:border-yellow-400 transition-colors text-center style-option flex items-center justify-center">
+                                隔断
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 产品标签选择模态框 -->
+                    <div id="tag-modal" class="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center hidden">
+                        <div class="bg-gray-900 p-6 rounded-lg w-full max-w-lg">
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="text-xl font-bold">选择产品标签</h3>
+                                <button id="close-tag-modal" class="text-gray-400 hover:text-white">
+                                    <i class="fas fa-times text-xl"></i>
+                                </button>
+                            </div>
+                            <div class="grid grid-cols-2 gap-3 md:grid-cols-3">
+                                <div class="tag-option-item selected" data-value="完美系统">
+                                    <div class="p-2 border-2 border-yellow-400 rounded-lg bg-theme-yellow hover:opacity-90 transition-all duration-300 cursor-pointer">
+                                        <div class="text-sm font-medium text-center text-black">完美系统</div>
+                                    </div>
+                                </div>
+                                <div class="tag-option-item" data-value="4016">
+                                    <div class="p-2 border border-gray-700 rounded-lg bg-gray-900 hover:border-yellow-400 transition-all duration-300 cursor-pointer">
+                                        <div class="text-sm font-medium text-center">4016</div>
+                                    </div>
+                                </div>
+                                <div class="tag-option-item" data-value="4012">
+                                    <div class="p-2 border border-gray-700 rounded-lg bg-gray-900 hover:border-yellow-400 transition-all duration-300 cursor-pointer">
+                                        <div class="text-sm font-medium text-center">4012</div>
+                                    </div>
+                                </div>
+                                <div class="tag-option-item" data-value="4010">
+                                    <div class="p-2 border border-gray-700 rounded-lg bg-gray-900 hover:border-yellow-400 transition-all duration-300 cursor-pointer">
+                                        <div class="text-sm font-medium text-center">4010</div>
+                                    </div>
+                                </div>
+                                <div class="tag-option-item" data-value="16x40">
+                                    <div class="p-2 border border-gray-700 rounded-lg bg-gray-900 hover:border-yellow-400 transition-all duration-300 cursor-pointer">
+                                        <div class="text-sm font-medium text-center">16x40</div>
+                                    </div>
+                                </div>
+                                <div class="tag-option-item" data-value="16x35">
+                                    <div class="p-2 border border-gray-700 rounded-lg bg-gray-900 hover:border-yellow-400 transition-all duration-300 cursor-pointer">
+                                        <div class="text-sm font-medium text-center">16x35</div>
+                                    </div>
+                                </div>
+                                <div class="tag-option-item" data-value="1845">
+                                    <div class="p-2 border border-gray-700 rounded-lg bg-gray-900 hover:border-yellow-400 transition-all duration-300 cursor-pointer">
+                                        <div class="text-sm font-medium text-center">1845</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-6 flex justify-end">
+                                <button id="confirm-tag-selection" class="bg-theme-yellow text-black py-2 px-6 rounded hover:opacity-90 transition-opacity">
+                                    确认选择
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <script>
+                        // 产品标签选择模态框功能
+                        document.addEventListener('DOMContentLoaded', function() {
+                            const chooseTagBtn = document.getElementById('choose-tag-btn');
+                            const tagModal = document.getElementById('tag-modal');
+                            const closeTagModal = document.getElementById('close-tag-modal');
+                            const confirmTagSelection = document.getElementById('confirm-tag-selection');
+                            const selectedTagText = document.getElementById('selected-tag-text');
+                            const tagOptionItems = document.querySelectorAll('.tag-option-item');
+                            
+                            // 打开模态框
+                            chooseTagBtn.addEventListener('click', function() {
+                                tagModal.classList.remove('hidden');
+                                document.body.style.overflow = 'hidden'; // 防止背景滚动
+                            });
+                            
+                            // 关闭模态框
+                            closeTagModal.addEventListener('click', function() {
+                                tagModal.classList.add('hidden');
+                                document.body.style.overflow = '';
+                            });
+                            
+                            // 确认选择
+                            confirmTagSelection.addEventListener('click', function() {
+                                tagModal.classList.add('hidden');
+                                document.body.style.overflow = '';
+                            });
+                            
+                            // 点击外部区域关闭模态框
+                            tagModal.addEventListener('click', function(e) {
+                                if (e.target === tagModal) {
+                                    tagModal.classList.add('hidden');
+                                    document.body.style.overflow = '';
+                                }
+                            });
+                            
+                            // 选择产品标签
+                            tagOptionItems.forEach(item => {
+                                item.addEventListener('click', function() {
+                                    // 移除之前选择的项目
+                                    tagOptionItems.forEach(i => {
+                                        i.classList.remove('selected');
+                                        const itemInner = i.querySelector('div');
+                                        itemInner.classList.remove('border-yellow-400', 'border-2', 'bg-theme-yellow');
+                                        itemInner.classList.add('border-gray-700', 'border');
+                                        
+                                        // 重置文字颜色
+                                        const textEl = i.querySelector('.text-sm');
+                                        textEl.classList.remove('text-black');
+                                    });
+                                    
+                                    // 标记当前选择
+                                    this.classList.add('selected');
+                                    const innerDiv = this.querySelector('div');
+                                    innerDiv.classList.remove('border-gray-700', 'border', 'bg-gray-900');
+                                    innerDiv.classList.add('border-yellow-400', 'border-2', 'bg-theme-yellow');
+                                    
+                                    // 更新文字颜色
+                                    const textEl = this.querySelector('.text-sm');
+                                    textEl.classList.add('text-black');
+                                    
+                                    // 更新选择文本
+                                    selectedTagText.textContent = this.getAttribute('data-value');
+                                });
+                            });
+                        });
+                    </script>
+                    
+                    <!-- 安装方式 -->
+                    <div class="mb-6">
+                        <h3 class="text-lg mb-3">安装方式</h3>
+                        <div class="grid grid-cols-2 gap-3 md:grid-cols-4">
+                            <button class="w-full py-3 px-6 border border-gray-700 rounded hover:border-yellow-400 transition-colors text-center size-option flex items-center justify-center">
+                                吊轨安装
+                            </button>
+                            <button class="w-full py-3 px-6 border-2 border-yellow-400 rounded hover:border-yellow-400 transition-colors text-center relative size-option bg-yellow-500 bg-opacity-20 text-yellow-400 flex items-center justify-center">
+                                地轨安装
+                            </button>
+                            <button class="w-full py-3 px-6 border border-gray-700 rounded hover:border-yellow-400 transition-colors text-center size-option flex items-center justify-center">
+                                开门安装
+                            </button>
+                            <button class="w-full py-3 px-6 border border-gray-700 rounded hover:border-yellow-400 transition-colors text-center size-option flex items-center justify-center">
+                                移门安装
+                            </button>
+                            <button class="w-full py-3 px-6 border border-gray-700 rounded hover:border-yellow-400 transition-colors text-center size-option flex items-center justify-center">
+                                特殊安装
                             </button>
                         </div>
                     </div>
@@ -808,8 +1156,6 @@
                             <div class="color-option selected" style="background-color: #000000;" title="经典黑"></div>
                             <div class="color-option" style="background-color: #F5F5F5;" title="纯净白"></div>
                             <div class="color-option" style="background-color: #808080;" title="月光灰"></div>
-                            <div class="color-option" style="background-color: #614E42;" title="咖啡棕"></div>
-                            <div class="color-option" style="background-color: #8A7F8D;" title="浅紫灰"></div>
                         </div>
                         <div class="mt-2 text-sm">
                             已选: <span id="selected-color" class="theme-yellow">经典黑</span>
@@ -817,80 +1163,479 @@
                         </div>
                     </div>
                     
-                    <!-- 把手选择 -->
+                   <!-- 玻璃类型 -->
                     <div class="mb-4">
-                        <h3 class="text-lg mb-2">把手样式</h3>
-                        <div class="grid grid-cols-3 gap-2 md:grid-cols-5">
-                            <button class="py-2 border border-gray-700 rounded hover:border-yellow-400 transition-colors flex flex-col items-center">
-                                <i class="fas fa-grip-lines-vertical text-xl mb-1"></i>
-                                <span class="text-xs">直线型</span>
+                        <h3 class="text-lg mb-2">玻璃类型</h3>
+                        <div class="grid grid-cols-2 gap-3">
+                            <button class="w-full py-3 px-6 bg-theme-yellow text-black rounded hover:opacity-90 transition-opacity text-center glass-option selected flex items-center justify-center">
+                                单层钢化玻璃
                             </button>
-                            <button class="py-2 border border-gray-700 rounded hover:border-yellow-400 transition-colors flex flex-col items-center">
-                                <i class="fas fa-grip-lines text-xl mb-1"></i>
-                                <span class="text-xs">横线型</span>
-                            </button>
-                            <button class="py-2 border border-yellow-400 rounded hover:border-yellow-400 transition-colors flex flex-col items-center">
-                                <i class="fas fa-minus text-xl mb-1"></i>
-                                <span class="text-xs">简约型</span>
-                            </button>
-                            <button class="py-2 border border-gray-700 rounded hover:border-yellow-400 transition-colors flex flex-col items-center">
-                                <i class="far fa-circle text-xl mb-1"></i>
-                                <span class="text-xs">圆形</span>
-                            </button>
-                            <button class="py-2 border border-gray-700 rounded hover:border-yellow-400 transition-colors flex flex-col items-center">
-                                <i class="fas fa-ellipsis-v text-xl mb-1"></i>
-                                <span class="text-xs">隐藏式</span>
+                            <button class="w-full py-3 px-6 border border-gray-700 rounded hover:border-yellow-400 transition-colors text-center glass-option flex items-center justify-center">
+                                双层中空玻璃
                             </button>
                         </div>
                     </div>
                     
-                    <!-- 玻璃类型选择 -->
-                    <div class="mb-4">
-                        <h3 class="text-lg mb-2">玻璃类型</h3>
-                        <div class="grid grid-cols-2 gap-2">
-                            <button class="py-2 px-4 bg-theme-yellow text-black rounded hover:opacity-90 transition-opacity text-left">
-                                单层钢化玻璃
-                            </button>
-                            <button class="py-2 px-4 border border-gray-700 rounded hover:border-yellow-400 transition-colors text-left">
-                                双层中空玻璃
-                            </button>
-                            <button class="py-2 px-4 border border-gray-700 rounded hover:border-yellow-400 transition-colors text-left">
-                                磨砂玻璃
-                            </button>
-                            <button class="py-2 px-4 border border-gray-700 rounded hover:border-yellow-400 transition-colors text-left">
-                                彩色玻璃
+                    <!-- 玻璃款式 -->
+                    <div class="mb-6">
+                        <h3 class="text-lg mb-3">玻璃款式</h3>
+                        <div class="flex items-center gap-2">
+                            <div class="flex-1 p-3 border border-gray-700 rounded-lg bg-gray-800 text-sm">
+                                <span id="selected-glass-text">8MM普白玻钢化</span>
+                                <span class="text-xs text-gray-400 ml-2">(当前选择)</span>
+                            </div>
+                            <button id="choose-glass-btn" class="bg-theme-yellow text-black py-3 px-5 rounded hover:opacity-90 transition-opacity flex items-center justify-center">
+                                <i class="fas fa-list-ul mr-2"></i> 选择玻璃
                             </button>
                         </div>
                     </div>
 
-                    <!-- 数量选择器 -->
-                    <div class="quantity-selector">
-                        <span class="mr-3">数量:</span>
-                        <button class="quantity-btn" id="decrease-quantity">-</button>
-                        <input type="number" min="1" value="1" class="quantity-input" id="quantity-input">
-                        <button class="quantity-btn" id="increase-quantity">+</button>
+                    <!-- 玻璃选择模态框 -->
+                    <div id="glass-modal" class="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center hidden">
+                        <div class="bg-gray-900 p-6 rounded-lg w-full max-w-7xl max-h-[80vh] overflow-y-auto">
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="text-xl font-bold">选择玻璃款式</h3>
+                                <button id="close-glass-modal" class="text-gray-400 hover:text-white">
+                                    <i class="fas fa-times text-xl"></i>
+                            </button>
+                            </div>
+                            <div class="grid grid-cols-3 gap-2 md:grid-cols-7">
+                                <div class="glass-option-item selected" data-value="8MM普白玻钢化">
+                                    <div class="p-2 border-2 border-yellow-400 rounded-lg bg-gray-800 hover:border-yellow-400 transition-all duration-300 cursor-pointer shadow-lg shadow-yellow-400/10">
+                                        <div class="h-16 bg-white bg-opacity-10 rounded mb-2 flex items-center justify-center">
+                                            <i class="fas fa-square text-2xl text-yellow-400"></i>
+                                        </div>
+                                        <div class="text-xs font-medium text-center text-yellow-400">8MM普白玻钢化</div>
+                                    </div>
+                                </div>
+                                <div class="glass-option-item" data-value="8MM超白玻钢化">
+                                    <div class="p-2 border border-gray-700 rounded-lg bg-gray-900 hover:border-yellow-400 transition-all duration-300 cursor-pointer">
+                                        <div class="h-16 bg-white bg-opacity-20 rounded mb-2 flex items-center justify-center">
+                                            <i class="fas fa-square text-2xl text-white text-opacity-80"></i>
+                                        </div>
+                                        <div class="text-xs font-medium text-center">8MM超白玻钢化</div>
+                                    </div>
+                                </div>
+                                <div class="glass-option-item" data-value="8MM超白单面油砂钢化">
+                                    <div class="p-2 border border-gray-700 rounded-lg bg-gray-900 hover:border-yellow-400 transition-all duration-300 cursor-pointer">
+                                        <div class="h-16 bg-white bg-opacity-20 rounded mb-2 flex items-center justify-center">
+                                            <i class="fas fa-th-large text-2xl text-white text-opacity-80"></i>
+                                        </div>
+                                        <div class="text-xs font-medium text-center">8MM超白单面油砂钢化</div>
+                                    </div>
+                                </div>
+                                <div class="glass-option-item" data-value="8MM超白双面油砂钢化">
+                                    <div class="p-2 border border-gray-700 rounded-lg bg-gray-900 hover:border-yellow-400 transition-all duration-300 cursor-pointer">
+                                        <div class="h-16 bg-white bg-opacity-20 rounded mb-2 flex items-center justify-center">
+                                            <i class="fas fa-th text-2xl text-white text-opacity-80"></i>
+                                        </div>
+                                        <div class="text-xs font-medium text-center">8MM超白双面油砂钢化</div>
+                                    </div>
+                                </div>
+                                <div class="glass-option-item" data-value="8MM普白长江钢化">
+                                    <div class="p-2 border border-gray-700 rounded-lg bg-gray-900 hover:border-yellow-400 transition-all duration-300 cursor-pointer">
+                                        <div class="h-16 bg-white bg-opacity-10 rounded mb-2 flex items-center justify-center">
+                                            <i class="fas fa-grip-lines-vertical text-2xl text-white text-opacity-60"></i>
+                                        </div>
+                                        <div class="text-xs font-medium text-center">8MM普白长江钢化</div>
+                                    </div>
+                                </div>
+                                <div class="glass-option-item" data-value="8MM超白长虹钢化">
+                                    <div class="p-2 border border-gray-700 rounded-lg bg-gray-900 hover:border-yellow-400 transition-all duration-300 cursor-pointer">
+                                        <div class="h-16 bg-white bg-opacity-20 rounded mb-2 flex items-center justify-center">
+                                            <i class="fas fa-grip-lines-vertical text-2xl text-white text-opacity-80"></i>
+                                        </div>
+                                        <div class="text-xs font-medium text-center">8MM超白长虹钢化</div>
+                                    </div>
+                                </div>
+                                <div class="glass-option-item" data-value="8MM超白长虹单面油砂钢化">
+                                    <div class="p-2 border border-gray-700 rounded-lg bg-gray-900 hover:border-yellow-400 transition-all duration-300 cursor-pointer">
+                                        <div class="h-16 bg-white bg-opacity-20 rounded mb-2 flex items-center justify-center">
+                                            <i class="fas fa-columns text-2xl text-white text-opacity-80"></i>
+                                        </div>
+                                        <div class="text-xs font-medium text-center">8MM超白长虹单面油砂钢化</div>
+                                    </div>
+                                </div>
+                                <div class="glass-option-item" data-value="8MM超白拉丝">
+                                    <div class="p-2 border border-gray-700 rounded-lg bg-gray-900 hover:border-yellow-400 transition-all duration-300 cursor-pointer">
+                                        <div class="h-16 bg-white bg-opacity-20 rounded mb-2 flex items-center justify-center">
+                                            <i class="fas fa-minus text-2xl text-white text-opacity-80"></i>
+                                        </div>
+                                        <div class="text-xs font-medium text-center">8MM超白拉丝</div>
+                                    </div>
+                                </div>
+                                <div class="glass-option-item" data-value="8MM欧灰玻钢化">
+                                    <div class="p-2 border border-gray-700 rounded-lg bg-gray-900 hover:border-yellow-400 transition-all duration-300 cursor-pointer">
+                                        <div class="h-16 bg-gray-500 bg-opacity-50 rounded mb-2 flex items-center justify-center">
+                                            <i class="fas fa-square text-2xl text-white text-opacity-60"></i>
+                                        </div>
+                                        <div class="text-xs font-medium text-center">8MM欧灰玻钢化</div>
+                                    </div>
+                                </div>
+                                <div class="glass-option-item" data-value="8MM欧灰玻单面油砂钢化">
+                                    <div class="p-2 border border-gray-700 rounded-lg bg-gray-900 hover:border-yellow-400 transition-all duration-300 cursor-pointer">
+                                        <div class="h-16 bg-gray-500 bg-opacity-50 rounded mb-2 flex items-center justify-center">
+                                            <i class="fas fa-th-large text-2xl text-white text-opacity-60"></i>
+                                        </div>
+                                        <div class="text-xs font-medium text-center">8MM欧灰玻单面油砂钢化</div>
+                                    </div>
+                                </div>
+                                <div class="glass-option-item" data-value="8MM欧灰玻双面油砂钢化">
+                                    <div class="p-2 border border-gray-700 rounded-lg bg-gray-900 hover:border-yellow-400 transition-all duration-300 cursor-pointer">
+                                        <div class="h-16 bg-gray-500 bg-opacity-50 rounded mb-2 flex items-center justify-center">
+                                            <i class="fas fa-th text-2xl text-white text-opacity-60"></i>
+                                        </div>
+                                        <div class="text-xs font-medium text-center">8MM欧灰玻双面油砂钢化</div>
+                                    </div>
+                                </div>
+                                <div class="glass-option-item" data-value="8MM茶玻钢化">
+                                    <div class="p-2 border border-gray-700 rounded-lg bg-gray-900 hover:border-yellow-400 transition-all duration-300 cursor-pointer">
+                                        <div class="h-16 bg-yellow-900 bg-opacity-30 rounded mb-2 flex items-center justify-center">
+                                            <i class="fas fa-square text-2xl text-white text-opacity-60"></i>
+                                        </div>
+                                        <div class="text-xs font-medium text-center">8MM茶玻钢化</div>
+                                    </div>
+                                </div>
+                                <div class="glass-option-item" data-value="8MM茶玻单面油砂钢化">
+                                    <div class="p-2 border border-gray-700 rounded-lg bg-gray-900 hover:border-yellow-400 transition-all duration-300 cursor-pointer">
+                                        <div class="h-16 bg-yellow-900 bg-opacity-30 rounded mb-2 flex items-center justify-center">
+                                            <i class="fas fa-th-large text-2xl text-white text-opacity-60"></i>
+                                        </div>
+                                        <div class="text-xs font-medium text-center">8MM茶玻单面油砂钢化</div>
+                                    </div>
+                                </div>
+                                <div class="glass-option-item" data-value="8MM茶玻双面油砂钢化">
+                                    <div class="p-2 border border-gray-700 rounded-lg bg-gray-900 hover:border-yellow-400 transition-all duration-300 cursor-pointer">
+                                        <div class="h-16 bg-yellow-900 bg-opacity-30 rounded mb-2 flex items-center justify-center">
+                                            <i class="fas fa-th text-2xl text-white text-opacity-60"></i>
+                                        </div>
+                                        <div class="text-xs font-medium text-center">8MM茶玻双面油砂钢化</div>
+                                    </div>
+                                </div>
+                                <div class="glass-option-item" data-value="8MM黑波钢化">
+                                    <div class="p-2 border border-gray-700 rounded-lg bg-gray-900 hover:border-yellow-400 transition-all duration-300 cursor-pointer">
+                                        <div class="h-16 bg-gray-900 rounded mb-2 flex items-center justify-center">
+                                            <i class="fas fa-wave-square text-2xl text-white text-opacity-60"></i>
+                                        </div>
+                                        <div class="text-xs font-medium text-center">8MM黑波钢化</div>
+                                    </div>
+                                </div>
+                                <div class="glass-option-item" data-value="8MM黑波单面油砂钢化">
+                                    <div class="p-2 border border-gray-700 rounded-lg bg-gray-900 hover:border-yellow-400 transition-all duration-300 cursor-pointer">
+                                        <div class="h-16 bg-gray-900 rounded mb-2 flex items-center justify-center">
+                                            <i class="fas fa-wave-square text-2xl text-white text-opacity-60"></i>
+                                        </div>
+                                        <div class="text-xs font-medium text-center">8MM黑波单面油砂钢化</div>
+                                    </div>
+                                </div>
+                                <div class="glass-option-item" data-value="8MM超白梦巴黎">
+                                    <div class="p-2 border border-gray-700 rounded-lg bg-gray-900 hover:border-yellow-400 transition-all duration-300 cursor-pointer">
+                                        <div class="h-16 bg-white bg-opacity-20 rounded mb-2 flex items-center justify-center">
+                                            <i class="fas fa-border-all text-2xl text-white text-opacity-80"></i>
+                                        </div>
+                                        <div class="text-xs font-medium text-center">8MM超白梦巴黎</div>
+                                    </div>
+                                </div>
+                                <div class="glass-option-item" data-value="8MM超白小灯芯钢化">
+                                    <div class="p-2 border border-gray-700 rounded-lg bg-gray-900 hover:border-yellow-400 transition-all duration-300 cursor-pointer">
+                                        <div class="h-16 bg-white bg-opacity-20 rounded mb-2 flex items-center justify-center">
+                                            <i class="fas fa-dice-four text-2xl text-white text-opacity-80"></i>
+                                        </div>
+                                        <div class="text-xs font-medium text-center">8MM超白小灯芯钢化</div>
+                                    </div>
+                                </div>
+                                <div class="glass-option-item" data-value="8MM超白小灯芯单面油砂钢化">
+                                    <div class="p-2 border border-gray-700 rounded-lg bg-gray-900 hover:border-yellow-400 transition-all duration-300 cursor-pointer">
+                                        <div class="h-16 bg-white bg-opacity-20 rounded mb-2 flex items-center justify-center">
+                                            <i class="fas fa-dice-four text-2xl text-white text-opacity-80"></i>
+                                        </div>
+                                        <div class="text-xs font-medium text-center">8MM超白小灯芯单面油砂钢化</div>
+                                    </div>
+                                </div>
+                                <div class="glass-option-item" data-value="8MM超自大灯芯钢化">
+                                    <div class="p-2 border border-gray-700 rounded-lg bg-gray-900 hover:border-yellow-400 transition-all duration-300 cursor-pointer">
+                                        <div class="h-16 bg-white bg-opacity-20 rounded mb-2 flex items-center justify-center">
+                                            <i class="fas fa-dice-six text-2xl text-white text-opacity-80"></i>
+                                        </div>
+                                        <div class="text-xs font-medium text-center">8MM超自大灯芯钢化</div>
+                                    </div>
+                                </div>
+                                <div class="glass-option-item" data-value="8MM超白大灯芯单面油砂钢化">
+                                    <div class="p-2 border border-gray-700 rounded-lg bg-gray-900 hover:border-yellow-400 transition-all duration-300 cursor-pointer">
+                                        <div class="h-16 bg-white bg-opacity-20 rounded mb-2 flex items-center justify-center">
+                                            <i class="fas fa-dice-six text-2xl text-white text-opacity-80"></i>
+                                        </div>
+                                        <div class="text-xs font-medium text-center">8MM超白大灯芯单面油砂钢化</div>
+                                    </div>
+                                </div>
+                                <div class="glass-option-item" data-value="8MM水波纹钢化">
+                                    <div class="p-2 border border-gray-700 rounded-lg bg-gray-900 hover:border-yellow-400 transition-all duration-300 cursor-pointer">
+                                        <div class="h-16 bg-blue-300 bg-opacity-20 rounded mb-2 flex items-center justify-center">
+                                            <i class="fas fa-water text-2xl text-white text-opacity-60"></i>
+                                        </div>
+                                        <div class="text-xs font-medium text-center">8MM水波纹钢化</div>
+                                    </div>
+                                </div>
+                                <div class="glass-option-item" data-value="8MM超白银波钢化">
+                                    <div class="p-2 border border-gray-700 rounded-lg bg-gray-900 hover:border-yellow-400 transition-all duration-300 cursor-pointer">
+                                        <div class="h-16 bg-gray-100 bg-opacity-20 rounded mb-2 flex items-center justify-center">
+                                            <i class="fas fa-water text-2xl text-white text-opacity-80"></i>
+                                        </div>
+                                        <div class="text-xs font-medium text-center">8MM超白银波钢化</div>
+                                    </div>
+                                </div>
+                                <div class="glass-option-item" data-value="8MM超白银波单面油砂钢化">
+                                    <div class="p-2 border border-gray-700 rounded-lg bg-gray-100 bg-opacity-20 rounded mb-2 flex items-center justify-center">
+                                        <i class="fas fa-water text-2xl text-white text-opacity-80"></i>
+                                    </div>
+                                    <div class="text-xs font-medium text-center">8MM超白银波单面油砂钢化</div>
+                                </div>
+                                <div class="glass-option-item" data-value="8MM灰油砂幽梦(灰木纹油砂)">
+                                    <div class="p-2 border border-gray-700 rounded-lg bg-gray-900 hover:border-yellow-400 transition-all duration-300 cursor-pointer">
+                                        <div class="h-16 bg-gray-500 bg-opacity-40 rounded mb-2 flex items-center justify-center">
+                                            <i class="fas fa-grip-lines text-2xl text-white text-opacity-60"></i>
+                                        </div>
+                                        <div class="text-xs font-medium text-center">8MM灰油砂幽梦(灰木纹油砂)</div>
+                                    </div>
+                                </div>
+                                <div class="glass-option-item" data-value="8MM流星雨">
+                                    <div class="p-2 border border-gray-700 rounded-lg bg-gray-900 hover:border-yellow-400 transition-all duration-300 cursor-pointer">
+                                        <div class="h-16 bg-blue-900 bg-opacity-20 rounded mb-2 flex items-center justify-center">
+                                            <i class="fas fa-meteor text-2xl text-white text-opacity-60"></i>
+                                        </div>
+                                        <div class="text-xs font-medium text-center">8MM流星雨</div>
+                                    </div>
+                                </div>
+                                <div class="glass-option-item" data-value="8MM超白水波纹/油砂">
+                                    <div class="p-2 border border-gray-700 rounded-lg bg-gray-900 hover:border-yellow-400 transition-all duration-300 cursor-pointer">
+                                        <div class="h-16 bg-blue-100 bg-opacity-20 rounded mb-2 flex items-center justify-center">
+                                            <i class="fas fa-water text-2xl text-white text-opacity-80"></i>
+                                        </div>
+                                        <div class="text-xs font-medium text-center">8MM超白水波纹/油砂</div>
+                                    </div>
+                                </div>
+                                <div class="glass-option-item" data-value="8MM普白水波纹">
+                                    <div class="p-2 border border-gray-700 rounded-lg bg-gray-900 hover:border-yellow-400 transition-all duration-300 cursor-pointer">
+                                        <div class="h-16 bg-blue-100 bg-opacity-10 rounded mb-2 flex items-center justify-center">
+                                            <i class="fas fa-water text-2xl text-white text-opacity-60"></i>
+                                        </div>
+                                        <div class="text-xs font-medium text-center">8MM普白水波纹</div>
+                                    </div>
+                                </div>
+                                <div class="glass-option-item" data-value="8MM水立方">
+                                    <div class="p-2 border border-gray-700 rounded-lg bg-gray-900 hover:border-yellow-400 transition-all duration-300 cursor-pointer">
+                                        <div class="h-16 bg-blue-500 bg-opacity-20 rounded mb-2 flex items-center justify-center">
+                                            <i class="fas fa-cube text-2xl text-white text-opacity-60"></i>
+                                        </div>
+                                        <div class="text-xs font-medium text-center">8MM水立方</div>
+                                    </div>
+                                </div>
+                                <div class="glass-option-item" data-value="8MM远峰蓝油砂">
+                                    <div class="p-2 border border-gray-700 rounded-lg bg-gray-900 hover:border-yellow-400 transition-all duration-300 cursor-pointer">
+                                        <div class="h-16 bg-blue-900 bg-opacity-30 rounded mb-2 flex items-center justify-center">
+                                            <i class="fas fa-mountain text-2xl text-white text-opacity-60"></i>
+                                        </div>
+                                        <div class="text-xs font-medium text-center">8MM远峰蓝油砂</div>
+                                    </div>
+                                </div>
+                                <div class="glass-option-item" data-value="8MM超白水晶油砂">
+                                    <div class="p-2 border border-gray-700 rounded-lg bg-gray-900 hover:border-yellow-400 transition-all duration-300 cursor-pointer">
+                                        <div class="h-16 bg-white bg-opacity-30 rounded mb-2 flex items-center justify-center">
+                                            <i class="fas fa-gem text-2xl text-white text-opacity-80"></i>
+                                        </div>
+                                        <div class="text-xs font-medium text-center">8MM超白水晶油砂</div>
+                                    </div>
+                                </div>
+                                <div class="glass-option-item" data-value="8MM超白金油砂">
+                                    <div class="p-2 border border-gray-700 rounded-lg bg-gray-900 hover:border-yellow-400 transition-all duration-300 cursor-pointer">
+                                        <div class="h-16 bg-yellow-100 bg-opacity-30 rounded mb-2 flex items-center justify-center">
+                                            <i class="fas fa-gem text-2xl text-yellow-300 text-opacity-40"></i>
+                                        </div>
+                                        <div class="text-xs font-medium text-center">8MM超白金油砂</div>
+                                    </div>
+                                </div>
+                                <div class="glass-option-item" data-value="8MM超白水品">
+                                    <div class="p-2 border border-gray-700 rounded-lg bg-gray-900 hover:border-yellow-400 transition-all duration-300 cursor-pointer">
+                                        <div class="h-16 bg-white bg-opacity-20 rounded mb-2 flex items-center justify-center">
+                                            <i class="fas fa-tint text-2xl text-white text-opacity-80"></i>
+                                        </div>
+                                        <div class="text-xs font-medium text-center">8MM超白水品</div>
+                                    </div>
+                                </div>
+                                <div class="glass-option-item" data-value="8MM超白金">
+                                    <div class="p-2 border border-gray-700 rounded-lg bg-gray-900 hover:border-yellow-400 transition-all duration-300 cursor-pointer">
+                                        <div class="h-16 bg-yellow-100 bg-opacity-30 rounded mb-2 flex items-center justify-center">
+                                            <i class="fas fa-square text-2xl text-yellow-300 text-opacity-40"></i>
+                                        </div>
+                                        <div class="text-xs font-medium text-center">8MM超白金</div>
+                                    </div>
+                                </div>
+                                <div class="glass-option-item" data-value="8MM双方格">
+                                    <div class="p-2 border border-gray-700 rounded-lg bg-gray-900 hover:border-yellow-400 transition-all duration-300 cursor-pointer">
+                                        <div class="h-16 bg-white bg-opacity-10 rounded mb-2 flex items-center justify-center">
+                                            <i class="fas fa-th-large text-2xl text-white text-opacity-60"></i>
+                                        </div>
+                                        <div class="text-xs font-medium text-center">8MM双方格</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-6 flex justify-end">
+                                <button id="confirm-glass-selection" class="bg-theme-yellow text-black py-2 px-6 rounded hover:opacity-90 transition-opacity">
+                                    确认选择
+                            </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <script>
+                        // 玻璃选择模态框功能
+                        document.addEventListener('DOMContentLoaded', function() {
+                            const chooseGlassBtn = document.getElementById('choose-glass-btn');
+                            const glassModal = document.getElementById('glass-modal');
+                            const closeGlassModal = document.getElementById('close-glass-modal');
+                            const confirmGlassSelection = document.getElementById('confirm-glass-selection');
+                            const selectedGlassText = document.getElementById('selected-glass-text');
+                            const glassOptionItems = document.querySelectorAll('.glass-option-item');
+                            
+                            // 打开模态框
+                            chooseGlassBtn.addEventListener('click', function() {
+                                glassModal.classList.remove('hidden');
+                                document.body.style.overflow = 'hidden'; // 防止背景滚动
+                            });
+                            
+                            // 关闭模态框
+                            closeGlassModal.addEventListener('click', function() {
+                                glassModal.classList.add('hidden');
+                                document.body.style.overflow = '';
+                            });
+                            
+                            // 确认选择
+                            confirmGlassSelection.addEventListener('click', function() {
+                                glassModal.classList.add('hidden');
+                                document.body.style.overflow = '';
+                            });
+                            
+                            // 点击外部区域关闭模态框
+                            glassModal.addEventListener('click', function(e) {
+                                if (e.target === glassModal) {
+                                    glassModal.classList.add('hidden');
+                                    document.body.style.overflow = '';
+                                }
+                            });
+                            
+                            // 选择玻璃类型
+                            glassOptionItems.forEach(item => {
+                                item.addEventListener('click', function() {
+                                    // 移除之前选择的项目
+                                    glassOptionItems.forEach(i => {
+                                        i.classList.remove('selected');
+                                        const itemInner = i.querySelector('div');
+                                        itemInner.classList.remove('border-yellow-400', 'border-2', 'bg-yellow-500', 'bg-opacity-20', 'bg-gray-800', 'shadow-lg', 'shadow-yellow-400/10');
+                                        itemInner.classList.add('border-gray-700', 'border', 'bg-gray-900');
+                                        
+                                        // 重置文字和图标颜色
+                                        const textEl = i.querySelector('.text-xs');
+                                        textEl.classList.remove('text-yellow-400');
+                                        
+                                        const iconEl = i.querySelector('i');
+                                        iconEl.classList.remove('text-yellow-400');
+                                        if(iconEl.classList.contains('text-yellow-300')) {
+                                            // 保留特殊颜色图标的原始样式
+                                        } else {
+                                            iconEl.classList.add('text-white');
+                                        }
+                                    });
+                                    
+                                    // 标记当前选择
+                                    this.classList.add('selected');
+                                    const innerDiv = this.querySelector('div');
+                                    innerDiv.classList.remove('border-gray-700', 'border', 'bg-gray-900');
+                                    innerDiv.classList.add('border-yellow-400', 'border-2', 'bg-yellow-500', 'bg-opacity-20', 'shadow-lg', 'shadow-yellow-400/10');
+                                    
+                                    // 更新文字颜色
+                                    const textEl = this.querySelector('.text-xs');
+                                    textEl.classList.add('text-yellow-400');
+                                    
+                                    // 更新图标颜色
+                                    const iconEl = this.querySelector('i');
+                                    if(iconEl.classList.contains('text-yellow-300')) {
+                                        // 如果已经是特殊颜色，增加不透明度
+                                        iconEl.classList.remove('text-opacity-40');
+                                        iconEl.classList.add('text-opacity-100');
+                                    } else {
+                                        iconEl.classList.remove('text-white');
+                                        iconEl.classList.add('text-yellow-400');
+                                    }
+                                    
+                                    // 更新选择文本
+                                    selectedGlassText.textContent = this.getAttribute('data-value');
+                                });
+                            });
+                        });
+                    </script>
+
+                    <!-- 应用场景选择 -->
+                    <div class="mb-4">
+                        <h3 class="text-lg mb-2">应用场景 <span class="text-xs text-gray-400">(可多选)</span></h3>
+                        <div class="grid grid-cols-3 gap-2 md:grid-cols-5">
+                            <button class="py-2 border border-gray-700 rounded hover:border-yellow-400 transition-colors flex flex-col items-center scene-option relative">
+                                <i class="fas fa-couch text-xl mb-1"></i>
+                                <span class="text-xs">客厅</span>
+                            </button>
+                            <button class="py-2 border border-gray-700 rounded hover:border-yellow-400 transition-colors flex flex-col items-center scene-option relative">
+                                <i class="fas fa-sun text-xl mb-1"></i>
+                                <span class="text-xs">阳台</span>
+                            </button>
+                            <button class="py-2 border border-gray-700 rounded hover:border-yellow-400 transition-colors flex flex-col items-center scene-option relative">
+                                <i class="fas fa-bed text-xl mb-1"></i>
+                                <span class="text-xs">卧室</span>
+                            </button>
+                            <button class="py-2 border border-gray-700 rounded hover:border-yellow-400 transition-colors flex flex-col items-center scene-option relative">
+                                <i class="fas fa-door-closed text-xl mb-1"></i>
+                                <span class="text-xs">玄关</span>
+                            </button>
+                            <button class="py-2 border border-gray-700 rounded hover:border-yellow-400 transition-colors flex flex-col items-center scene-option relative">
+                                <i class="fas fa-book text-xl mb-1"></i>
+                                <span class="text-xs">书房</span>
+                            </button>
+                            <button class="py-2 border border-gray-700 rounded hover:border-yellow-400 transition-colors flex flex-col items-center scene-option relative">
+                                <i class="fas fa-tshirt text-xl mb-1"></i>
+                                <span class="text-xs">衣帽间</span>
+                            </button>
+                            <button class="py-2 border border-gray-700 rounded hover:border-yellow-400 transition-colors flex flex-col items-center scene-option relative">
+                                <i class="fas fa-utensils text-xl mb-1"></i>
+                                <span class="text-xs">厨房</span>
+                            </button>
+                            <button class="py-2 border border-gray-700 rounded hover:border-yellow-400 transition-colors flex flex-col items-center scene-option relative">
+                                <i class="fas fa-toilet text-xl mb-1"></i>
+                                <span class="text-xs">卫生间</span>
+                            </button>
+                        </div>
+                        <div class="mt-2 text-sm">
+                            已选: <span id="selected-scenes" class="theme-yellow">无</span>
+                        </div>
                     </div>
                     
                     <!-- 送货时间估算 -->
                     <div class="bg-gray-800 p-3 rounded-lg mb-4 flex items-center">
                         <i class="fas fa-truck-moving mr-3 theme-yellow text-xl"></i>
                         <div>
-                            <p class="text-sm">预计送货时间: <span class="theme-yellow">7-10个工作日</span></p>
+                            <p class="text-sm">预计送货时间: <span class="theme-yellow">15-20天</span></p>
                             <p class="text-xs text-gray-400">定制产品可能需要额外时间</p>
                         </div>
                     </div>
                     
                     <!-- 按钮区域 -->
                     <div class="flex flex-col gap-3">
-                        <button class="btn-yellow w-full flex items-center justify-center">
-                            <i class="fas fa-shopping-cart mr-2"></i> 立即获取报价
+                        <button class="btn-yellow w-full flex items-center justify-center add-product-btn">
+                            <i class="fas fa-shopping-cart mr-2"></i> 添加产品
                         </button>
                         <div class="flex gap-3">
-                            <button class="flex-1 py-3 border border-gray-700 rounded hover:border-yellow-400 transition-colors flex items-center justify-center">
-                                <i class="far fa-heart mr-2"></i> 收藏
+                            <button class="flex-1 py-3 border border-gray-700 rounded hover:border-yellow-400 transition-colors flex items-center justify-center upload-product-image-btn">
+                                <i class="far fa-heart mr-2"></i> 上传产品图
                             </button>
-                            <button class="flex-1 py-3 border border-gray-700 rounded hover:border-yellow-400 transition-colors flex items-center justify-center">
-                                <i class="fas fa-share-alt mr-2"></i> 分享
+                            <button class="flex-1 py-3 border border-gray-700 rounded hover:border-yellow-400 transition-colors flex items-center justify-center upload-product-video-btn">
+                                <i class="fas fa-share-alt mr-2"></i> 上传产品视频
                             </button>
                         </div>
                     </div>
@@ -1627,6 +2372,179 @@
                 </button>
             </div>
         </section>
+
+        <!-- 产品展示区 -->
+        <section id="products-section" class="py-16 bg-gray-950">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-yellow-400">产品展示</h2>
+                
+                <!-- 产品过滤器 -->
+                <div id="product-filters" class="mb-8 flex flex-wrap justify-center gap-3">
+                    <button class="filter-btn active bg-yellow-500 text-black px-4 py-2 rounded-md hover:bg-yellow-600 transition-all" data-filter="all">全部产品</button>
+                    <button class="filter-btn bg-gray-800 text-white px-4 py-2 rounded-md hover:bg-gray-700 transition-all" data-filter="new">最新产品</button>
+                    <button class="filter-btn bg-gray-800 text-white px-4 py-2 rounded-md hover:bg-gray-700 transition-all" data-filter="popular">热门产品</button>
+                </div>
+                
+                <!-- 产品网格 -->
+                <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    <!-- 产品卡片由JS动态生成 -->
+                </div>
+
+                <!-- 添加/编辑产品模态框 -->
+                <div id="product-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 hidden">
+                    <div class="bg-gray-900 w-full max-w-lg rounded-lg shadow-xl p-6 relative border border-yellow-500">
+                        <button id="close-product-modal" class="absolute top-3 right-3 text-gray-400 hover:text-white">
+                            <i class="fas fa-times"></i>
+                        </button>
+                        <h3 id="product-modal-title" class="text-xl font-bold mb-4 text-yellow-400">添加新产品</h3>
+                        
+                        <form id="product-form" class="space-y-4">
+                            <input type="hidden" id="product-id">
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-400 mb-1">产品名称</label>
+                                    <input type="text" id="product-name" class="w-full bg-gray-800 border border-gray-700 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent" required>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-400 mb-1">产品类别</label>
+                                    <select id="product-category" class="w-full bg-gray-800 border border-gray-700 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
+                                        <option value="all">通用产品</option>
+                                        <option value="new">最新产品</option>
+                                        <option value="popular">热门产品</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-400 mb-1">产品标签</label>
+                                <div id="product-tags" class="grid grid-cols-2 md:grid-cols-4 gap-2 mt-1">
+                                    <!-- 标签将通过JS动态生成 -->
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-400 mb-1">款式选择</label>
+                                <div id="product-styles" class="grid grid-cols-2 md:grid-cols-4 gap-2 mt-1">
+                                    <!-- 款式将通过JS动态生成 -->
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-400 mb-1">安装方式</label>
+                                <div id="product-install-methods" class="grid grid-cols-2 md:grid-cols-3 gap-2 mt-1">
+                                    <!-- 安装方式将通过JS动态生成 -->
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-400 mb-1">颜色选择</label>
+                                <div id="product-colors" class="grid grid-cols-2 md:grid-cols-3 gap-2 mt-1">
+                                    <!-- 颜色将通过JS动态生成 -->
+                                </div>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-400 mb-1">玻璃类型</label>
+                                    <div id="product-glass-types" class="grid grid-cols-1 gap-2 mt-1">
+                                        <!-- 玻璃类型将通过JS动态生成 -->
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-400 mb-1">玻璃款式</label>
+                                    <div id="product-glass-styles" class="grid grid-cols-1 gap-2 mt-1">
+                                        <!-- 玻璃款式将通过JS动态生成 -->
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-400 mb-1">应用场景 (可多选)</label>
+                                <div id="product-scenes" class="grid grid-cols-2 md:grid-cols-4 gap-2 mt-1">
+                                    <!-- 应用场景将通过JS动态生成 -->
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-400 mb-1">产品图片URL (每行一个URL)</label>
+                                <textarea id="product-images" class="w-full bg-gray-800 border border-gray-700 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent h-20" placeholder="https://example.com/image1.jpg&#10;https://example.com/image2.jpg"></textarea>
+                                <p class="text-xs text-gray-500 mt-1">提示：每行输入一个图片URL，第一张图片将作为主图</p>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-400 mb-1">产品描述</label>
+                                <textarea id="product-description" class="w-full bg-gray-800 border border-gray-700 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent h-24" required></textarea>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-400 mb-1">价格 (选填)</label>
+                                    <input type="number" id="product-price" class="w-full bg-gray-800 border border-gray-700 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-400 mb-1">库存状态</label>
+                                    <select id="product-stock" class="w-full bg-gray-800 border border-gray-700 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
+                                        <option value="in-stock">有库存</option>
+                                        <option value="low-stock">库存不足</option>
+                                        <option value="out-of-stock">无库存</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="flex justify-end space-x-3 mt-6">
+                                <button type="button" id="cancel-product" class="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-md">取消</button>
+                                <button type="submit" id="save-product" class="bg-yellow-500 hover:bg-yellow-600 text-black px-4 py-2 rounded-md">保存产品</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <!-- 没有产品时的提示 -->
+                <div id="no-products" class="hidden text-center py-12">
+                    <div class="text-gray-500 mb-4">
+                        <i class="fas fa-box-open text-5xl"></i>
+                    </div>
+                    <h3 class="text-xl font-medium text-gray-400">暂无产品信息</h3>
+                    <p class="text-gray-600 mt-2">管理员可以通过点击"添加产品"按钮来添加新产品</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 产品详情模态框 -->
+        <div id="product-detail-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 hidden">
+            <div class="bg-gray-900 w-full max-w-4xl rounded-lg shadow-xl relative border border-yellow-500 overflow-hidden">
+                <button id="close-detail-modal" class="absolute top-3 right-3 text-gray-400 hover:text-white z-10">
+                    <i class="fas fa-times"></i>
+                </button>
+                <div class="grid grid-cols-1 md:grid-cols-2">
+                    <div class="product-detail-image bg-black flex items-center justify-center h-80 md:h-auto overflow-hidden">
+                        <img id="detail-image" src="" alt="产品图片" class="object-contain w-full h-full">
+                    </div>
+                    <div class="p-6 space-y-4">
+                        <h3 id="detail-name" class="text-2xl font-bold text-yellow-400"></h3>
+                        <div id="detail-category" class="inline-block bg-yellow-500 text-black text-xs font-medium px-2 py-1 rounded"></div>
+                        <p id="detail-description" class="text-gray-300 mt-4"></p>
+                        <div class="flex items-center space-x-2 mt-4">
+                            <span class="text-gray-400">库存状态:</span>
+                            <span id="detail-stock" class="font-medium"></span>
+                        </div>
+                        <div id="price-container" class="mt-4">
+                            <span class="text-gray-400">价格:</span>
+                            <span id="detail-price" class="font-bold text-xl text-yellow-400 ml-2"></span>
+                        </div>
+                        <div class="flex space-x-3 mt-6">
+                            <button id="detail-reservation" class="bg-yellow-500 hover:bg-yellow-600 text-black px-6 py-2 rounded-md flex items-center">
+                                <i class="fas fa-calendar-check mr-2"></i> 预约体验
+                            </button>
+                            <button id="detail-contact" class="bg-gray-700 hover:bg-gray-600 text-white px-6 py-2 rounded-md flex items-center">
+                                <i class="fas fa-phone-alt mr-2"></i> 联系咨询
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
 
     <!-- 页脚 -->
@@ -1656,6 +2574,9 @@
                         <li><a href="anli.html" class="hover:underline">案例库</a></li>
                         <li><a href="guanyuwomen.html" class="hover:underline">关于我们</a></li>
                         <li><a href="lianxiwomen.html" class="hover:underline">联系我们</a></li>
+                        <li><a href="admin.html" class="hover:underline">
+                            <i class="fas fa-lock"></i> 管理后台
+                        </a></li>
                     </ul>
                 </div>
                 
@@ -1714,6 +2635,16 @@
     <!-- 在线客服 -->
     <div class="chat-icon" id="chatIcon">
         <i class="fas fa-comments text-black text-2xl"></i>
+    </div>
+
+    <!-- 固定底部浮动按钮 -->
+    <div class="fixed-bottom text-end pe-4 pb-3" style="z-index: 99">
+        <a href="yuyue.html" class="btn btn-danger btn-lg rounded-pill shadow-lg me-2">
+            <i class="fas fa-ruler-combined"></i> 立即预约量房
+        </a>
+        <a href="#online-quote" class="btn btn-warning btn-lg rounded-pill shadow-lg">
+            <i class="fas fa-calculator"></i> 在线报价
+        </a>
     </div>
 
     <!-- 返回顶部按钮 -->
@@ -1919,7 +2850,7 @@
                 });
             });
             
-            // 颜色选择器功能
+            // 颜色选择功能
             const colorOptions = document.querySelectorAll('.color-option');
             const selectedColorText = document.getElementById('selected-color');
             
@@ -1931,6 +2862,145 @@
                     this.classList.add('selected');
                     // 更新选中的颜色文本
                     selectedColorText.textContent = this.getAttribute('title');
+                });
+            });
+            
+            // 款式选择功能
+            const styleOptions = document.querySelectorAll('.style-option');
+            styleOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    // 移除所有款式选项的高亮和selected类
+                    styleOptions.forEach(o => {
+                        o.classList.remove('border-yellow-400', 'border-2', 'selected', 'bg-gray-800', 'bg-yellow-500', 'bg-opacity-20', 'text-yellow-400', 'shadow-md', 'shadow-yellow-400/20', 'transform', 'scale-105', 'bg-theme-yellow', 'text-black');
+                        o.classList.add('border', 'border-gray-700', 'text-white');
+                        
+                        // 移除选中标记和推荐标签
+                        const checkIcon = o.querySelector('.fa-check-circle');
+                        if (checkIcon) checkIcon.remove();
+                        
+                        // 修改推荐标签位置为普通位置
+                        const recommendTag = o.querySelector('.bg-theme-yellow');
+                        if (recommendTag) {
+                            recommendTag.className = 'absolute top-0 right-0 bg-theme-yellow text-black text-xs px-1 rounded-bl';
+                        }
+                    });
+                    
+                    // 高亮当前选择的款式
+                    this.classList.remove('border', 'border-gray-700', 'text-white');
+                    this.classList.add('bg-theme-yellow', 'text-black', 'selected');
+                    
+                    // 添加选中标记
+                    if (!this.querySelector('.fa-check-circle')) {
+                        const checkIcon = document.createElement('i');
+                        checkIcon.className = 'fas fa-check-circle absolute top-1 left-1 text-black text-xs';
+                        this.prepend(checkIcon);
+                    }
+                    
+                    // 修改推荐标签样式
+                    const recommendTag = this.querySelector('.bg-theme-yellow');
+                    if (recommendTag) {
+                        recommendTag.className = 'absolute -top-1 -right-1 bg-theme-yellow text-black text-xs px-2 py-1 rounded-br-md rounded-bl-md transform rotate-2 font-bold shadow-sm';
+                    }
+                });
+            });
+            
+            // 把手样式选择功能
+            const handleOptions = document.querySelectorAll('.handle-option');
+            handleOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    // 移除所有把手样式选项的高亮和selected类
+                    handleOptions.forEach(o => {
+                        o.classList.remove('border-yellow-400', 'selected', 'bg-gray-800');
+                        o.classList.add('border-gray-700');
+                        o.querySelector('i').classList.remove('text-yellow-400');
+                        o.querySelector('span').classList.remove('text-yellow-400');
+                    });
+                    // 高亮当前选择的把手样式
+                    this.classList.remove('border-gray-700');
+                    this.classList.add('border-yellow-400', 'selected', 'bg-gray-800');
+                    this.querySelector('i').classList.add('text-yellow-400');
+                    this.querySelector('span').classList.add('text-yellow-400');
+                });
+            });
+            
+            // 玻璃类型选择功能
+            const glassOptions = document.querySelectorAll('.glass-option');
+            glassOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    // 移除所有玻璃类型选项的高亮和selected类
+                    glassOptions.forEach(o => {
+                        o.classList.remove('bg-theme-yellow', 'text-black', 'selected');
+                        o.classList.add('border-gray-700', 'text-white');
+                    });
+                    // 高亮当前选择的玻璃类型
+                    this.classList.remove('border-gray-700', 'text-white');
+                    this.classList.add('bg-theme-yellow', 'text-black', 'selected');
+                });
+            });
+            
+            // 安装方式选择功能
+            const sizeOptions = document.querySelectorAll('.size-option');
+            sizeOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    // 移除所有安装方式选项的高亮和selected类
+                    sizeOptions.forEach(o => {
+                        o.classList.remove('border-yellow-400', 'border-2', 'selected', 'bg-yellow-500', 'bg-opacity-20', 'text-yellow-400');
+                        o.classList.add('border', 'border-gray-700');
+                    });
+                    
+                    // 高亮当前选择的安装方式
+                    this.classList.remove('border', 'border-gray-700');
+                    this.classList.add('border-2', 'border-yellow-400', 'selected', 'bg-yellow-500', 'bg-opacity-20', 'text-yellow-400');
+                });
+            });
+            
+            // 应用场景选择功能
+            const sceneOptions = document.querySelectorAll('.scene-option');
+            const selectedScenesSpan = document.getElementById('selected-scenes');
+            
+            // 初始化已选场景数组
+            let selectedScenes = []; // 初始无选中场景
+            
+            // 更新显示已选场景
+            if (selectedScenes.length > 0) {
+                selectedScenesSpan.textContent = selectedScenes.join('、');
+            } else {
+                selectedScenesSpan.textContent = '无';
+            }
+            
+            sceneOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    const sceneName = this.querySelector('span').textContent;
+                    
+                    // 如果已经选中，则取消选择
+                    if (this.classList.contains('selected')) {
+                        this.classList.remove('border-yellow-400', 'selected');
+                        this.classList.add('border-gray-700');
+                        this.querySelector('i').classList.remove('text-yellow-400');
+                        this.querySelector('span').classList.remove('text-yellow-400');
+                        
+                        // 从已选场景中移除
+                        const index = selectedScenes.indexOf(sceneName);
+                        if (index > -1) {
+                            selectedScenes.splice(index, 1);
+                        }
+                    } else {
+                        // 如果未选中，则添加选择
+                        this.classList.remove('border-gray-700');
+                        this.classList.add('border-yellow-400', 'selected');
+                        this.querySelector('i').classList.add('text-yellow-400');
+                        this.querySelector('span').classList.add('text-yellow-400');
+                        
+                        // 添加到已选场景
+                        selectedScenes.push(sceneName);
+                    }
+                    
+                    // 更新显示已选场景
+                    if (selectedScenes.length > 0) {
+                        selectedScenesSpan.textContent = selectedScenes.join('、');
+                    } else {
+                        selectedScenesSpan.textContent = '无';
+                    }
                 });
             });
             
@@ -2066,6 +3136,1630 @@
                 alert('在线客服系统正在开发中，请通过电话或邮件联系我们！');
             });
         }
+    </script>
+    <script>
+        // 定义图片修复函数，确保首次加载时立即执行
+        (function() {
+            // 设置网站根目录的绝对路径
+            const siteRoot = window.location.origin + window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
+            console.log('站点根目录:', siteRoot);
+            
+            // 图片加载失败计数器
+            let failedImagesCount = 0;
+            
+            // 修复所有图片路径的函数
+            function fixAllImages() {
+                // 处理所有图片
+                const allImages = document.querySelectorAll('img');
+                console.log('需要处理的图片总数:', allImages.length);
+                
+                allImages.forEach(img => {
+                    // 跳过已经修复过的图片
+                    if(img.hasAttribute('data-fixed')) {
+                        return;
+                    }
+                    
+                    // 获取当前图片路径
+                    const originalSrc = img.getAttribute('src');
+                    console.log('处理图片:', originalSrc);
+                    
+                    // 如果是相对路径且不是http开头
+                    if(originalSrc && !originalSrc.startsWith('http') && !originalSrc.startsWith('data:')) {
+                        // 移除开头的./
+                        let cleanPath = originalSrc.replace(/^\.\//g, '');
+                        
+                        // 构建绝对路径
+                        const absolutePath = siteRoot + cleanPath;
+                        console.log('修改为绝对路径:', absolutePath);
+                        
+                        // 设置新路径
+                        img.setAttribute('src', absolutePath);
+                        
+                        // 标记图片已修复
+                        img.setAttribute('data-fixed', 'true');
+                        
+                        // 强制加载
+                        img.setAttribute('loading', 'eager');
+                    }
+                    
+                    // 为所有图片添加加载错误处理
+                    if(!img.hasAttribute('data-error-handler')) {
+                        img.onerror = function() {
+                            // 记录错误
+                            console.error('图片加载失败:', this.src);
+                            failedImagesCount++;
+                            
+                            // 尝试不同的路径
+                            if(!this.hasAttribute('data-tried-alt')) {
+                                // 尝试不同的路径格式
+                                let altPath;
+                                
+                                if(this.src.includes('/lunbo/')) {
+                                    // 尝试不同的目录结构
+                                    altPath = this.src.replace('/lunbo/', '/images/');
+                                    console.log('尝试替代路径:', altPath);
+                                    this.setAttribute('data-tried-alt', 'true');
+                                    this.src = altPath;
+                                    return;
+                                }
+                                
+                                // 如果图片有替代文本，则创建一个替代元素
+                                if(this.alt) {
+                                    // 创建一个显示替代文本的div
+                                    const placeholder = document.createElement('div');
+                                    placeholder.textContent = this.alt;
+                                    placeholder.style.width = '100%';
+                                    placeholder.style.height = '100%';
+                                    placeholder.style.display = 'flex';
+                                    placeholder.style.alignItems = 'center';
+                                    placeholder.style.justifyContent = 'center';
+                                    placeholder.style.backgroundColor = '#333';
+                                    placeholder.style.color = '#fff';
+                                    placeholder.style.padding = '20px';
+                                    placeholder.style.textAlign = 'center';
+                                    
+                                    // 替换图片
+                                    if(this.parentNode) {
+                                        this.parentNode.insertBefore(placeholder, this);
+                                        this.style.display = 'none';
+                                    }
+                                }
+                            }
+                        };
+                        img.setAttribute('data-error-handler', 'true');
+                    }
+                    
+                    // 移除懒加载属性
+                    if(img.hasAttribute('loading')) {
+                        img.removeAttribute('loading');
+                    }
+                });
+                
+                console.log('图片处理完成，失败数量:', failedImagesCount);
+            }
+            
+            // 页面加载时立即执行一次
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', function() {
+                    setTimeout(fixAllImages, 0);
+                });
+            } else {
+                fixAllImages();
+            }
+            
+            // 在页面完全加载后再次执行
+            window.addEventListener('load', function() {
+                fixAllImages();
+                // 再延迟执行一次，确保所有动态加载的内容都被处理
+                setTimeout(fixAllImages, 500);
+            });
+        })();
+
+        // 添加管理员登录功能 (可以通过控制台启用)
+        function adminLogin() {
+            localStorage.setItem('isAdmin', 'true');
+            alert('管理员模式已启用，请刷新页面生效！');
+            window.location.reload();
+        }
+    </script>
+
+    <!-- 产品管理脚本 -->
+    <script>
+        // 页面加载时检查管理员权限
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log("正在初始化管理员系统...");
+            
+            // 检查是否是管理员
+            const isAdmin = localStorage.getItem('isAdmin') === 'true';
+            console.log("管理员状态:", isAdmin);
+            
+            const adminBar = document.getElementById('adminBar');
+            const adminControlBar = document.getElementById('admin-control-bar');
+            const adminEntry = document.getElementById('admin-entry');
+            
+            // 显示管理栏
+            if (isAdmin) {
+                console.log("显示管理员控制栏");
+                if (adminBar) {
+                    adminBar.style.display = 'block';
+                    console.log("显示管理栏:", adminBar);
+                } else {
+                    console.warn("未找到管理栏元素 adminBar");
+                }
+                
+                if (adminControlBar) {
+                    adminControlBar.style.display = 'flex';
+                    console.log("显示管理员控制栏:", adminControlBar);
+                } else {
+                    console.warn("未找到管理员控制栏元素 admin-control-bar");
+                }
+                
+                // 确保产品列表区域存在
+                const productsGrid = document.getElementById('products-grid');
+                if (productsGrid) {
+                    console.log("找到产品列表区域:", productsGrid);
+                } else {
+                    console.warn("未找到产品列表区域 products-grid");
+                    // 创建产品区域如果不存在
+                    createProductsSection();
+                }
+            }
+            
+            // 为管理入口添加点击事件
+            if (adminEntry) {
+                adminEntry.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // 模拟简单的登录验证
+                    const password = prompt('请输入管理员密码:');
+                    if (password === 'admin123') {
+                        localStorage.setItem('isAdmin', 'true');
+                        alert('管理员登录成功!');
+                        location.reload();
+                    } else {
+                        alert('密码错误!');
+                    }
+                });
+            } else {
+                console.warn("未找到管理入口元素 admin-entry");
+            }
+
+            // 统一的产品管理系统 - 新版完整实现
+            // DOM元素
+            const addProductBtn = document.getElementById('add-product-btn');
+            const productsGrid = document.getElementById('products-grid');
+            const productModal = document.getElementById('product-modal');
+            const closeProductModal = document.getElementById('close-product-modal');
+            const cancelProduct = document.getElementById('cancel-product');
+            const productForm = document.getElementById('product-form');
+            const noProducts = document.getElementById('no-products');
+            const productDetailModal = document.getElementById('product-detail-modal');
+            const closeDetailModal = document.getElementById('close-detail-modal');
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const adminLogout = document.getElementById('admin-logout');
+            const toggleEditMode = document.getElementById('toggle-edit-mode');
+            
+            // 产品数据
+            let products = JSON.parse(localStorage.getItem('products')) || [];
+            let isEditMode = false;
+
+            // 初始化
+            if (isAdmin) {
+                // 确保在DOM完全加载后再执行初始化
+                setTimeout(function() {
+                    console.log('延迟初始化管理员功能...');
+                    // 显示管理栏
+                    if (adminControlBar) adminControlBar.style.display = 'flex';
+                    
+                    // 尝试渲染产品
+                    try {
+                        if (typeof renderProducts === 'function') {
+                            renderProducts();
+                            console.log("成功渲染产品");
+                        } else {
+                            console.error("renderProducts函数未定义");
+                        }
+                    } catch (error) {
+                        console.error("渲染产品时出错:", error);
+                    }
+                    
+                    // 设置事件监听器
+                    setupEventListeners();
+                    
+                    // 初始化增强功能
+                    initEnhancedAdminFeatures();
+                }, 500);
+            }
+            
+            // 创建产品区域如果不存在
+            function createProductsSection() {
+                console.log("创建产品展示区...");
+                const main = document.querySelector('main');
+                if (!main) return;
+                
+                const productsSection = document.createElement('section');
+                productsSection.id = 'products-section';
+                productsSection.className = 'py-16 bg-gray-950';
+                productsSection.innerHTML = `
+                    <div class="container mx-auto px-4">
+                        <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-yellow-400">产品展示</h2>
+                        
+                        <!-- 产品过滤器 -->
+                        <div id="product-filters" class="mb-8 flex flex-wrap justify-center gap-3">
+                            <button class="filter-btn active bg-yellow-500 text-black px-4 py-2 rounded-md hover:bg-yellow-600 transition-all" data-filter="all">全部产品</button>
+                            <button class="filter-btn bg-gray-800 text-white px-4 py-2 rounded-md hover:bg-gray-700 transition-all" data-filter="new">最新产品</button>
+                            <button class="filter-btn bg-gray-800 text-white px-4 py-2 rounded-md hover:bg-gray-700 transition-all" data-filter="popular">热门产品</button>
+                        </div>
+                        
+                        <!-- 产品网格 -->
+                        <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                            <!-- 产品卡片由JS动态生成 -->
+                        </div>
+                        
+                        <!-- 没有产品时的提示 -->
+                        <div id="no-products" class="hidden text-center py-12">
+                            <div class="text-gray-500 mb-4">
+                                <i class="fas fa-box-open text-5xl"></i>
+                            </div>
+                            <h3 class="text-xl font-medium text-gray-400">暂无产品信息</h3>
+                            <p class="text-gray-600 mt-2">管理员可以通过点击"添加产品"按钮来添加新产品</p>
+                        </div>
+                    </div>
+                `;
+                
+                main.appendChild(productsSection);
+                console.log("已创建产品展示区");
+            }
+
+            // 绑定所有事件监听器
+            function setupEventListeners() {
+                console.log("设置事件监听器...");
+                // 管理员相关
+                if (adminLogout) {
+                    adminLogout.addEventListener('click', function() {
+                        localStorage.setItem('isAdmin', 'false');
+                        alert('已退出管理员模式');
+                        location.reload();
+                    });
+                } else {
+                    console.warn("未找到退出管理按钮 admin-logout");
+                }
+
+                if (toggleEditMode) {
+                    toggleEditMode.addEventListener('click', function() {
+                        isEditMode = !isEditMode;
+                        try {
+                            renderProducts(); // 重新渲染产品，显示/隐藏编辑按钮
+                        } catch (error) {
+                            console.error("切换编辑模式时出错:", error);
+                        }
+                        
+                        toggleEditMode.innerHTML = isEditMode ? 
+                            '<i class="fas fa-eye mr-1"></i> 预览模式' : 
+                            '<i class="fas fa-pen mr-1"></i> 编辑模式';
+                        
+                        if (isEditMode) {
+                            toggleEditMode.classList.replace('bg-gray-700', 'bg-blue-600');
+                            toggleEditMode.classList.replace('hover:bg-gray-600', 'hover:bg-blue-700');
+                        } else {
+                            toggleEditMode.classList.replace('bg-blue-600', 'bg-gray-700');
+                            toggleEditMode.classList.replace('hover:bg-blue-700', 'hover:bg-gray-600');
+                        }
+                    });
+                } else {
+                    console.warn("未找到编辑模式切换按钮 toggle-edit-mode");
+                }
+
+                // 产品相关
+                if (addProductBtn) {
+                    addProductBtn.addEventListener('click', function() {
+                        console.log("点击添加产品按钮");
+                        try {
+                            openProductModal();
+                        } catch (error) {
+                            console.error("打开产品模态框时出错:", error);
+                            // 尝试重新创建模态框
+                            createProductModal();
+                        }
+                    });
+                } else {
+                    console.warn("未找到添加产品按钮 add-product-btn");
+                }
+                
+                // 确保老版本的添加产品按钮也能正常工作
+                const oldAddProductBtn = document.getElementById('add-product');
+                if (oldAddProductBtn) {
+                    oldAddProductBtn.addEventListener('click', function() {
+                        console.log("点击旧版添加产品按钮");
+                        try {
+                            openProductModal();
+                        } catch (error) {
+                            console.error("打开产品模态框时出错:", error);
+                            // 尝试重新创建模态框
+                            createProductModal();
+                        }
+                    });
+                }
+
+                if (closeProductModal) {
+                    closeProductModal.addEventListener('click', function() {
+                        productModal.classList.add('hidden');
+                    });
+                }
+
+                if (cancelProduct) {
+                    cancelProduct.addEventListener('click', function() {
+                        productModal.classList.add('hidden');
+                    });
+                }
+
+                if (productForm) {
+                    productForm.addEventListener('submit', function(e) {
+                        e.preventDefault();
+                        saveProduct();
+                    });
+                }
+
+                if (closeDetailModal) {
+                    closeDetailModal.addEventListener('click', function() {
+                        productDetailModal.classList.add('hidden');
+                    });
+                }
+
+                // 过滤器
+                if (filterBtns && filterBtns.length > 0) {
+                    filterBtns.forEach(btn => {
+                        btn.addEventListener('click', function() {
+                            filterBtns.forEach(b => b.classList.remove('active', 'bg-yellow-500', 'text-black'));
+                            filterBtns.forEach(b => b.classList.add('bg-gray-800', 'text-white'));
+                            this.classList.remove('bg-gray-800', 'text-white');
+                            this.classList.add('active', 'bg-yellow-500', 'text-black');
+                            
+                            const filter = this.getAttribute('data-filter');
+                            try {
+                                filterProducts(filter);
+                            } catch (error) {
+                                console.error("过滤产品时出错:", error);
+                            }
+                        });
+                    });
+                }
+                
+                console.log("事件监听器设置完成");
+            }
+            
+            // 创建产品模态框
+            function createProductModal() {
+                console.log("创建产品模态框...");
+                // 将产品模态框添加到body
+                const modalHTML = `
+                <div id="product-modal" class="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50 hidden">
+                    <div class="bg-gray-900 w-full max-w-5xl rounded-lg shadow-xl p-6 relative border border-yellow-500 overflow-y-auto max-h-[90vh]">
+                        <button id="close-product-modal" class="absolute top-3 right-3 text-gray-400 hover:text-white">
+                            <i class="fas fa-times"></i>
+                        </button>
+                        <h3 id="product-modal-title" class="text-xl font-bold mb-4 text-yellow-400">添加新产品</h3>
+                        
+                        <form id="product-form" class="space-y-6">
+                            <input type="hidden" id="product-id">
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-400 mb-1">产品名称</label>
+                                    <input type="text" id="product-name" class="w-full bg-gray-800 border border-gray-700 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent" required>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-400 mb-1">产品类别</label>
+                                    <select id="product-category" class="w-full bg-gray-800 border border-gray-700 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
+                                        <option value="all">通用产品</option>
+                                        <option value="new">最新产品</option>
+                                        <option value="popular">热门产品</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <!-- 产品标签 -->
+                            <div class="bg-gray-900 p-4 rounded-lg">
+                                <h3 class="text-lg mb-3">产品标签</h3>
+                                <div class="flex items-center gap-2">
+                                    <div class="flex-1 p-3 border border-gray-700 rounded-lg bg-gray-800 text-sm">
+                                        <span id="product-tag-display">请选择产品标签</span>
+                                        <span class="text-xs text-gray-400 ml-2">(必选)</span>
+                                    </div>
+                                    <button type="button" id="choose-product-tag-btn" class="bg-theme-yellow text-black py-3 px-5 rounded hover:opacity-90 transition-opacity flex items-center justify-center">
+                                        <i class="fas fa-tags mr-2"></i> 选择标签
+                                    </button>
+                                </div>
+                                <input type="hidden" id="product-tag" name="product-tag">
+                            </div>
+                            
+                            <!-- 款式选择 -->
+                            <div class="bg-gray-900 p-4 rounded-lg">
+                                <h3 class="text-lg mb-3">款式选择</h3>
+                                <div id="product-styles" class="grid grid-cols-2 gap-3 md:grid-cols-4">
+                                    <!-- 款式将通过JS动态生成 -->
+                                </div>
+                                <input type="hidden" id="product-style" name="product-style">
+                            </div>
+                            
+                            <!-- 安装方式 -->
+                            <div class="bg-gray-900 p-4 rounded-lg">
+                                <h3 class="text-lg mb-3">安装方式</h3>
+                                <div id="product-install-methods" class="grid grid-cols-2 gap-3 md:grid-cols-4">
+                                    <!-- 安装方式将通过JS动态生成 -->
+                                </div>
+                                <input type="hidden" id="product-install-method" name="product-install-method">
+                            </div>
+                            
+                            <!-- 颜色选择 -->
+                            <div class="bg-gray-900 p-4 rounded-lg">
+                                <h3 class="text-lg mb-2">颜色选择</h3>
+                                <div id="color-options" class="color-options mb-2">
+                                    <!-- 颜色选项将通过JS动态生成 -->
+                                </div>
+                                <div class="mt-2 text-sm">
+                                    已选: <span id="selected-color-text" class="theme-yellow">请选择颜色</span>
+                                </div>
+                                <input type="hidden" id="product-color" name="product-color">
+                            </div>
+                            
+                            <!-- 玻璃类型 -->
+                            <div class="bg-gray-900 p-4 rounded-lg">
+                                <h3 class="text-lg mb-2">玻璃类型</h3>
+                                <div id="product-glass-types" class="grid grid-cols-2 gap-3">
+                                    <!-- 玻璃类型将通过JS动态生成 -->
+                                </div>
+                                <input type="hidden" id="product-glass-type" name="product-glass-type">
+                            </div>
+                            
+                            <!-- 玻璃款式 -->
+                            <div class="bg-gray-900 p-4 rounded-lg">
+                                <h3 class="text-lg mb-3">玻璃款式</h3>
+                                <div class="flex items-center gap-2">
+                                    <div class="flex-1 p-3 border border-gray-700 rounded-lg bg-gray-800 text-sm">
+                                        <span id="product-glass-style-display">请选择玻璃款式</span>
+                                        <span class="text-xs text-gray-400 ml-2">(必选)</span>
+                                    </div>
+                                    <button type="button" id="choose-glass-style-btn" class="bg-theme-yellow text-black py-3 px-5 rounded hover:opacity-90 transition-opacity flex items-center justify-center">
+                                        <i class="fas fa-list-ul mr-2"></i> 选择玻璃
+                                    </button>
+                                </div>
+                                <input type="hidden" id="product-glass-style" name="product-glass-style">
+                            </div>
+                            
+                            <!-- 应用场景 -->
+                            <div class="bg-gray-900 p-4 rounded-lg">
+                                <h3 class="text-lg mb-2">应用场景 <span class="text-xs text-gray-400">(可多选)</span></h3>
+                                <div id="product-scenes" class="grid grid-cols-3 gap-2 md:grid-cols-5">
+                                    <!-- 场景选项将通过JS动态生成 -->
+                                </div>
+                                <div class="mt-2 text-sm">
+                                    已选: <span id="selected-scenes-text" class="theme-yellow">无</span>
+                                </div>
+                            </div>
+                            
+                            <!-- 产品描述 -->
+                            <div class="bg-gray-900 p-4 rounded-lg">
+                                <h3 class="text-lg mb-2">产品描述</h3>
+                                <textarea id="product-description" class="w-full bg-gray-800 border border-gray-700 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent h-24" required></textarea>
+                            </div>
+                            
+                            <!-- 价格和库存 -->
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="bg-gray-900 p-4 rounded-lg">
+                                    <h3 class="text-lg mb-2">价格 (选填)</h3>
+                                    <input type="number" id="product-price" class="w-full bg-gray-800 border border-gray-700 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
+                                </div>
+                                <div class="bg-gray-900 p-4 rounded-lg">
+                                    <h3 class="text-lg mb-2">库存状态</h3>
+                                    <select id="product-stock" class="w-full bg-gray-800 border border-gray-700 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
+                                        <option value="in-stock">有库存</option>
+                                        <option value="low-stock">库存不足</option>
+                                        <option value="out-of-stock">无库存</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="flex justify-end space-x-3 mt-6">
+                                <button type="button" id="cancel-product" class="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-md">取消</button>
+                                <button type="submit" id="save-product" class="bg-yellow-500 hover:bg-yellow-600 text-black px-4 py-2 rounded-md flex items-center">
+                                    <i class="fas fa-save mr-2"></i> 保存产品
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                `;
+                
+                // 创建标签选择模态框
+                const tagModalHTML = `
+                <div id="tag-selection-modal" class="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center hidden">
+                    <div class="bg-gray-900 p-6 rounded-lg w-full max-w-lg">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-xl font-bold">选择产品标签</h3>
+                            <button id="close-tag-modal" class="text-gray-400 hover:text-white">
+                                <i class="fas fa-times text-xl"></i>
+                            </button>
+                        </div>
+                        <div id="tag-selection-container" class="grid grid-cols-2 gap-3 md:grid-cols-3">
+                            <!-- 标签选项将通过JS动态生成 -->
+                        </div>
+                        <div class="mt-6 flex justify-end">
+                            <button id="confirm-tag-selection" class="bg-theme-yellow text-black py-2 px-6 rounded hover:opacity-90 transition-opacity">
+                                确认选择
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                `;
+                
+                // 创建玻璃款式选择模态框
+                const glassModalHTML = `
+                <div id="glass-style-modal" class="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center hidden">
+                    <div class="bg-gray-900 p-6 rounded-lg w-full max-w-7xl max-h-[80vh] overflow-y-auto">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-xl font-bold">选择玻璃款式</h3>
+                            <button id="close-glass-modal" class="text-gray-400 hover:text-white">
+                                <i class="fas fa-times text-xl"></i>
+                            </button>
+                        </div>
+                        <div id="glass-style-container" class="grid grid-cols-3 gap-2 md:grid-cols-7">
+                            <!-- 玻璃款式选项将通过JS动态生成 -->
+                        </div>
+                        <div class="mt-6 flex justify-end">
+                            <button id="confirm-glass-selection" class="bg-theme-yellow text-black py-2 px-6 rounded hover:opacity-90 transition-opacity">
+                                确认选择
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                `;
+                
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = modalHTML;
+                document.body.appendChild(tempDiv.firstElementChild);
+                
+                const tagModalDiv = document.createElement('div');
+                tagModalDiv.innerHTML = tagModalHTML;
+                document.body.appendChild(tagModalDiv.firstElementChild);
+                
+                const glassModalDiv = document.createElement('div');
+                glassModalDiv.innerHTML = glassModalHTML;
+                document.body.appendChild(glassModalDiv.firstElementChild);
+                
+                // 绑定事件
+                bindProductModalEvents();
+                
+                // 加载分类选项
+                loadProductFormCategories();
+                
+                console.log("产品模态框创建完成");
+                return document.getElementById('product-modal');
+            }
+
+            // 绑定产品模态框所有事件
+            function bindProductModalEvents() {
+                console.log("绑定产品模态框事件...");
+                
+                // 关闭按钮
+                const closeProductModal = document.getElementById('close-product-modal');
+                const cancelProduct = document.getElementById('cancel-product');
+                if (closeProductModal) {
+                    closeProductModal.addEventListener('click', function() {
+                        document.getElementById('product-modal').classList.add('hidden');
+                        document.body.style.overflow = '';
+                    });
+                }
+                
+                if (cancelProduct) {
+                    cancelProduct.addEventListener('click', function() {
+                        document.getElementById('product-modal').classList.add('hidden');
+                        document.body.style.overflow = '';
+                    });
+                }
+                
+                // 表单提交
+                const productForm = document.getElementById('product-form');
+                if (productForm) {
+                    productForm.addEventListener('submit', function(e) {
+                        e.preventDefault();
+                        saveProduct();
+                    });
+                }
+                
+                // 图片上传
+                const imageUpload = document.getElementById('product-images-upload');
+                const uploadPreviewBtn = document.getElementById('upload-preview-btn');
+                if (imageUpload && uploadPreviewBtn) {
+                    uploadPreviewBtn.addEventListener('click', function() {
+                        if (imageUpload.files.length > 0) {
+                            handleImageUpload(imageUpload.files);
+                        } else {
+                            alert('请先选择图片');
+                        }
+                    });
+                }
+                
+                // 产品标签选择
+                const chooseTagBtn = document.getElementById('choose-product-tag-btn');
+                const tagModal = document.getElementById('tag-selection-modal');
+                const closeTagModal = document.getElementById('close-tag-modal');
+                const confirmTagSelection = document.getElementById('confirm-tag-selection');
+                
+                if (chooseTagBtn && tagModal) {
+                    chooseTagBtn.addEventListener('click', function() {
+                        tagModal.classList.remove('hidden');
+                        document.body.style.overflow = 'hidden';
+                    });
+                }
+                
+                if (closeTagModal) {
+                    closeTagModal.addEventListener('click', function() {
+                        tagModal.classList.add('hidden');
+                        document.body.style.overflow = '';
+                    });
+                }
+                
+                if (confirmTagSelection) {
+                    confirmTagSelection.addEventListener('click', function() {
+                        tagModal.classList.add('hidden');
+                        document.body.style.overflow = '';
+                    });
+                }
+                
+                if (tagModal) {
+                    tagModal.addEventListener('click', function(e) {
+                        if (e.target === tagModal) {
+                            tagModal.classList.add('hidden');
+                            document.body.style.overflow = '';
+                        }
+                    });
+                }
+                
+                // 玻璃款式选择
+                const chooseGlassBtn = document.getElementById('choose-glass-style-btn');
+                const glassModal = document.getElementById('glass-style-modal');
+                const closeGlassModal = document.getElementById('close-glass-modal');
+                const confirmGlassSelection = document.getElementById('confirm-glass-selection');
+                
+                if (chooseGlassBtn && glassModal) {
+                    chooseGlassBtn.addEventListener('click', function() {
+                        glassModal.classList.remove('hidden');
+                        document.body.style.overflow = 'hidden';
+                    });
+                }
+                
+                if (closeGlassModal) {
+                    closeGlassModal.addEventListener('click', function() {
+                        glassModal.classList.add('hidden');
+                        document.body.style.overflow = '';
+                    });
+                }
+                
+                if (confirmGlassSelection) {
+                    confirmGlassSelection.addEventListener('click', function() {
+                        glassModal.classList.add('hidden');
+                        document.body.style.overflow = '';
+                    });
+                }
+                
+                if (glassModal) {
+                    glassModal.addEventListener('click', function(e) {
+                        if (e.target === glassModal) {
+                            glassModal.classList.add('hidden');
+                            document.body.style.overflow = '';
+                        }
+                    });
+                }
+                
+                console.log("产品模态框事件绑定完成");
+            }
+
+        // 打开产品模态框
+        function openProductModal(product) {
+            console.log("打开产品模态框...");
+            
+            // 确保模态框存在
+            let productModal = document.getElementById('product-modal');
+            if (!productModal) {
+                productModal = createProductModal();
+            }
+            
+            // 设置标题
+            const titleElement = document.getElementById('product-modal-title');
+            if (titleElement) {
+                titleElement.textContent = product ? '编辑产品' : '添加新产品';
+            }
+            
+            // 重置表单
+            const productForm = document.getElementById('product-form');
+            if (productForm) {
+                productForm.reset();
+            }
+            
+            // 清空图片预览
+            const previewContainer = document.getElementById('image-preview-container');
+            if (previewContainer) {
+                previewContainer.innerHTML = '';
+            }
+            
+            // 重置选择项
+            document.getElementById('product-tag-display').textContent = '请选择产品标签';
+            document.getElementById('product-glass-style-display').textContent = '请选择玻璃款式';
+            document.getElementById('selected-color-text').textContent = '请选择颜色';
+            document.getElementById('selected-scenes-text').textContent = '无';
+            
+            // 隐藏字段重置
+            document.getElementById('product-tag').value = '';
+            document.getElementById('product-style').value = '';
+            document.getElementById('product-install-method').value = '';
+            document.getElementById('product-color').value = '';
+            document.getElementById('product-glass-type').value = '';
+            document.getElementById('product-glass-style').value = '';
+            
+            // 重新加载分类选项
+            loadProductFormCategories();
+            
+            // 填充产品数据（如果是编辑）
+            if (product) {
+                document.getElementById('product-id').value = product.id;
+                document.getElementById('product-name').value = product.name || '';
+                document.getElementById('product-category').value = product.category || 'all';
+                document.getElementById('product-description').value = product.description || '';
+                document.getElementById('product-price').value = product.price || '';
+                document.getElementById('product-stock').value = product.stock || 'in-stock';
+                
+                // 如果有已保存的图片，显示预览
+                if (product.imageData && Array.isArray(product.imageData)) {
+                    showSavedImages(product.imageData);
+                } else if (product.image) {
+                    // 旧版本兼容，显示单张图片
+                    showSavedImages([product.image]);
+                }
+                
+                // 设置标签选择
+                if (product.tags && Array.isArray(product.tags) && product.tags.length > 0) {
+                    document.getElementById('product-tag-display').textContent = product.tags[0];
+                    document.getElementById('product-tag').value = product.tags[0];
+                    
+                    // 在模态框中标记选中的标签
+                    const tagItems = document.querySelectorAll('.tag-option-item');
+                    tagItems.forEach(item => {
+                        if (item.getAttribute('data-value') === product.tags[0]) {
+                            item.click();
+                        }
+                    });
+                }
+                
+                // 设置款式选择
+                if (product.style) {
+                    document.getElementById('product-style').value = product.style;
+                    
+                    // 标记选中的款式
+                    const styleButtons = document.querySelectorAll('.style-option');
+                    styleButtons.forEach(btn => {
+                        if (btn.getAttribute('data-value') === product.style) {
+                            btn.click();
+                        }
+                    });
+                }
+                
+                // 设置安装方式
+                if (product.installMethod) {
+                    document.getElementById('product-install-method').value = product.installMethod;
+                    
+                    // 标记选中的安装方式
+                    const installButtons = document.querySelectorAll('.size-option');
+                    installButtons.forEach(btn => {
+                        if (btn.getAttribute('data-value') === product.installMethod) {
+                            btn.click();
+                        }
+                    });
+                }
+                
+                // 设置颜色选择
+                if (product.color) {
+                    document.getElementById('product-color').value = product.color;
+                    document.getElementById('selected-color-text').textContent = product.color;
+                    
+                    // 标记选中的颜色
+                    const colorOptions = document.querySelectorAll('.color-option');
+                    colorOptions.forEach(option => {
+                        if (option.getAttribute('data-value') === product.color) {
+                            option.classList.add('selected');
+                        }
+                    });
+                }
+                
+                // 设置玻璃类型
+                if (product.glassType) {
+                    document.getElementById('product-glass-type').value = product.glassType;
+                    
+                    // 标记选中的玻璃类型
+                    const glassTypeButtons = document.querySelectorAll('.glass-option');
+                    glassTypeButtons.forEach(btn => {
+                        if (btn.getAttribute('data-value') === product.glassType) {
+                            btn.click();
+                        }
+                    });
+                }
+                
+                // 设置玻璃款式
+                if (product.glassStyle) {
+                    document.getElementById('product-glass-style').value = product.glassStyle;
+                    document.getElementById('product-glass-style-display').textContent = product.glassStyle;
+                    
+                    // 在模态框中标记选中的玻璃款式
+                    const glassItems = document.querySelectorAll('.glass-option-item');
+                    glassItems.forEach(item => {
+                        if (item.getAttribute('data-value') === product.glassStyle) {
+                            item.click();
+                        }
+                    });
+                }
+                
+                // 设置应用场景
+                if (product.scenes && Array.isArray(product.scenes) && product.scenes.length > 0) {
+                    // 更新已选场景文本
+                    document.getElementById('selected-scenes-text').textContent = product.scenes.join(', ');
+                    
+                    // 标记选中的场景
+                    const sceneButtons = document.querySelectorAll('.scene-option');
+                    sceneButtons.forEach(btn => {
+                        if (product.scenes.includes(btn.getAttribute('data-value'))) {
+                            btn.click();
+                        }
+                    });
+                }
+            } else {
+                document.getElementById('product-id').value = '';
+            }
+            
+            // 显示模态框
+            productModal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // ... existing code ...
+    </script>
+
+    <!-- 添加分类和产品管理工具函数 -->
+    <script>
+        // 实现loadProductFormCategories函数
+        function loadProductFormCategories() {
+            console.log("加载产品表单分类选项...");
+            
+            // 获取默认分类数据
+            const categories = getDefaultCategories();
+            
+            // 填充标签选择容器
+            const tagContainer = document.getElementById('tag-selection-container');
+            if (tagContainer) {
+                tagContainer.innerHTML = '';
+                categories.tags.forEach(tag => {
+                    const item = document.createElement('div');
+                    item.className = 'tag-option-item';
+                    item.setAttribute('data-value', tag);
+                    item.innerHTML = `
+                        <div class="p-2 border border-gray-700 rounded-lg bg-gray-900 hover:border-yellow-400 transition-all duration-300 cursor-pointer">
+                            <div class="text-sm font-medium text-center">${tag}</div>
+                        </div>
+                    `;
+                    tagContainer.appendChild(item);
+                    
+                    // 添加点击事件
+                    item.addEventListener('click', function() {
+                        // 移除之前选择的项目
+                        document.querySelectorAll('.tag-option-item').forEach(i => {
+                            i.classList.remove('selected');
+                            const itemInner = i.querySelector('div');
+                            if (itemInner) {
+                                itemInner.classList.remove('border-yellow-400', 'border-2', 'bg-theme-yellow');
+                                itemInner.classList.add('border-gray-700', 'border', 'bg-gray-900');
+                            }
+                        });
+                        
+                        // 标记当前选择
+                        this.classList.add('selected');
+                        const innerDiv = this.querySelector('div');
+                        if (innerDiv) {
+                            innerDiv.classList.remove('border-gray-700', 'border', 'bg-gray-900');
+                            innerDiv.classList.add('border-yellow-400', 'border-2', 'bg-theme-yellow');
+                        }
+                        
+                        // 更新选择文本和隐藏输入
+                        const displayElem = document.getElementById('product-tag-display');
+                        const inputElem = document.getElementById('product-tag');
+                        if (displayElem && inputElem) {
+                            displayElem.textContent = this.getAttribute('data-value');
+                            inputElem.value = this.getAttribute('data-value');
+                        }
+                    });
+                });
+            }
+            
+            // 填充款式选择
+            const stylesContainer = document.getElementById('product-styles');
+            if (stylesContainer) {
+                stylesContainer.innerHTML = '';
+                categories.styles.forEach(style => {
+                    const btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.className = 'w-full py-3 px-6 border border-gray-700 rounded hover:border-yellow-400 transition-colors text-center style-option';
+                    btn.textContent = style;
+                    btn.setAttribute('data-value', style);
+                    stylesContainer.appendChild(btn);
+                    
+                    // 添加点击事件
+                    btn.addEventListener('click', function() {
+                        // 移除其他款式的选中状态
+                        document.querySelectorAll('.style-option').forEach(b => {
+                            b.classList.remove('border-2', 'border-yellow-400', 'selected', 'bg-yellow-500', 'bg-opacity-20', 'text-yellow-400');
+                            b.classList.add('border', 'border-gray-700');
+                        });
+                        
+                        // 设置当前款式为选中
+                        this.classList.remove('border', 'border-gray-700');
+                        this.classList.add('border-2', 'border-yellow-400', 'selected', 'bg-yellow-500', 'bg-opacity-20', 'text-yellow-400');
+                        
+                        // 更新隐藏输入
+                        const styleInput = document.getElementById('product-style');
+                        if (styleInput) {
+                            styleInput.value = this.getAttribute('data-value');
+                        }
+                    });
+                });
+            }
+            
+            // 填充安装方式
+            const installContainer = document.getElementById('product-install-methods');
+            if (installContainer) {
+                installContainer.innerHTML = '';
+                categories.installMethods.forEach(method => {
+                    const btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.className = 'w-full py-3 px-6 border border-gray-700 rounded hover:border-yellow-400 transition-colors text-center size-option';
+                    btn.textContent = method;
+                    btn.setAttribute('data-value', method);
+                    installContainer.appendChild(btn);
+                    
+                    // 添加点击事件
+                    btn.addEventListener('click', function() {
+                        // 移除其他安装方式的选中状态
+                        document.querySelectorAll('.size-option').forEach(b => {
+                            b.classList.remove('border-2', 'border-yellow-400', 'selected', 'bg-yellow-500', 'bg-opacity-20', 'text-yellow-400');
+                            b.classList.add('border', 'border-gray-700');
+                        });
+                        
+                        // 设置当前安装方式为选中
+                        this.classList.remove('border', 'border-gray-700');
+                        this.classList.add('border-2', 'border-yellow-400', 'selected', 'bg-yellow-500', 'bg-opacity-20', 'text-yellow-400');
+                        
+                        // 更新隐藏输入
+                        const methodInput = document.getElementById('product-install-method');
+                        if (methodInput) {
+                            methodInput.value = this.getAttribute('data-value');
+                        }
+                    });
+                });
+            }
+            
+            // 填充颜色选择
+            const colorContainer = document.getElementById('color-options');
+            if (colorContainer) {
+                colorContainer.innerHTML = '';
+                categories.colors.forEach(color => {
+                    const colorDiv = document.createElement('div');
+                    colorDiv.className = 'color-option';
+                    colorDiv.setAttribute('data-value', color.name);
+                    colorDiv.setAttribute('title', color.name);
+                    colorDiv.style.backgroundColor = color.hex;
+                    colorContainer.appendChild(colorDiv);
+                    
+                    // 添加点击事件
+                    colorDiv.addEventListener('click', function() {
+                        // 移除其他颜色的选中状态
+                        document.querySelectorAll('.color-option').forEach(c => {
+                            c.classList.remove('selected');
+                        });
+                        
+                        // 设置当前颜色为选中
+                        this.classList.add('selected');
+                        
+                        // 更新显示文本和隐藏输入
+                        const colorText = document.getElementById('selected-color-text');
+                        const colorInput = document.getElementById('product-color');
+                        if (colorText && colorInput) {
+                            colorText.textContent = this.getAttribute('data-value');
+                            colorInput.value = this.getAttribute('data-value');
+                        }
+                    });
+                });
+            }
+            
+            // 填充玻璃类型
+            const glassTypesContainer = document.getElementById('product-glass-types');
+            if (glassTypesContainer) {
+                glassTypesContainer.innerHTML = '';
+                categories.glassTypes.forEach(type => {
+                    const btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.className = 'w-full py-3 px-6 border border-gray-700 rounded hover:border-yellow-400 transition-colors text-center glass-option';
+                    btn.textContent = type;
+                    btn.setAttribute('data-value', type);
+                    glassTypesContainer.appendChild(btn);
+                    
+                    // 添加点击事件
+                    btn.addEventListener('click', function() {
+                        // 移除其他玻璃类型的选中状态
+                        document.querySelectorAll('.glass-option').forEach(b => {
+                            b.classList.remove('bg-theme-yellow', 'text-black', 'selected');
+                            b.classList.add('border-gray-700', 'text-white');
+                        });
+                        
+                        // 设置当前玻璃类型为选中
+                        this.classList.remove('border-gray-700', 'text-white');
+                        this.classList.add('bg-theme-yellow', 'text-black', 'selected');
+                        
+                        // 更新隐藏输入
+                        const glassTypeInput = document.getElementById('product-glass-type');
+                        if (glassTypeInput) {
+                            glassTypeInput.value = this.getAttribute('data-value');
+                        }
+                    });
+                });
+            }
+            
+            // 填充玻璃款式
+            const glassStyleContainer = document.getElementById('glass-style-container');
+            if (glassStyleContainer) {
+                glassStyleContainer.innerHTML = '';
+                categories.glassStyles.forEach(style => {
+                    const item = document.createElement('div');
+                    item.className = 'glass-option-item';
+                    item.setAttribute('data-value', style.name);
+                    
+                    // 创建HTML
+                    item.innerHTML = `
+                        <div class="p-2 border border-gray-700 rounded-lg bg-gray-900 hover:border-yellow-400 transition-all duration-300 cursor-pointer">
+                            <div class="h-16 ${style.bgClass || 'bg-white bg-opacity-20'} rounded mb-2 flex items-center justify-center">
+                                <i class="fas ${style.icon || 'fa-square'} text-2xl text-white text-opacity-80"></i>
+                            </div>
+                            <div class="text-xs font-medium text-center">${style.name}</div>
+                        </div>
+                    `;
+                    
+                    glassStyleContainer.appendChild(item);
+                    
+                    // 添加点击事件
+                    item.addEventListener('click', function() {
+                        // 移除之前选择的项目
+                        document.querySelectorAll('.glass-option-item').forEach(i => {
+                            i.classList.remove('selected');
+                            const itemInner = i.querySelector('div');
+                            if (itemInner) {
+                                itemInner.classList.remove('border-yellow-400', 'border-2', 'bg-gray-800');
+                                itemInner.classList.add('border-gray-700', 'border', 'bg-gray-900');
+                            }
+                            
+                            // 重置文字颜色
+                            const textEl = i.querySelector('.text-xs');
+                            if (textEl) {
+                                textEl.classList.remove('text-yellow-400');
+                            }
+                        });
+                        
+                        // 标记当前选择
+                        this.classList.add('selected');
+                        const innerDiv = this.querySelector('div');
+                        if (innerDiv) {
+                            innerDiv.classList.remove('border-gray-700', 'border', 'bg-gray-900');
+                            innerDiv.classList.add('border-yellow-400', 'border-2', 'bg-gray-800');
+                        }
+                        
+                        // 更新文字颜色
+                        const textEl = this.querySelector('.text-xs');
+                        if (textEl) {
+                            textEl.classList.add('text-yellow-400');
+                        }
+                        
+                        // 更新玻璃款式显示和隐藏输入
+                        const displayElem = document.getElementById('product-glass-style-display');
+                        const inputElem = document.getElementById('product-glass-style');
+                        if (displayElem && inputElem) {
+                            displayElem.textContent = this.getAttribute('data-value');
+                            inputElem.value = this.getAttribute('data-value');
+                        }
+                    });
+                });
+            }
+            
+            // 填充应用场景
+            const scenesContainer = document.getElementById('product-scenes');
+            if (scenesContainer) {
+                scenesContainer.innerHTML = '';
+                categories.scenes.forEach(scene => {
+                    const btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.className = 'w-full py-2 px-3 border border-gray-700 rounded hover:border-yellow-400 transition-colors text-center scene-option';
+                    btn.setAttribute('data-value', scene);
+                    btn.textContent = scene;
+                    scenesContainer.appendChild(btn);
+                    
+                    // 为场景按钮添加点击事件
+                    btn.addEventListener('click', function() {
+                        this.classList.toggle('selected');
+                        this.classList.toggle('border-yellow-400');
+                        this.classList.toggle('text-yellow-400');
+                        this.classList.toggle('bg-gray-800');
+                        
+                        // 获取所有选中的场景
+                        const selectedScenes = [];
+                        document.querySelectorAll('.scene-option.selected').forEach(btn => {
+                            selectedScenes.push(btn.getAttribute('data-value'));
+                        });
+                        
+                        // 更新已选场景文本
+                        const scenesText = document.getElementById('selected-scenes-text');
+                        if (scenesText) {
+                            scenesText.textContent = selectedScenes.length > 0 ? selectedScenes.join(', ') : '无';
+                        }
+                    });
+                });
+            }
+            
+            console.log("分类选项加载完成");
+        }
+        
+        // 获取默认分类数据
+        function getDefaultCategories() {
+            // 尝试从本地存储获取分类数据
+            const savedCategories = localStorage.getItem('productCategories');
+            if (savedCategories) {
+                try {
+                    return JSON.parse(savedCategories);
+                } catch (e) {
+                    console.error("解析保存的分类数据时出错:", e);
+                }
+            }
+            
+            // 默认分类数据
+            return {
+                tags: ['完美系统', '4016', '4012', '4010', '16x40', '16x35', '1845'],
+                styles: ['开门', '移门', '幽灵门', 'PD门', '折叠门', '中轴门', '偏轴门', '隔断'],
+                installMethods: ['吊轨安装', '地轨安装', '开门安装', '移门安装', '特殊安装'],
+                colors: [
+                    { name: '经典黑', hex: '#000000' },
+                    { name: '纯净白', hex: '#F5F5F5' },
+                    { name: '月光灰', hex: '#808080' }
+                ],
+                glassTypes: ['单层钢化玻璃', '双层中空玻璃'],
+                glassStyles: [
+                    { name: '8MM普白玻钢化', icon: 'fa-square', bgClass: 'bg-white bg-opacity-10' },
+                    { name: '8MM超白玻钢化', icon: 'fa-square', bgClass: 'bg-white bg-opacity-20' },
+                    { name: '8MM超白单面油砂钢化', icon: 'fa-th-large', bgClass: 'bg-white bg-opacity-20' },
+                    { name: '8MM超白双面油砂钢化', icon: 'fa-th', bgClass: 'bg-white bg-opacity-20' },
+                    { name: '8MM普白长江钢化', icon: 'fa-grip-lines-vertical', bgClass: 'bg-white bg-opacity-10' },
+                    { name: '8MM超白长虹钢化', icon: 'fa-grip-lines-vertical', bgClass: 'bg-white bg-opacity-20' },
+                    { name: '8MM超白长虹单面油砂钢化', icon: 'fa-columns', bgClass: 'bg-white bg-opacity-20' },
+                    { name: '8MM超白拉丝', icon: 'fa-minus', bgClass: 'bg-white bg-opacity-20' },
+                    { name: '8MM欧灰玻钢化', icon: 'fa-square', bgClass: 'bg-gray-500 bg-opacity-50' },
+                    { name: '8MM欧灰玻单面油砂钢化', icon: 'fa-th-large', bgClass: 'bg-gray-500 bg-opacity-50' },
+                    { name: '8MM欧灰玻双面油砂钢化', icon: 'fa-th', bgClass: 'bg-gray-500 bg-opacity-50' },
+                    { name: '8MM茶玻钢化', icon: 'fa-square', bgClass: 'bg-yellow-900 bg-opacity-30' },
+                    { name: '8MM茶玻单面油砂钢化', icon: 'fa-th-large', bgClass: 'bg-yellow-900 bg-opacity-30' },
+                    { name: '8MM茶玻双面油砂钢化', icon: 'fa-th', bgClass: 'bg-yellow-900 bg-opacity-30' },
+                    { name: '8MM黑波钢化', icon: 'fa-wave-square', bgClass: 'bg-gray-900' },
+                    { name: '8MM黑波单面油砂钢化', icon: 'fa-wave-square', bgClass: 'bg-gray-900' },
+                    { name: '8MM超白梦巴黎', icon: 'fa-border-all', bgClass: 'bg-white bg-opacity-20' },
+                    { name: '8MM超白小灯芯钢化', icon: 'fa-dice-four', bgClass: 'bg-white bg-opacity-20' },
+                    { name: '8MM超白小灯芯单面油砂钢化', icon: 'fa-dice-four', bgClass: 'bg-white bg-opacity-20' },
+                    { name: '8MM超自大灯芯钢化', icon: 'fa-dice-six', bgClass: 'bg-white bg-opacity-20' },
+                    { name: '8MM超白大灯芯单面油砂钢化', icon: 'fa-dice-six', bgClass: 'bg-white bg-opacity-20' },
+                    { name: '8MM水波纹钢化', icon: 'fa-water', bgClass: 'bg-blue-300 bg-opacity-20' },
+                    { name: '8MM超白银波钢化', icon: 'fa-water', bgClass: 'bg-gray-100 bg-opacity-20' }
+                ],
+                scenes: ['客厅', '餐厅', '厨房', '卧室', '衣帽间', '书房', '浴室', '阳台', '商业空间']
+            };
+        }
+        
+        // 保存产品信息
+        function saveProduct() {
+            console.log("保存产品信息...");
+            
+            // 获取表单数据
+            const productId = document.getElementById('product-id').value;
+            const productName = document.getElementById('product-name').value;
+            const productCategory = document.getElementById('product-category').value;
+            const productDescription = document.getElementById('product-description').value;
+            const productPrice = document.getElementById('product-price').value;
+            const productStock = document.getElementById('product-stock').value;
+            
+            // 获取标签、款式、安装方式等选项
+            const productTag = document.getElementById('product-tag').value;
+            const productStyle = document.getElementById('product-style').value;
+            const productInstallMethod = document.getElementById('product-install-method').value;
+            const productColor = document.getElementById('product-color').value;
+            const productGlassType = document.getElementById('product-glass-type').value;
+            const productGlassStyle = document.getElementById('product-glass-style').value;
+            
+            // 获取应用场景（多选）
+            const selectedScenes = [];
+            document.querySelectorAll('.scene-option.selected').forEach(btn => {
+                selectedScenes.push(btn.getAttribute('data-value'));
+            });
+            
+            // 验证必填字段
+            if (!productName) {
+                alert('请输入产品名称');
+                return;
+            }
+            
+            if (!productTag) {
+                alert('请选择产品标签');
+                return;
+            }
+            
+            if (!productGlassStyle) {
+                alert('请选择玻璃款式');
+                return;
+            }
+            
+            // 构建产品对象
+            const product = {
+                id: productId || 'product_' + Date.now(),
+                name: productName,
+                category: productCategory,
+                description: productDescription,
+                price: productPrice,
+                stock: productStock,
+                tags: [productTag],
+                style: productStyle,
+                installMethod: productInstallMethod,
+                color: productColor,
+                glassType: productGlassType,
+                glassStyle: productGlassStyle,
+                scenes: selectedScenes,
+                created: new Date().toISOString()
+            };
+            
+            // 保存产品到本地存储
+            saveProductToStorage(product);
+            
+            // 关闭模态框
+            const productModal = document.getElementById('product-modal');
+            if (productModal) {
+                productModal.classList.add('hidden');
+                document.body.style.overflow = '';
+            }
+            
+            // 刷新产品列表
+            console.log("产品保存成功:", product);
+            alert('产品已保存');
+            
+            // 如果在产品页面，可以刷新产品列表
+            try {
+                refreshProductList();
+            } catch (e) {
+                console.log("不在产品列表页，跳过刷新");
+            }
+        }
+        
+        // 保存产品到本地存储
+        function saveProductToStorage(product) {
+            try {
+                // 从本地存储获取现有产品
+                let products = [];
+                const savedProducts = localStorage.getItem('products');
+                
+                if (savedProducts) {
+                    products = JSON.parse(savedProducts);
+                }
+                
+                // 查找是否存在相同ID的产品(编辑)
+                const existingIndex = products.findIndex(p => p.id === product.id);
+                
+                if (existingIndex >= 0) {
+                    // 更新现有产品
+                    products[existingIndex] = {
+                        ...products[existingIndex],
+                        ...product,
+                        updated: new Date().toISOString()
+                    };
+                } else {
+                    // 添加新产品
+                    products.push(product);
+                }
+                
+                // 保存到本地存储
+                localStorage.setItem('products', JSON.stringify(products));
+                return true;
+            } catch (e) {
+                console.error("保存产品时出错:", e);
+                return false;
+            }
+        }
+        
+        // 处理上传产品图片
+        function handleImageUpload(files) {
+            console.log("处理图片上传...", files);
+            // 这里可以实现图片上传逻辑
+            // 由于本地演示，可以使用FileReader来预览图片
+            
+            const previewContainer = document.getElementById('image-preview-container');
+            if (!previewContainer) return;
+            
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                
+                // 验证文件类型
+                if (!file.type.match('image.*')) {
+                    console.error("不支持的文件类型:", file.type);
+                    continue;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const imgPreview = document.createElement('div');
+                    imgPreview.className = 'relative mr-2 mb-2';
+                    imgPreview.innerHTML = `
+                        <img src="${e.target.result}" class="w-20 h-20 object-cover rounded" />
+                        <button type="button" class="absolute top-0 right-0 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center">
+                            <i class="fas fa-times text-xs"></i>
+                        </button>
+                    `;
+                    
+                    // 添加删除按钮事件
+                    const deleteBtn = imgPreview.querySelector('button');
+                    deleteBtn.addEventListener('click', function() {
+                        imgPreview.remove();
+                    });
+                    
+                    previewContainer.appendChild(imgPreview);
+                };
+                
+                reader.readAsDataURL(file);
+            }
+        }
+        
+        // 刷新产品列表
+        function refreshProductList() {
+            console.log("刷新产品列表...");
+            
+            const productsGrid = document.getElementById('products-grid');
+            const noProductsMsg = document.getElementById('no-products');
+            
+            if (!productsGrid) {
+                console.error("未找到产品网格元素");
+                return;
+            }
+            
+            // 从本地存储获取产品
+            let products = [];
+            const savedProducts = localStorage.getItem('products');
+            
+            if (savedProducts) {
+                try {
+                    products = JSON.parse(savedProducts);
+                } catch (e) {
+                    console.error("解析产品数据出错:", e);
+                }
+            }
+            
+            // 清空当前产品
+            productsGrid.innerHTML = '';
+            
+            // 检查是否有产品
+            if (products.length === 0) {
+                if (noProductsMsg) {
+                    noProductsMsg.classList.remove('hidden');
+                }
+                return;
+            }
+            
+            // 隐藏"无产品"消息
+            if (noProductsMsg) {
+                noProductsMsg.classList.add('hidden');
+            }
+            
+            // 添加产品卡片
+            products.forEach(product => {
+                const productCard = createProductCard(product);
+                productsGrid.appendChild(productCard);
+            });
+            
+            console.log("产品列表已刷新,显示", products.length, "个产品");
+        }
+        
+        // 创建产品卡片元素
+        function createProductCard(product) {
+            const card = document.createElement('div');
+            card.className = 'product-card bg-gray-900 rounded-lg overflow-hidden shadow-lg';
+            card.setAttribute('data-id', product.id);
+            card.setAttribute('data-category', product.category || 'all');
+            
+            const imageUrl = product.imageData && product.imageData.length > 0 
+                ? product.imageData[0] 
+                : product.image || 'https://via.placeholder.com/300x300/1a1a1a/FFFFFF?text=' + encodeURIComponent(product.name);
+            
+            card.innerHTML = `
+                <div class="relative h-48 bg-gray-800">
+                    <img src="${imageUrl}" alt="${product.name}" class="w-full h-full object-cover">
+                    ${product.tags && product.tags.length > 0 ? 
+                        `<span class="absolute top-2 left-2 bg-yellow-500 text-black text-xs px-2 py-1 rounded-sm">${product.tags[0]}</span>` : ''}
+                </div>
+                <div class="p-4">
+                    <h3 class="font-bold text-lg mb-2">${product.name}</h3>
+                    <p class="text-sm text-gray-400 mb-3 line-clamp-2">${product.description || '无描述'}</p>
+                    <div class="flex justify-between items-center">
+                        <span class="font-medium ${product.price ? 'text-yellow-400' : 'text-gray-500'}">
+                            ${product.price ? '¥' + product.price : '价格待定'}
+                        </span>
+                        <span class="text-xs px-2 py-1 rounded ${getStockBadgeClass(product.stock)}">
+                            ${getStockText(product.stock)}
+                        </span>
+                    </div>
+                </div>
+                <div class="flex border-t border-gray-800 divide-x divide-gray-800">
+                    <button class="flex-1 py-2 hover:bg-gray-800 transition-colors flex items-center justify-center product-detail-btn">
+                        <i class="fas fa-eye mr-1"></i> 查看
+                    </button>
+                    <button class="flex-1 py-2 hover:bg-gray-800 transition-colors flex items-center justify-center product-edit-btn">
+                        <i class="fas fa-edit mr-1"></i> 编辑
+                    </button>
+                </div>
+            `;
+            
+            // 添加点击事件
+            const detailBtn = card.querySelector('.product-detail-btn');
+            const editBtn = card.querySelector('.product-edit-btn');
+            
+            if (detailBtn) {
+                detailBtn.addEventListener('click', function() {
+                    showProductDetail(product);
+                });
+            }
+            
+            if (editBtn) {
+                editBtn.addEventListener('click', function() {
+                    openProductModal(product);
+                });
+            }
+            
+            return card;
+        }
+        
+        // 获取库存状态样式
+        function getStockBadgeClass(stock) {
+            switch(stock) {
+                case 'in-stock':
+                    return 'bg-green-900 bg-opacity-40 text-green-400';
+                case 'low-stock':
+                    return 'bg-yellow-900 bg-opacity-40 text-yellow-400';
+                case 'out-of-stock':
+                    return 'bg-red-900 bg-opacity-40 text-red-400';
+                default:
+                    return 'bg-gray-800 text-gray-400';
+            }
+        }
+        
+        // 获取库存状态文本
+        function getStockText(stock) {
+            switch(stock) {
+                case 'in-stock':
+                    return '有库存';
+                case 'low-stock':
+                    return '库存不足';
+                case 'out-of-stock':
+                    return '无库存';
+                default:
+                    return '未知';
+            }
+        }
+        
+        // 初始化函数
+        function init() {
+            // 初始化界面元素
+            console.log("初始化产品界面...");
+            
+            // 添加产品按钮事件 - 统一处理所有添加产品按钮
+            document.querySelectorAll('.add-product-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    openProductModal();
+                });
+            });
+            
+            // 上传产品图按钮
+            document.querySelectorAll('.upload-product-image-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // 弹出文件选择对话框
+                    const fileInput = document.createElement('input');
+                    fileInput.type = 'file';
+                    fileInput.accept = 'image/*';
+                    fileInput.multiple = true;
+                    
+                    fileInput.onchange = function(e) {
+                        if (e.target.files.length > 0) {
+                            handleImageUpload(e.target.files);
+                        }
+                    };
+                    
+                    fileInput.click();
+                });
+            });
+            
+            // 上传产品视频按钮
+            document.querySelectorAll('.upload-product-video-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // 弹出文件选择对话框
+                    const fileInput = document.createElement('input');
+                    fileInput.type = 'file';
+                    fileInput.accept = 'video/*';
+                    
+                    fileInput.onchange = function(e) {
+                        if (e.target.files.length > 0) {
+                            console.log("选择了视频文件:", e.target.files);
+                            alert("视频上传功能正在开发中");
+                            // 这里可以实现视频上传逻辑
+                        }
+                    };
+                    
+                    fileInput.click();
+                });
+            });
+            
+            // 尝试刷新产品列表
+            try {
+                refreshProductList();
+            } catch (e) {
+                console.log("刷新产品列表失败:", e);
+            }
+        }
+        
+        // 页面加载完成后初始化
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
+    </script>
+    
+    <!-- 禁用数量选择器功能 -->
+    <script>
+        // 页面加载完成后初始化时，移除数量选择器代码
+        window.addEventListener('DOMContentLoaded', function() {
+            // 移除量选择器相关元素
+            const quantitySelector = document.querySelector('.quantity-selector');
+            if (quantitySelector) {
+                quantitySelector.style.display = 'none';
+            }
+            
+            // 移除事件监听器 - 找到对应元素并重新赋值
+            const decreaseBtn = document.getElementById('decrease-quantity');
+            const increaseBtn = document.getElementById('increase-quantity');
+            const quantityInput = document.getElementById('quantity-input');
+            
+            if (decreaseBtn) {
+                decreaseBtn.onclick = null;
+                decreaseBtn.style.display = 'none';
+            }
+            
+            if (increaseBtn) {
+                increaseBtn.onclick = null;
+                increaseBtn.style.display = 'none';
+            }
+            
+            if (quantityInput) {
+                quantityInput.style.display = 'none';
+            }
+            
+            console.log("数量选择器功能已禁用");
+        });
+    </script>
+    <!-- 修复括号不匹配问题 -->
+    <script>
+        // 确保所有代码块都正确闭合
+        console.log("代码块检查完成");
     </script>
 </body>
 </html>
