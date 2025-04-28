@@ -126,7 +126,7 @@
             overflow: hidden;
             height: 250px;
         }
-
+        
         .spotlight {
             position: absolute;
             width: 100%;
@@ -369,7 +369,7 @@
             font-size: 1.2rem;
             height: auto;
         }
-
+        
         /* 添加响应式图片相关CSS */
         .responsive-img {
             max-width: 100%;
@@ -416,33 +416,59 @@
             opacity: 1 !important;
             transform: translateY(0) !important;
         }
+
+        /* 管理界面样式 */
+        .admin-bar {
+            box-shadow: 0 2px 10px rgba(255, 223, 0, 0.2);
+            position: sticky;
+            top: 70px;
+            z-index: 999;
+        }
+
+        .admin-form {
+            background: rgba(0,0,0,0.9);
+            padding: 2rem;
+            border: 2px solid var(--accent-color);
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+        }
+
+        .product-card:hover .admin-actions {
+            display: block !important;
+        }
     </style>
 </head>
 <body>
     <!-- 导航栏 -->
     <nav class="navbar">
         <div class="container mx-auto px-4 md:px-8 flex justify-between items-center h-full">
-            <div class="logo">
-                <a href="index.html">
+        <div class="logo">
+                <a href="shouye.html">
                     <img src="LOGO.svg" alt="屿拓移门" class="h-7">
                 </a>
-            </div>
+        </div>
             
             <!-- 桌面导航 -->
             <div class="hidden md:flex items-center h-full">
-                <a href="index.html" class="nav-link font-medium active text-base">首页</a>
+                <a href="shouye.html" class="nav-link font-medium active text-base">首页</a>
                 <a href="chanpin.html" class="nav-link font-medium text-base">产品中心</a>
                 <a href="anli.html" class="nav-link font-medium text-base">案例库</a>
                 <a href="guanyuwomen.html" class="nav-link font-medium text-base">关于我们</a>
                 <a href="lianxiwomen.html" class="nav-link font-medium text-base">联系我们</a>
-            </div>
+                <a href="admin.html" class="nav-link font-medium text-base" id="admin-entry">
+                    <i class="fas fa-lock"></i> 管理
+                </a>
+        </div>
             
             <!-- 联系和菜单按钮 -->
             <div class="flex items-center space-x-4">
                 <button id="menuToggle" class="md:hidden text-white focus:outline-none">
                     <i class="fas fa-bars text-xl"></i>
                 </button>
-            </div>
+    </div>
         </div>
     </nav>
     
@@ -451,11 +477,14 @@
         <button id="closeMenu" class="absolute top-5 right-5 text-white">
             <i class="fas fa-times text-2xl"></i>
         </button>
-        <a href="index.html" class="nav-link font-medium active">首页</a>
+        <a href="shouye.html" class="nav-link font-medium active">首页</a>
         <a href="chanpin.html" class="nav-link font-medium">产品中心</a>
         <a href="anli.html" class="nav-link font-medium">案例库</a>
         <a href="guanyuwomen.html" class="nav-link font-medium">关于我们</a>
         <a href="lianxiwomen.html" class="nav-link font-medium">联系我们</a>
+        <a href="admin.html" class="nav-link font-medium">
+            <i class="fas fa-lock"></i> 管理后台
+        </a>
     </div>
 
     <!-- 在线客服图标 -->
@@ -1106,6 +1135,23 @@
         <i class="fas fa-comments text-black text-2xl"></i>
     </div>
 
+    <!-- 固定底部浮动按钮 -->
+    <div class="fixed-bottom text-end pe-4 pb-3" style="z-index: 99">
+        <a href="yuyue.html" class="btn btn-danger btn-lg rounded-pill shadow-lg me-2">
+            <i class="fas fa-ruler-combined"></i> 立即预约量房
+        </a>
+        <a href="#online-quote" class="btn btn-warning btn-lg rounded-pill shadow-lg">
+            <i class="fas fa-calculator"></i> 在线报价
+        </a>
+    </div>
+
+    <!-- 返回顶部按钮 -->
+    <div class="fixed-top text-center pt-3" style="z-index: 999">
+        <a href="#" class="btn btn-secondary btn-lg rounded-circle shadow-lg">
+            <i class="fas fa-arrow-up"></i>
+        </a>
+    </div>
+
     <!-- Swiper JS -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
     
@@ -1469,7 +1515,7 @@
                     console.log('DOM内容加载完成，执行首次清理');
                     setTimeout(removeExtraNavbars, 0);
                 });
-            } else {
+                } else {
                 console.log('DOM已加载，立即执行首次清理');
                 removeExtraNavbars();
             }
@@ -1583,4 +1629,4 @@
         });
     </script>
 </body>
-</html> 
+</html>

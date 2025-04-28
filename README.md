@@ -36,7 +36,7 @@
 
 ## 联系方式
 
-- 网站: [屿拓移门定制服务](https://xiagudianqiu.github.io/index/shouye.html)
+- 网站: [屿拓移门定制服务](https://xiagudianqiu.github.io/yutuo/index.html)
 - 电话: 021-66889900
 - 邮箱: info@yutuo.com
 - 地址: 上海市闵行区莘庄工业区春东路508号 
