@@ -488,9 +488,34 @@
     </div>
 
     <!-- 在线客服图标 -->
-    <div class="chat-icon" id="chatIcon">
-        <i class="fas fa-comments text-black text-2xl"></i>
+    <!-- 已删除在线客服悬浮按钮 -->
+
+    <!-- 返回顶部按钮（与lianxiwomen.html一致） -->
+    <div id="back-to-top" class="fixed bottom-20 right-6 w-10 h-10 bg-yellow-400 rounded-full flex items-center justify-center cursor-pointer opacity-0 transition-opacity duration-300 z-50">
+        <i class="fas fa-chevron-up text-black"></i>
     </div>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var backToTopBtn = document.getElementById('back-to-top');
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 300) {
+                backToTopBtn.classList.remove('opacity-0');
+                backToTopBtn.classList.add('opacity-100');
+            } else {
+                backToTopBtn.classList.add('opacity-0');
+                backToTopBtn.classList.remove('opacity-100');
+            }
+        });
+        if (backToTopBtn) {
+            backToTopBtn.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+        }
+    });
+    </script>
     
     <!-- 首屏Banner -->
     <section class="relative h-screen" style="padding-top: 70px;">
@@ -507,9 +532,6 @@
                                 <div class="flex flex-wrap gap-4 transform translate-y-4 opacity-0 transition-all duration-1000 delay-700 slide-in">
                                     <a href="chanpin.html" class="btn-primary">
                                         探索产品 <i class="fas fa-arrow-right ml-2"></i>
-                                    </a>
-                                    <a href="#contact-form" class="border-2 border-white hover:border-yellow-400 text-white hover:text-yellow-400 px-6 py-2 rounded transition duration-300">
-                                        获取报价
                                     </a>
                                 </div>
                             </div>
@@ -528,9 +550,6 @@
                                     <a href="chanpin.html" class="btn-primary">
                                         探索产品 <i class="fas fa-arrow-right ml-2"></i>
                                     </a>
-                                    <a href="#contact-form" class="border-2 border-white hover:border-yellow-400 text-white hover:text-yellow-400 px-6 py-2 rounded transition duration-300">
-                                        获取报价
-                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -547,9 +566,6 @@
                                 <div class="flex flex-wrap gap-4 transform translate-y-4 opacity-0 transition-all duration-1000 delay-700 slide-in">
                                     <a href="chanpin.html" class="btn-primary">
                                         探索产品 <i class="fas fa-arrow-right ml-2"></i>
-                                    </a>
-                                    <a href="#contact-form" class="border-2 border-white hover:border-yellow-400 text-white hover:text-yellow-400 px-6 py-2 rounded transition duration-300">
-                                        获取报价
                                     </a>
                                 </div>
                             </div>
@@ -568,9 +584,6 @@
                                     <a href="chanpin.html" class="btn-primary">
                                         探索产品 <i class="fas fa-arrow-right ml-2"></i>
                                     </a>
-                                    <a href="#contact-form" class="border-2 border-white hover:border-yellow-400 text-white hover:text-yellow-400 px-6 py-2 rounded transition duration-300">
-                                        获取报价
-                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -582,6 +595,41 @@
             <div class="swiper-button-prev"></div>
         </div>
     </section>
+
+    <!-- 悬浮获取报价按钮 -->
+    <button id="floating-quote-btn" class="fixed bottom-40 right-6 w-14 h-14 bg-yellow-400 rounded-full shadow-lg flex items-center justify-center z-50 hover:bg-yellow-300 transition-all md:bottom-40 bottom-32" style="box-shadow:0 4px 16px rgba(0,0,0,0.18);">
+        <i class="fas fa-qrcode text-2xl text-black"></i>
+    </button>
+    <!-- 二维码弹窗 -->
+    <div id="quote-modal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-xl p-8 relative flex flex-col items-center max-w-xs w-full">
+            <button id="close-quote-modal" class="absolute top-2 right-2 text-gray-500 hover:text-black text-xl">&times;</button>
+            <img src="erweima.png" alt="微信二维码" class="w-40 h-40 mb-4 rounded-lg border-4 border-yellow-400">
+            <div class="text-center text-black font-semibold">微信扫码获取报价</div>
+        </div>
+    </div>
+    <script>
+    // 悬浮获取报价按钮弹窗逻辑
+    document.addEventListener('DOMContentLoaded', function() {
+        var quoteBtn = document.getElementById('floating-quote-btn');
+        var quoteModal = document.getElementById('quote-modal');
+        var closeModal = document.getElementById('close-quote-modal');
+        // 打开弹窗
+        quoteBtn.addEventListener('click', function() {
+            quoteModal.classList.remove('hidden');
+        });
+        // 关闭弹窗
+        closeModal.addEventListener('click', function() {
+            quoteModal.classList.add('hidden');
+        });
+        // 点击弹窗外部关闭
+        quoteModal.addEventListener('click', function(e) {
+            if (e.target === quoteModal) {
+                quoteModal.classList.add('hidden');
+            }
+        });
+    });
+    </script>
 
     <!-- 产品分类快捷入口 -->
     <section class="py-20 px-4">
@@ -999,7 +1047,7 @@
                                 </div>
                                 <div>
                                     <h4 class="font-bold">张先生</h4>
-                                    <p class="text-gray-400 text-sm">上海 - 复式公寓业主</p>
+                                    <p class="text-gray-400 text-sm">崇明 - 复式公寓业主</p>
                                 </div>
                             </div>
                         </div>
@@ -1018,7 +1066,7 @@
                                 </div>
                                 <div>
                                     <h4 class="font-bold">林女士</h4>
-                                    <p class="text-gray-400 text-sm">北京 - 室内设计师</p>
+                                    <p class="text-gray-400 text-sm">普陀区 - 室内设计师</p>
                                 </div>
                             </div>
                         </div>
@@ -1037,7 +1085,7 @@
                                 </div>
                                 <div>
                                     <h4 class="font-bold">王经理</h4>
-                                    <p class="text-gray-400 text-sm">广州 - 精品酒店管理者</p>
+                                    <p class="text-gray-400 text-sm">徐汇区 - 精品酒店管理者</p>
                                 </div>
                             </div>
                         </div>
@@ -1129,11 +1177,6 @@
             </div>
         </div>
     </footer>
-
-    <!-- 在线客服 -->
-    <div class="chat-icon" id="chatIcon">
-        <i class="fas fa-comments text-black text-2xl"></i>
-    </div>
 
     <!-- 固定底部浮动按钮 -->
     <div class="fixed-bottom text-end pe-4 pb-3" style="z-index: 99">
@@ -1627,6 +1670,39 @@
             
             // ... existing code ...
         });
+
+        // 返回顶部按钮逻辑（与anli.html一致）
+        (function() {
+            var backToTopBtn = document.getElementById('back-to-top');
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 300) {
+                    backToTopBtn.style.display = 'flex';
+                } else {
+                    backToTopBtn.style.display = 'none';
+                }
+            });
+            if (backToTopBtn) {
+                backToTopBtn.addEventListener('click', function() {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                });
+            }
+        })();
+    </script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var backToTopBtn = document.getElementById('back-to-top');
+        if (backToTopBtn) {
+            backToTopBtn.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+        }
+    });
     </script>
 </body>
 </html>

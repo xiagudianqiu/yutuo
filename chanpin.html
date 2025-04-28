@@ -843,16 +843,6 @@
         </div>
     </div>
 
-    <!-- 产品预约悬浮按钮 -->
-    <div class="fixed bottom-6 right-6 z-50 flex flex-col items-end space-y-3">
-        <button id="reservation-btn" class="reservation-btn bg-yellow-500 hover:bg-yellow-600 text-black w-14 h-14 rounded-full flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110">
-            <i class="fas fa-calendar-check text-xl"></i>
-        </button>
-        <button id="chat-btn" class="bg-gray-800 hover:bg-gray-700 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110">
-            <i class="fas fa-comments text-xl"></i>
-        </button>
-    </div>
-
     <!-- 预约表单弹窗 -->
     <div id="reservation-modal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-100 hidden">
         <div class="bg-gray-900 w-full max-w-md rounded-lg shadow-xl p-6 relative border border-yellow-500">
@@ -2632,25 +2622,32 @@
         </div>
     </footer>
 
-    <!-- 在线客服 -->
-    <div class="chat-icon" id="chatIcon">
-        <i class="fas fa-comments text-black text-2xl"></i>
+    <!-- 返回顶部按钮（与lianxiwomen.html一致） -->
+    <div id="back-to-top" class="fixed bottom-20 right-6 w-10 h-10 bg-yellow-400 rounded-full flex items-center justify-center cursor-pointer opacity-0 transition-opacity duration-300 z-50">
+        <i class="fas fa-chevron-up text-black"></i>
     </div>
-
-    <!-- 固定底部浮动按钮 -->
-    <div class="fixed-bottom text-end pe-4 pb-3" style="z-index: 99">
-        <a href="yuyue.html" class="btn btn-danger btn-lg rounded-pill shadow-lg me-2">
-            <i class="fas fa-ruler-combined"></i> 立即预约量房
-        </a>
-        <a href="#online-quote" class="btn btn-warning btn-lg rounded-pill shadow-lg">
-            <i class="fas fa-calculator"></i> 在线报价
-        </a>
-    </div>
-
-    <!-- 返回顶部按钮 -->
-    <div id="back-to-top" class="fixed bottom-20 right-6 w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center cursor-pointer opacity-0 transition-opacity duration-300">
-        <i class="fas fa-chevron-up"></i>
-    </div>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var backToTopBtn = document.getElementById('back-to-top');
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 300) {
+                backToTopBtn.classList.remove('opacity-0');
+                backToTopBtn.classList.add('opacity-100');
+            } else {
+                backToTopBtn.classList.add('opacity-0');
+                backToTopBtn.classList.remove('opacity-100');
+            }
+        });
+        if (backToTopBtn) {
+            backToTopBtn.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+        }
+    });
+    </script>
 
     <!-- JavaScript -->
     <script>

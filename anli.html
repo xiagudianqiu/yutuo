@@ -745,7 +745,7 @@
                 <!-- 案例 2 -->
                 <div class="card-hover rounded-lg overflow-hidden bg-gray-900 spotlight">
                     <div class="relative">
-                        <img src="https://images.unsplash.com/photo-1513694203232-719a280e022f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=869&q=80" alt="北京豪华别墅" class="w-full h-64 object-cover">
+                        <img src="https://images.unsplash.com/photo-1513694203232-719a280e022f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=869&q=80" alt="上海豪华别墅" class="w-full h-64 object-cover">
                         <div class="absolute top-3 right-3 flex">
                             <span class="tag mr-2">获奖项目</span>
                         </div>
@@ -1525,7 +1525,7 @@
                         </video>
                     </div>
                     <div class="p-4">
-                        <h3 class="text-lg font-bold mb-1">李先生 - 北京顺义区客户</h3>
+                        <h3 class="text-lg font-bold mb-1">李先生 - 上海市崇明区客户</h3>
                         <p class="text-gray-400 text-sm">讲述屿拓移门系统为他的别墅带来的空间变化</p>
                     </div>
                 </div>
@@ -1615,11 +1615,6 @@
         </div>
     </footer>
 
-    <!-- 在线客服 -->
-    <div class="chat-icon" id="chatIcon">
-        <i class="fas fa-comments text-black text-2xl"></i>
-    </div>
-    
     <!-- 视频预览模态框 -->
     <div class="modal" id="video-modal">
         <div class="modal-content">
@@ -1693,6 +1688,34 @@
                 alert('在线客服系统正在开发中，请通过电话或邮件联系我们！');
             });
         }
+    </script>
+
+    <!-- 返回顶部按钮（样式与chanpin.html一致） -->
+    <div id="back-to-top" class="fixed bottom-20 right-6 w-10 h-10 bg-yellow-400 rounded-full flex items-center justify-center cursor-pointer opacity-0 transition-opacity duration-300 z-50">
+        <i class="fas fa-chevron-up text-black"></i>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var backToTopBtn = document.getElementById('back-to-top');
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 300) {
+                backToTopBtn.classList.remove('opacity-0');
+                backToTopBtn.classList.add('opacity-100');
+            } else {
+                backToTopBtn.classList.add('opacity-0');
+                backToTopBtn.classList.remove('opacity-100');
+            }
+        });
+        if (backToTopBtn) {
+            backToTopBtn.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+        }
+    });
     </script>
 </body>
 </html>
